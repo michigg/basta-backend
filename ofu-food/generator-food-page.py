@@ -25,7 +25,6 @@ def main():
     fekiJson = getJsonFromFile(JSON_FILES_PATH + "feki-mensa.json")
     austrJson = getJsonFromFile(JSON_FILES_PATH + "austr-mensa.json")
     fekideJson = getJsonFromFile(JSON_FILES_PATH + "feki-happyhour-guide.json")
-    print(austrJson)
     templateVars = {
         "cssfile": CSSFILE,
         "executiontime": datetime.datetime.today().strftime("%A, %d.%m.%Y"),

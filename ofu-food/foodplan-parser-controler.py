@@ -16,7 +16,7 @@ LINK_FEKIDE_GUIDE = "https://www.feki.de/happyhour"
 
 
 def writeToFile(jsonfile, filename):
-    with open((JSON_OUTPUT_DIR + filename),"w") as file:
+    with open((JSON_OUTPUT_DIR + filename), "w") as file:
         file.write(jsonfile)
 
 
@@ -51,12 +51,6 @@ def main():
     except IndexError:
         print("Error")
         fekidehappyhourJson = {}
-
-    print(fekiMensaJson)
-    print(austrMensaJson)
-    print(erbaCafeteJson)
-    print(markusCafeteJson)
-    print(fekidehappyhourJson)
 
     writeToFile(fekiMensaJson, "feki-mensa.json")
     writeToFile(austrMensaJson, "austr-mensa.json")
