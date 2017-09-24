@@ -2,16 +2,19 @@ import jinja2
 import json
 import datetime
 
-CSSFILE = "bootstrap.css"
+# Config global
+CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 
-# JSON_FILES_PATH = "./Json_Files/"
-# OUTPUT = "../food.html"
+# Config Thinkpad
+JSON_FILES_PATH = "../json/"
+OUTPUT = "../html/food.html"
 
 # PI
-JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/api/json/"
-CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist/css/bootstrap.css"
-CSSFILE_DEST = "/media/data_1/www/pub-html/ofu-food/bootstrap.css"
-OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
+# JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/api/json/"
+# OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
+CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist"
+CSSFILE_DEST = "/media/data_1/www/css"
+
 
 
 def getJsonFromFile(path):
@@ -26,7 +29,7 @@ def main():
     austrJson = getJsonFromFile(JSON_FILES_PATH + "austr-mensa.json")
     fekideJson = getJsonFromFile(JSON_FILES_PATH + "feki-happyhour-guide.json")
     templateVars = {
-        "cssfile": CSSFILE,
+        "cssfile": CSSFILE_WEB,
         "executiontime": datetime.datetime.today().strftime("%A, %d.%m.%Y"),
         "erbaCafeteTitle": erbaJson['name'],
         "erbaWeekmenu": erbaJson['weekmenu'],

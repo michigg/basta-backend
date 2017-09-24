@@ -4,7 +4,7 @@ mensapageparser = importlib.import_module('mensa-page-parser')
 cafetepageparser = importlib.import_module('cafete-page-parser')
 fekidehappyhourpageparser = importlib.import_module('fekide-happyhour-page-parser')
 
-# JSON_OUTPUT_DIR = "./Json_Files/"
+# JSON_OUTPUT_DIR = "../json/"
 # PI
 JSON_OUTPUT_DIR = "/media/data_1/www/pub-html/ofu-food/api/json/"
 

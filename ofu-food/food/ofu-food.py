@@ -4,16 +4,14 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-from shutil import copyfile
 
-OUTPUTFILE = "../ofu-food.html"
-CSSFILE_DEST = "../bootstrap.css"
-CSSFILE_WEB = "bootstrap.css"
+CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 
-# OUTPUTFILE = "/media/data_1/www/pub-html/ofu-food.html"
-# CSSFILE = "/media/data_1/www/pub-html/bootstrap.css"
+# thinkpad
+# OUTPUTFILE = "../html/ofu-food.html"
 
-CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist/css/bootstrap.css"
+# PI
+OUTPUTFILE = "/media/data_1/www/pub-html/ofu-food.html"
 
 LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
 LINK_AUSTR_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=2&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=511e047953ee1370c3b82c11a04624bb"
@@ -162,4 +160,3 @@ def main():
 
 
 main()
-copyfile(CSSFILE_SRC, CSSFILE_DEST)
