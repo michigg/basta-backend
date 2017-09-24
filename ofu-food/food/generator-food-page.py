@@ -6,8 +6,8 @@ import datetime
 CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 
 # Config Thinkpad
-JSON_FILES_PATH = "../json/"
-OUTPUT = "../html/food.html"
+# JSON_FILES_PATH = "../json/"
+# OUTPUT = "../html/food.html"
 
 # PI
 # JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/api/json/"
