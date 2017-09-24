@@ -3,16 +3,18 @@
 
 import requests
 from bs4 import BeautifulSoup
-import urllib
 import datetime
 from shutil import copyfile
 
+OUTPUTFILE = "../ofu-food.html"
+CSSFILE_DEST = "../bootstrap.css"
+CSSFILE_WEB = "bootstrap.css"
 
+# OUTPUTFILE = "/media/data_1/www/pub-html/ofu-food.html"
+# CSSFILE = "/media/data_1/www/pub-html/bootstrap.css"
 
-# OUTPUTFILE = "../ofu-food.html"
-OUTPUTFILE = "/media/data_1/www/pub-html/ofu-food.html"
 CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist/css/bootstrap.css"
-CSSFILE = "/media/data_1/www/pub-html/bootstrap.css"
+
 LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
 LINK_AUSTR_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=2&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=511e047953ee1370c3b82c11a04624bb"
 LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
@@ -25,7 +27,7 @@ def getHtmlHeader():
     head += '<meta charset="utf-8">'
     head += '<meta name="description" content="Sammelwebsite für das Essen der Uni Bamberg">'
     head += '<meta name="keywords" content="OFU, Otto-Friedrich, Universität, Bamberg">'
-    head += '<link rel="stylesheet" href="' + CSSFILE + '">'
+    head += '<link rel="stylesheet" href="' + CSSFILE_WEB + '">'
     head += '<title>Essen an der OFU</title>'
     head += '</head>'
     return head
@@ -42,11 +44,27 @@ def getFoodHtml(erbaHtml, markusHtml, austrHtml, fekiHtml, happyHourHtml):
     html += '<body>'
     html += getExecuteTime()
     html += '<div class="container">'
+    html += '<div class="row">'
+    html += '<div class="col">'
     html += str(erbaHtml)
+    html += '</div>'
+    html += '<div class="col">'
     html += str(markusHtml)
+    html += '</div>'
+    html += '</div>'
+    html += '<div class="row">'
+    html += '<div class="col">'
     html += str(austrHtml)
+    html += '</div>'
+    html += '<div class="col">'
     html += str(fekiHtml)
+    html += '</div>'
+    html += '</div>'
+    html += '<div class="row">'
+    html += '<div class="col">'
     html += str(happyHourHtml)
+    html += '</div>'
+    html += '</div>'
     html += '</div>'
     html += '</body>'
     html += '</html>'
@@ -144,4 +162,4 @@ def main():
 
 
 main()
-copyfile(CSSFILE_SRC, CSSFILE)
+copyfile(CSSFILE_SRC, CSSFILE_DEST)

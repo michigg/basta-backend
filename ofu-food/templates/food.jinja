@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Sammelwebsite für das Essen der Uni Bamberg">
+    <meta name="keywords" content="OFU, Otto-Friedrich, Universität, Bamberg">
+    <link rel="stylesheet" href=" {{ cssfile }} ">
+    <title>Essen an der OFU</title>
+</head>
+
+<body>
+<h1>Food for Students</h1>
+<p>Last execute: {{ executiontime }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>{{ erbaCafeteTitle }}</h2>
+            {% for menu in erbaWeekmenu %}
+                <p><span>{{ menu.date }}</span><span>{{ menu.menu[0] }}</span></p>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <h2>{{ markusCafeteTitle }}</h2>
+            {% for menu in markusWeekmenu %}
+                <p><span>{{ menu.date }}</span><span>{{ menu.menu[0] }}</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>{{ austrMensaTitle }}</h2>
+            {% for dayMenu in austrWeekmenu %}
+                <h3>{{ dayMenu.date }}</h3>
+                {% for singleFood in dayMenu.menu %}
+                    <p>{{ singleFood }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col">
+            <h2>{{ fekiMensaTitle }}</h2>
+            {% for dayMenu in fekiWeekmenu %}
+                <h3>{{ dayMenu.date }}</h3>
+                {% for singleFood in dayMenu.menu %}
+                    <p>{{ singleFood }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Feki.de Happy Hour Guide for Food</h2>
+            <h3>{{ happyHourDay }}</h3>
+            {% if happyhours %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for happyhour in happyhours %}
+                        <tr>
+                            <td>{{ happyhour.location }}</td>
+                            <td>{{ happyhour.time }}</td>
+                            <td>{{ happyhour.description }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Leider gibt es heute keine Happy Hours :(</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
