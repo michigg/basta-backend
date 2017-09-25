@@ -5,19 +5,17 @@ from jinja2 import Environment, FileSystemLoader
 
 # Config global
 CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
+TEMPLATE_PATH = 'food.jinja'
 
 # Config Thinkpad
 # JSON_FILES_PATH = "../json/"
 # OUTPUT = "../html/food.html"
 # JINJA_PATH = 'templates/'
-TEMPLATE_PATH = 'food.jinja'
 
 
 # PI
 JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/json/"
 OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
-# CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist"
-# CSSFILE_DEST = "/media/data_1/www/css"
 JINJA_PATH = '/media/data_1/skripts/ofu-app-webskripts/ofu-food/templates/'
 
 
@@ -50,7 +48,6 @@ def main():
         "happyHourDay": fekideJson['day'],
         "happyhours": fekideJson['happyhours'],
     }
-
 
     # Template Vars: cssfile, executiontime, erbaCafeteTitle, erbaWeekmenu, markusCafeteTitle, markusWeekmenu, austrMensaTitle, austrWeekmenu, fekiMensaTitle, fekiWeekmenu, happyHourDay, happyhours
 
