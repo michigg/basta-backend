@@ -10,17 +10,17 @@
 </head>
 
 <body>
-<h1>Food for Students</h1>
-<p>Last execute: {{ executiontime }}</p>
+<h1 class="text-center">Food for Students</h1>
+<p class="text-right">Last execute: {{ executiontime }}</p>
 <div class="container">
     <div class="row">
-        <div class="col">
+        <div class="col m-2 p-3 mb-2 bg-info text-white rounded">
             <h2>{{ erbaCafeteTitle }}</h2>
             {% for menu in erbaWeekmenu %}
                 <p><span>{{ menu.date }}</span><span>{{ menu.menu[0] }}</span></p>
             {% endfor %}
         </div>
-        <div class="col">
+        <div class="col m-2 p-3 mb-2 bg-info text-white rounded">
             <h2>{{ markusCafeteTitle }}</h2>
             {% for menu in markusWeekmenu %}
                 <p><span>{{ menu.date }}</span><span>{{ menu.menu[0] }}</span></p>
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col m-2 m-1 p-3 mb-2 bg-info text-white rounded">
             <h2>{{ austrMensaTitle }}</h2>
             {% for dayMenu in austrWeekmenu %}
                 <h3>{{ dayMenu.date }}</h3>
@@ -37,7 +37,7 @@
                 {% endfor %}
             {% endfor %}
         </div>
-        <div class="col">
+        <div class="col m-2 p-3 mb-2 bg-info text-white rounded">
             <h2>{{ fekiMensaTitle }}</h2>
             {% for dayMenu in fekiWeekmenu %}
                 <h3>{{ dayMenu.date }}</h3>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col m-2 p-3 mb-2 bg-info text-white rounded">
             <h2>Feki.de Happy Hour Guide for Food</h2>
             <h3>{{ happyHourDay }}</h3>
             {% if happyhours %}
