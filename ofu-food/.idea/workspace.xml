@@ -52,7 +52,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="food.jinja" pinned="false" current-in-tab="true">
+      <file leaf-file-name="food.jinja" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/food.jinja">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="460">
@@ -62,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generator-food-page.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="generator-food-page.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/food/generator-food-page.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
+            <state relative-caret-position="66">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -94,8 +94,8 @@
         <option value="$PROJECT_DIR$/css-install-skript.py" />
         <option value="$PROJECT_DIR$/ofu-food.py" />
         <option value="$PROJECT_DIR$/food/foodplan-parser-controler.py" />
-        <option value="$PROJECT_DIR$/food/generator-food-page.py" />
         <option value="$PROJECT_DIR$/templates/food.jinja" />
+        <option value="$PROJECT_DIR$/food/generator-food-page.py" />
       </list>
     </option>
   </component>
@@ -644,21 +644,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/food/generator-food-page.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="770">
-          <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/food.jinja">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
           <caret line="50" column="63" lean-forward="false" selection-start-line="50" selection-start-column="63" selection-end-line="50" selection-end-column="63" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/food/generator-food-page.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

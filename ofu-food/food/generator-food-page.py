@@ -7,17 +7,18 @@ from jinja2 import Environment, FileSystemLoader
 CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 
 # Config Thinkpad
-JSON_FILES_PATH = "../json/"
-OUTPUT = "../html/food.html"
-JINJA_PATH = 'templates/'
+# JSON_FILES_PATH = "../json/"
+# OUTPUT = "../html/food.html"
+# JINJA_PATH = 'templates/'
 TEMPLATE_PATH = 'food.jinja'
 
 
 # PI
-# JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/json/"
-# OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
+JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/json/"
+OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
 # CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist"
 # CSSFILE_DEST = "/media/data_1/www/css"
+JINJA_PATH = '/media/data_1/skripts/ofu-app-webskripts/ofu-food/templates/'
 
 
 def getJsonFromFile(path):
@@ -49,15 +50,9 @@ def main():
         "happyHourDay": fekideJson['day'],
         "happyhours": fekideJson['happyhours'],
     }
-    # templateLoader = jinja2.FileSystemLoader(searchpath="./")
-    # templateEnv = jinja2.Environment(loader=templateLoader)
 
-    # TEMPLATE_FILE = "templates/food.jinja"
-    # template = templateEnv.get_template(TEMPLATE_FILE)
 
     # Template Vars: cssfile, executiontime, erbaCafeteTitle, erbaWeekmenu, markusCafeteTitle, markusWeekmenu, austrMensaTitle, austrWeekmenu, fekiMensaTitle, fekiWeekmenu, happyHourDay, happyhours
-
-    # html = template.render(templateVars)
 
     html = template.render(templateVars)
 
