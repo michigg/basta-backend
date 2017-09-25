@@ -10,8 +10,8 @@ CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 # OUTPUT = "../html/food.html"
 
 # PI
-# JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/api/json/"
-# OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
+JSON_FILES_PATH = "/media/data_1/www/pub-html/ofu-food/json/"
+OUTPUT = "/media/data_1/www/pub-html/ofu-food/food.html"
 CSSFILE_SRC = "../bootstrap-4.0.0-beta-dist"
 CSSFILE_DEST = "/media/data_1/www/css"
 

@@ -6,7 +6,7 @@ fekidehappyhourpageparser = importlib.import_module('fekide-happyhour-page-parse
 
 # JSON_OUTPUT_DIR = "../json/"
 # PI
-JSON_OUTPUT_DIR = "/media/data_1/www/pub-html/ofu-food/api/json/"
+JSON_OUTPUT_DIR = "/media/data_1/www/pub-html/ofu-food/json/"
 
 LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
 LINK_AUSTR_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=2&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=511e047953ee1370c3b82c11a04624bb"
