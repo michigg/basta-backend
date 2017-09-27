@@ -4,7 +4,7 @@ import datetime
 from jinja2 import Environment, FileSystemLoader
 
 # Config global
-CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
+CSSFILE_WEB = "../../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
 TEMPLATE_PATH = 'events.jinja'
 
 # Config Thinkpad
