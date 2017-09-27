@@ -15,7 +15,7 @@
     <div class="row">
         {% for event in events_wrapper.UnivIS.Event %}
             <div class="col-4">
-                <div class="card text-white bg-success" style="height: 99%; width: 100%;">
+                <div class="card col m-2 p-3 border border-info rounded" style="height: 99%; width: 100%;">
                     <div class="card-body">
                         <h4>{{ event.title }}</h4>
                         <p>Start: {{ event.startdate }} at {{ event.starttime }}</p>

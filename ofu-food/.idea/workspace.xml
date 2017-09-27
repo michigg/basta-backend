@@ -12,7 +12,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/ofu_food$foodplan_parser_controler.coverage" NAME="foodplan-parser-controler Coverage Results" MODIFIED="1506277850230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ofu_food$mensa_page_parser.coverage" NAME="mensa-page-parser Coverage Results" MODIFIED="1506198388515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ofu_food$html_generator.coverage" NAME="html-generator Coverage Results" MODIFIED="1506521837432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ofu_food$html_generator.coverage" NAME="html-generator Coverage Results" MODIFIED="1506522674615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ofu_food$fekide_happyhour_page_parser.coverage" NAME="fekide-happyhour-page-parser Coverage Results" MODIFIED="1506204094485" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ofu_food$eventpage_parser_controller.coverage" NAME="eventpage-parser-controller Coverage Results" MODIFIED="1506519261107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/events" />
     <SUITE FILE_PATH="coverage/ofu_food$cafete_page_parser.coverage" NAME="cafete-page-parser Coverage Results" MODIFIED="1506201552685" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -50,8 +50,8 @@
       <file leaf-file-name="events.jinja" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/events.jinja">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="17" column="63" lean-forward="true" selection-start-line="17" selection-start-column="63" selection-end-line="17" selection-end-column="63" />
+            <state relative-caret-position="340">
+              <caret line="17" column="71" lean-forward="false" selection-start-line="17" selection-start-column="71" selection-end-line="17" selection-end-column="71" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -62,8 +62,8 @@
       <file leaf-file-name="food.jinja" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/food.jinja">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="42" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="80" selection-end-column="7" />
+            <state relative-caret-position="300">
+              <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -83,7 +83,7 @@
         <entry file="file://$PROJECT_DIR$/html-generator.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="18" column="73" lean-forward="false" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -115,8 +115,8 @@
         <option value="$PROJECT_DIR$/events/fekide-eventpage-parser.py" />
         <option value="$PROJECT_DIR$/food/generator-food-page.py" />
         <option value="$PROJECT_DIR$/events/ofu-eventpage-parser.py" />
-        <option value="$PROJECT_DIR$/templates/events.jinja" />
         <option value="$PROJECT_DIR$/events/eventpage-parser-controller.py" />
+        <option value="$PROJECT_DIR$/templates/events.jinja" />
         <option value="$PROJECT_DIR$/html-generator.py" />
       </list>
     </option>
@@ -800,16 +800,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/events/ofu-eventpage-parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/food/ofu-food.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-659">
@@ -838,24 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/food.jinja">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="42" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="80" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/events.jinja">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="17" column="63" lean-forward="true" selection-start-line="17" selection-start-column="63" selection-end-line="17" selection-end-column="63" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/events/eventpage-parser-controller.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -864,10 +836,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/food.jinja">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/events.jinja">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="71" lean-forward="false" selection-start-line="17" selection-start-column="71" selection-end-line="17" selection-end-column="71" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/events/ofu-eventpage-parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/html-generator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="18" column="73" lean-forward="false" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
