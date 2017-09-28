@@ -6,7 +6,7 @@
     <meta name="description" content="Sammelwebsite für Events universitärer- oder universitäts-naher Veranstaltungen">
     <meta name="keywords" content="OFU, Otto-Friedrich, Universität, Bamberg, Events">
     <link rel="stylesheet" href=" {{ cssfile }} ">
-    <title>Essen an der OFU</title>
+    <title>Events an der OFU</title>
 </head>
 
 <body>
@@ -21,7 +21,9 @@
                         <h4>{{ event.title }}</h4>
                         <p>Start: {{ event.startdate }} at {{ event.starttime }}</p>
                         <p>End: {{ event.enddate }} at {{ event.endtime }}</p>
-                        {#                <p>Where: {{ event.rooms.room.UnivISRef['@key'] }}</p>#}
+                        {% if  event.rooms %}
+                            <p>Where: {{ event.rooms.room.short }}</p>
+                        {% endif %}
                         <p>{{ event.description }}</p>
                         <p>Organisator: {{ event.orgname }}</p>
                     </div>

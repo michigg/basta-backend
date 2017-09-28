@@ -1,13 +1,14 @@
 import importlib
 
+UNIVIS_RPG_URL = "http://univis.uni-bamberg.de/prg?search=events&show=xml"
 ofu_event_parser = importlib.import_module('ofu-eventpage-parser')
 # fekide_event_parser = importlib.import_module('fekide-eventpage-parser')
 
-# JSON_OUTPUT_DIR = "../../json/"
-# PI
-JSON_OUTPUT_DIR = "/media/data_1/www/pub-html/events/json/"
+JSON_OUTPUT_DIR = "../../json/"
 
-UNIVIS_RPG_URL = "http://univis.uni-bamberg.de/prg?search=events&show=xml"
+
+# PI
+# JSON_OUTPUT_DIR = "/media/data_1/www/pub-html/events/json/"
 
 
 def writeToFile(jsonfile, filename):
