@@ -12,17 +12,17 @@
 <body>
 <p class="text-right">Last execute: {{ events_wrapper.last_execute }}</p>
 <h1 class="text-center">Events for Students</h1>
-<div class=".container">
+<div class="container">
     <div class="row">
         {% for event in events_wrapper.UnivIS.Event %}
-            <div class="col-4">
-                <div class="card col m-2 p-3 border border-info rounded" style="height: 99%; width: 100%;">
+            <div class="col-6">
+                <div class="card mb-3 border border-info rounded" style="height: 99%; width: 100%;">
                     <div class="card-body">
                         <h4>{{ event.title }}</h4>
-                        <p>Start: {{ event.startdate }} at {{ event.starttime }}</p>
-                        <p>End: {{ event.enddate }} at {{ event.endtime }}</p>
+                        <p>Beginn: {{ event.startdate }} at {{ event.starttime }}</p>
+                        <p>Ende: {{ event.enddate }} at {{ event.endtime }}</p>
                         {% if  event.rooms %}
-                            <p>Where: {{ event.rooms.room.short }}</p>
+                            <p>Veranstaltungsort: {{ event.rooms.room.short }}</p>
                         {% endif %}
                         <p>{{ event.description }}</p>
                         <p>Organisator: {{ event.orgname }}</p>

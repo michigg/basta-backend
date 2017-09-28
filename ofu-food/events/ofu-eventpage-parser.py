@@ -2,7 +2,6 @@ import requests
 import datetime
 import xmltodict
 import json
-from pprint import pprint
 
 
 def loadPage(url: str):
@@ -38,7 +37,6 @@ def parsePage(url: str):
     json_data = json.loads(json_data)
     json_data['last_execute'] = getDay()
     return json.dumps(json_data)
-
 
 # UNIVIS_RPG_URL = "http://univis.uni-bamberg.de/prg?search=events&show=xml"
 # parsePage(UNIVIS_RPG_URL)
