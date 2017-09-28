@@ -9,17 +9,17 @@ from pprint import pprint
 TEMPLATE_PATH = 'events.jinja'
 
 # Config Thinkpad
-CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
-JSON_FILES_PATH = "../json/"
-OUTPUT = "../html/event.html"
-JINJA_PATH = 'templates/'
+# CSSFILE_WEB = "../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
+# JSON_FILES_PATH = "../json/"
+# OUTPUT = "../html/event.html"
+# JINJA_PATH = 'templates/'
 
 
 # PI
-# CSSFILE_WEB = "../../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
-# JSON_FILES_PATH = "/media/data_1/www/pub-html/events/json/"
-# OUTPUT = "/media/data_1/www/pub-html/events/index.html"
-# JINJA_PATH = '/media/data_1/skripts/ofu-app-webskripts/ofu-food/templates/'
+CSSFILE_WEB = "../../css/bootstrap-4.0.0-beta-dist/css/bootstrap.css"
+JSON_FILES_PATH = "/media/data_1/www/pub-html/events/json/"
+OUTPUT = "/media/data_1/www/pub-html/events/index.html"
+JINJA_PATH = '/media/data_1/skripts/ofu-app-webskripts/ofu-food/templates/'
 
 
 def getJsonFromFile(path):
