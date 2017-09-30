@@ -10,7 +10,7 @@ Die nun bestehenden Systeme sollen hinsichtlich ihrer Erweiterungsmöglichkeiten
 
 ## Entwicklungsübersicht:
 ### Alpha (Oktober 2017 - Dezember 2017):
-- Versionsnummer: 0.*.*
+- Versionsnummer: 0.#.#
 - Umsetzung der Phase 1
 - Beginn Phase 2
 
@@ -21,16 +21,16 @@ Die nun bestehenden Systeme sollen hinsichtlich ihrer Erweiterungsmöglichkeiten
 - Sammeln aller gefundener Bugs
 
 ### PreRC (März 2018):
-- Versionsnummer: 1.(*+1).*
+- Versionsnummer: 1.(#+1).#
 - Bugfixing der gefundenen Bugs
 
 ### RC (April 2018): 
-- Versionsnummer: 1.*.(*+1)
+- Versionsnummer: 1.#.(#+1)
 - Fertige App mit allen gefundenen Bugs.
 - Größerer Test an der Fakultät WIAI (möglicherweiser mit key)
 
 ### PreRelease (Mai 2018 - Anfang Juni 2018):
-- Versionsnummer: 1.*.(*+1)
+- Versionsnummer: 1.#.(#+1)
 - letztes größeres Bugfixing
 
 ### Release (Ende Juni 2018 evtl. darauf folgendes Semester):
