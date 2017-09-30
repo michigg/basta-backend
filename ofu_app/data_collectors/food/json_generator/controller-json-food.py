@@ -6,7 +6,7 @@ parser_food_cafete = importlib.import_module('data_collectors.food.parser.cafete
 parser_food_fekidehappyhour = importlib.import_module('data_collectors.food.parser.fekide-happyhour-page-parser')
 
 # CONFIG
-JSON_OUTPUT_DIR_FOOD = "./jsons/"
+JSON_OUTPUT_DIR_FOOD = "./food/json_generator/jsons/"
 
 # CONFIG SERVICE LINKS
 LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"

@@ -1,14 +1,17 @@
 import json
-from pprint import pprint
-import django, os
 from datetime import datetime
+from pprint import pprint
+
+import django
+import os
 from django.db.utils import IntegrityError
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'ofu_app.settings'
 django.setup()
-from food.models import SingleFood, Menu, HappyHour
+from apps.food.models import SingleFood, Menu, HappyHour
 
-JSON_FILES_PATH_FOOD = "json_generator/jsons/"
+# JSON_FILES_PATH_FOOD = "json_generator/jsons/"
+JSON_FILES_PATH_FOOD = "food/json_generator/jsons/"
 
 
 def getJsonFromFile(path):

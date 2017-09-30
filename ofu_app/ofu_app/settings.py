@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
-    'food',
-    'events',
+    'apps.food',
+    'apps.events',
 ]
 
 MIDDLEWARE = [

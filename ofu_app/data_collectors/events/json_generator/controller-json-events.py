@@ -6,7 +6,7 @@ parser_event_univis_pretty = importlib.import_module('data_collectors.events.par
 parser_event_fekide = importlib.import_module('data_collectors.events.parser.fekide-eventpage-parser')
 
 # CONFIG
-JSON_OUTPUT_DIR_EVENTS = "./jsons/"
+JSON_OUTPUT_DIR_EVENTS = "./events/json_generator/jsons/"
 
 
 def writeToFile(jsonfile, root, filename):
@@ -17,23 +17,23 @@ def writeToFile(jsonfile, root, filename):
 def main():
     try:
         json_events_univis = parser_event_univis.parsePage()
-    except IndexError:
+    except:
         print("Error")
-        json_events_univis = {}
+        json_events_univis = "{}"
 
     writeToFile(json_events_univis, JSON_OUTPUT_DIR_EVENTS, "events-univis.json")
 
     try:
         json_events_univis_pretty = parser_event_univis_pretty.prettify(JSON_OUTPUT_DIR_EVENTS + "events-univis.json")
-    except IndexError:
+    except:
         print("Error")
-        json_events_univis_pretty = {}
+        json_events_univis_pretty = "{}"
 
     try:
         json_events_fekide = parser_event_fekide.parsePage()
-    except IndexError:
+    except:
         print("Error")
-        json_events_fekide = {}
+        json_events_fekide = "{}"
 
     writeToFile(json_events_univis_pretty, JSON_OUTPUT_DIR_EVENTS, "events-univis-pretty.json")
     writeToFile(json_events_fekide, JSON_OUTPUT_DIR_EVENTS, "events-fekide.json")
