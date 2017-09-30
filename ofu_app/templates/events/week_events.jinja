@@ -1,0 +1,20 @@
+{% extends 'base.jinja' %}
+{% block headline %}
+    <h1 class="text-center">Events an der OFU </h1>
+    <h2 class="text-center">{{ startdate }} bis {{ enddate }}</h2>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for event in  events %}
+                <div class="col m-2 p-3 border border-dark rounded">
+                    <h3>{{ event.title }}</h3>
+                    <p>Wann: {{ event.date|date:"M Y" }} ab {{ event.time }}</p>
+                    <p>Wo: {{ event.location }}</p>
+                    <a href="{{ event.link }}">Details</a>
+                    <p>Kategorie: {{ event.category }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

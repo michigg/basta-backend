@@ -1,0 +1,50 @@
+{# ===== HTML ===== #}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{# ===== Head ===== #}
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no"/>
+    <title>OFU App</title>
+    <meta name="author" content="Michael Götz"/>
+    {#    {% javascript "main_js" %}#}
+    {#    {% block js_head %}{% endblock %}#}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css' %}">
+    {% block head_extra %}{% endblock %}
+</head>
+
+{# ===== Body ===== #}
+<body>
+{% block body %}
+    {% block headline %}
+    {% endblock %}
+    <div class="container-fluid bg-info text-white">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% block footer %}
+        <footer>
+            <div class="container-fluid bg-dark text-white">
+                <div class="row text-right">
+                    <div class="col m-2 p-3">
+                        <p class="has-text-centered">Hast du einen Fehler gefunden?</p>
+                        <p>Melde uns diesen einfach über den E-Mail Link</p>
+                        <p></p><a href="mailto:mgoetz1995@gmail.com?subject=Bugreport">Bug Report</a></p>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col m-2 p-3">
+                        <p class="has-text-centered">
+                            © Copyright 2017, Michael Götz
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+{% endblock %}
+{% block js_tail %}{% endblock %}
+</body>
+</html>
