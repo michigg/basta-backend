@@ -24,7 +24,7 @@ SECRET_KEY = '7tm($-7tz!co8762!)ptmj%)80)qa^z0odee*8-!be!i(a!p4j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mg-server.ddns.net', ]
 
 # Application definition
 
@@ -137,7 +137,6 @@ MIDDLEWARE_CLASSES = (
 LANGUAGE_CODE = 'de'
 
 TIME_ZONE = 'Europe/Berlin'
-
 
 USE_I18N = True
 
