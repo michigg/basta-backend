@@ -5,7 +5,7 @@ import datetime
 
 from django.shortcuts import render
 
-from apps.food import Menu, HappyHour
+from apps.food.models import Menu, HappyHour
 
 
 # Create your views here.

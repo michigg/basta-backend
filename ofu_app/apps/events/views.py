@@ -2,7 +2,7 @@ import datetime
 
 from django.shortcuts import render
 
-from apps.events import Event
+from apps.events.models import Event
 
 
 # Create your views here.
