@@ -23,8 +23,8 @@ SECRET_KEY = '7tm($-7tz!co8762!)ptmj%)80)qa^z0odee*8-!be!i(a!p4j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS = ['mg-server.ddns.net', 'localhost' ]
 
-ALLOWED_HOSTS = ['mg-server.ddns.net', ]
 
 # Application definition
 
@@ -161,3 +161,5 @@ STATICFILES_DIRS = [
 # Setup support for proxy headers
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+FORCE_SCRIPT_NAME = "app"
