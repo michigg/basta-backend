@@ -10,13 +10,14 @@ from apps.food.models import Menu, HappyHour
 
 # Create your views here.
 def daily_food(request):
-    today = datetime.datetime.now()
+    today = datetime.datetime.now() + datetime.timedelta(2)
     daily_menus = Menu.objects.filter(date__exact=today)
     feki_menu = daily_menus.filter(location__contains="Feldkirchenstraße").last()
     austr_menu = daily_menus.filter(location__contains="Austraße").last()
     erba_cafete = daily_menus.filter(location__contains="Erba").last()
     markus_cafete = daily_menus.filter(location__contains="markus").last()
     happy_hours = HappyHour.objects.filter(date__exact=today)
+    print(feki_menu.menu)
     return render(request, "food/daily_food.jinja", {
         'day': today,
         'happy_hours': happy_hours,

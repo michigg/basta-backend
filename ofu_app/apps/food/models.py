@@ -13,6 +13,9 @@ class Menu(models.Model):
     location = models.CharField(max_length=MAX_LENGTH)
     menu = models.ManyToManyField("SingleFood")
 
+    def __str__(self):
+        return str(self.date.strftime("%d.%m.%Y"))
+
     class Meta:
         unique_together = ('date', 'location')
 
@@ -20,6 +23,9 @@ class Menu(models.Model):
 class SingleFood(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=MAX_LENGTH)
+
+    def __str__(self):
+        return str(self.name)
 
 
 class HappyHour(models.Model):
@@ -29,6 +35,9 @@ class HappyHour(models.Model):
     endtime = models.DateField(default=timezone.now)
     location = models.CharField(max_length=MAX_LENGTH)
     description = models.CharField(max_length=MAX_LENGTH)
+
+    def __str__(self):
+        return "Date: %s, Location: %s" % (self.date.strftime("%Y.%m.%d"), self.location)
 
     class Meta:
         unique_together = ('date', 'location')
