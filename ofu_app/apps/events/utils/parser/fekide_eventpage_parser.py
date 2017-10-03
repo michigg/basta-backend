@@ -12,7 +12,7 @@ SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
 LINK_FEKIDE_Events = "https://www.feki.de/terminkalender"
 LINK_FEKIDE = "https://www.feki.de"
 
-locale.setlocale(locale.LC_TIME, '')
+locale.setlocale(locale.LC_TIME, 'de_DE.utf-8')
 
 
 def loadPage(url: str):
