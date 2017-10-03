@@ -6,8 +6,6 @@ from pprint import pprint
 import os
 import locale
 
-os.environ['TZ'] = 'Europe/Berlin'
-
 SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
 LINK_FEKIDE_Events = "https://www.feki.de/terminkalender"
 LINK_FEKIDE = "https://www.feki.de"

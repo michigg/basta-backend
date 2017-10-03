@@ -6,6 +6,21 @@ from apps.events.models import Event
 
 
 # Create your views here.
+def events_main_page(request):
+    return render(request, "events/events.jinja")
+
+
+def all_events(request):
+    today = datetime.datetime.now()
+    all_future_events = Event.objects.filter(date__gte=today)
+    lastdate = all_future_events.last().date
+    return render(request, "events/all_events.jinja", {
+        'startdate': today,
+        'events': all_future_events,
+        'enddate': lastdate,
+    })
+
+
 def week_events(request):
     today = datetime.datetime.now()
     weekdelta = today + datetime.timedelta(7)
