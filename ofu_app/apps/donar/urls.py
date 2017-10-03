@@ -13,16 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
-from ofu_app import views
+from django.conf.urls import url
+
+from apps.donar import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-
-    url(r'^$', views.home, name="home"),
-    # -- Apps --
-    url(r'^food/', include('apps.food.urls')),
-    url(r'^events/', include('apps.events.urls')),
-    url(r'^donar/', include('apps.donar.urls')),
+    url(r'^$', views.home, name='donar-main'),
 ]

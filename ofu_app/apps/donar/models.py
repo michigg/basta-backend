@@ -12,4 +12,4 @@ class Room(models.Model):
     floor = models.CharField(max_length=MAX_LENGTH)
     name = models.CharField(max_length=MAX_LENGTH)
     orgname = models.CharField(max_length=MAX_LENGTH)
-    short = models.CharField(max_length=MAX_LENGTH)
+    short = models.CharField(unique=True, max_length=MAX_LENGTH)

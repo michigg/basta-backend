@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_jinja',
     'apps.food',
     'apps.events',
+    'apps.donar',
 ]
 
 MIDDLEWARE = [
