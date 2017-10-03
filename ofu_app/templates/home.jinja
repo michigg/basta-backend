@@ -1,0 +1,28 @@
+{% extends 'base.jinja' %}
+{% block headline %}
+    <h1 class="text-center">App für die Uni Bamberg</h1>
+{% endblock %}
+{% block content %}
+    <div class="container text-dark">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Food</h4>
+                        <p class="card-text">Übersicht über Essensmöglichkeiten für Studenten in der Stadt Bamberg </p>
+                        <a href="{% url 'food' %}" class="btn btn-primary">Zur Mainpage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Events</h4>
+                        <p class="card-text">Übersicht über alle Events an der Universität Bambergs und Veranstaltungen der HSnGs.</p>
+                        <a href="{% url 'events-main' %}" class="btn btn-primary">Zur Mainpage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -18,7 +18,9 @@ from django.conf.urls import url
 from apps.food import views
 
 urlpatterns = [
-    url(r'^all/', views.food, name='food'),
+    url(r'^$', views.food, name='food'),
     # Daily Menus
     url(r'^daily/$', views.daily_food, name='daily-food'),
+    url(r'^weekly/$', views.daily_food, name='weekly-food'),
+    url(r'^all/$', views.food, name='all-food'),
 ]

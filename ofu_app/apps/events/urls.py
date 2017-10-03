@@ -18,5 +18,7 @@ from django.conf.urls import url
 from apps.events import views
 
 urlpatterns = [
-    url(r'^week/', views.week_events, name='week-events'),
+    url(r'^$', views.events_main_page, name='events-main'),
+    url(r'^week/$', views.week_events, name='week-events'),
+    url(r'^all/$', views.all_events, name='all-events'),
 ]
