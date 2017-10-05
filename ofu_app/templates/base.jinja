@@ -18,6 +18,14 @@
 {# ===== Body ===== #}
 <body>
 {% block body %}
+    {% block test %}
+        <div class="text-center bg-warning"><h4>Hinweis: Diese Seite dient <strong>nur</strong> zu Testzwecken. Wir garantieren weder die
+            Vollständigkeit,
+            noch
+            die Korrektheit der dargestellten Daten.</h4>
+        </div>
+
+    {% endblock %}
     {% block headline %}
     {% endblock %}
     <div class="container-fluid bg-info text-white">

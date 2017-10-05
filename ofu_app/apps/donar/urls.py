@@ -18,5 +18,5 @@ from django.conf.urls import url
 from apps.donar import views
 
 urlpatterns = [
-    url(r'^$', views.home, name='donar-main'),
+    url(r'^$', views.home, name='donar'),
 ]
