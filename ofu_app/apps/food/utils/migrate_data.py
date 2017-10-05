@@ -3,9 +3,14 @@ from datetime import datetime
 from pprint import pprint
 from django.db.utils import IntegrityError
 from apps.food.models import SingleFood, Menu, HappyHour
+from apps.food.utils.parser import mensa_page_parser, fekide_happyhour_page_parser, cafete_page_parser
 
-# JSON_FILES_PATH_FOOD = "json_generator/jsons/"
-JSON_FILES_PATH_FOOD = "food/json_generator/jsons/"
+# CONFIG SERVICE LINKS
+LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
+LINK_AUSTR_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=2&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=511e047953ee1370c3b82c11a04624bb"
+LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
+LINK_MARKUS_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-markusplatz.html"
+LINK_FEKIDE_GUIDE = "https://www.feki.de/happyhour"
 
 
 def getJsonFromFile(path):
@@ -14,6 +19,7 @@ def getJsonFromFile(path):
 
 
 def writeStudentenwerkDataInDB(data):
+    data = json.loads(data)
     for menu in data['weekmenu']:
         foodlist = []
         for single_food in menu['menu']:
@@ -45,15 +51,14 @@ def writeFekideDataInDB(data):
             break
 
 
-def main(path=JSON_FILES_PATH_FOOD):
+def main():
     # get food jsons
-    writeStudentenwerkDataInDB(getJsonFromFile(path + "mensa-austr.json"))
-    writeStudentenwerkDataInDB(getJsonFromFile(path + "cafete-erba.json"))
-    writeStudentenwerkDataInDB(getJsonFromFile(path + "cafete-markus.json"))
-    writeStudentenwerkDataInDB(getJsonFromFile(path + "mensa-feki.json"))
+    writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_AUSTR_MENSA))
+    writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_FEKI_MENSA))
+    writeStudentenwerkDataInDB(cafete_page_parser.parsePage(LINK_ERBA_CAFETE))
+    writeStudentenwerkDataInDB(cafete_page_parser.parsePage(LINK_MARKUS_CAFETE))
+    writeFekideDataInDB(fekide_happyhour_page_parser.parsePage(LINK_FEKIDE_GUIDE))
 
-    json_food_fekide = getJsonFromFile(path + "happyhourguide-fekide.json")
-    writeFekideDataInDB(json_food_fekide)
     pprint("SingleFood: " + str(SingleFood.objects.count()))
     pprint("Menu: " + str(Menu.objects.count()))
     pprint("HappyHour: " + str(HappyHour.objects.count()))

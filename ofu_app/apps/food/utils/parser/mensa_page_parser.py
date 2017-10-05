@@ -43,7 +43,6 @@ def parsePage(url: str):
     mensaSpeiseplan['weekmenu'] = days
     mensaSpeiseplan['name'] = foodplan_name
     mensaSpeiseplan['execution_time'] = datetime.datetime.today().strftime("%A, %d.%m.%Y")
-    # print(mensaSpeiseplan)
     mensaSpeiseplanJson = json.dumps(mensaSpeiseplan)
     return mensaSpeiseplanJson
 
