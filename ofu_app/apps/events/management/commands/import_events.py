@@ -11,6 +11,6 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        controller_json_events.main("apps/events/utils/json_generator/jsons/")
-        migrate_data.main("apps/events/utils/json_generator/jsons/")
+        # controller_json_events.main("apps/events/utils/json_generator/jsons/")
+        migrate_data.main()
         self.stdout.write(self.style.SUCCESS('Successfully migrate data'))

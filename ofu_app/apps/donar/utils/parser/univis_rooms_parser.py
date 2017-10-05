@@ -4,12 +4,6 @@ import xmltodict
 import json
 from pprint import pprint
 
-# CONFIG
-UNIVIS_RPG_GuK = "http://univis.uni-bamberg.de/prg?search=rooms&department=Fakult%E4t%20Geistes-%20und%20Kulturwissenschaften&show=xml"
-UNIVIS_RPG_SoWi = "http://univis.uni-bamberg.de/prg?search=rooms&department=Fakult%E4t%20Sozial-%20und%20Wirtschaftswissenschaften&show=xml"
-UNIVIS_RPG_HuWi = "http://www.config.de/cgi-bin/prg-wizard.pl"
-UNIVIS_RPG_WIAI = "http://univis.uni-bamberg.de/prg?search=rooms&department=Fakult%E4t%20Wirtschaftsinformatik&show=xml"
-
 
 def loadPage(url: str):
     return requests.get(url).content

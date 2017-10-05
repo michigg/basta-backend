@@ -13,7 +13,7 @@ def events_main_page(request):
 def all_events(request):
     today = datetime.datetime.now()
     all_future_events = Event.objects.filter(date__gte=today)
-    lastdate = all_future_events.last().date
+    lastdate = Event.objects.latest('date').date
     return render(request, "events/all_events.jinja", {
         'startdate': today,
         'events': all_future_events,

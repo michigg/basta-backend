@@ -18,7 +18,6 @@ def getJsonFromFile(path):
 
 
 def writeFekideDataInDB(data):
-
     for room in data:
         try:
             key = ""
@@ -28,12 +27,12 @@ def writeFekideDataInDB(data):
             name = ""
             orgname = ""
             short = ""
+            size = ""
+            description = ""
             if '@key' in room:
                 key = room['@key']
-
             if 'address' in room:
                 address = room['address']
-
             if 'buildingkey' in room:
                 building_key = room['buildingkey']
             if 'floor' in room:
@@ -42,9 +41,13 @@ def writeFekideDataInDB(data):
                 name = room['name']
             if 'short' in room:
                 short = room['short']
+            if 'size' in room:
+                size = room['size']
+            if 'description' in room:
+                description = room['description']
 
             Room.objects.create(key=key, address=address, building_key=building_key, floor=floor, name=name,
-                                orgname=orgname, short=short)
+                                orgname=orgname, short=short, size=size, description=description)
         except IntegrityError:
             # ignored
             break

@@ -9,7 +9,14 @@
                 <div class="col-6 p-3">
                     <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
                         <h3>{{ room.name }}</h3>
-                        <p>Short: {{ room.short }}</p>
+                        <p><strong>Key:</strong> {{ room.key }}</p>
+                        <p><strong>Address:</strong>  {{ room.address }}</p>
+                        <p><strong>Building Key:</strong>  {{ room.building_key }}</p>
+                        <p><strong>Floor:</strong>  {{ room.floor }}</p>
+                        <p><strong>Orgname:</strong>  {{ room.orgname }}</p>
+                        <p><strong>Short:</strong>  {{ room.short }}</p>
+                        <p><strong>Size:</strong>  {{ room.size }}</p>
+                        <p><strong>Description:</strong>  {{ room.description }}</p>
                     </div>
                 </div>
             {% endfor %}

@@ -5,18 +5,29 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="row">
-            {% for event in  events %}
-                <div class="col-6 p-3">
-                    <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
-                        <h3>{{ event.title }}</h3>
-                        <p>Wann: {{ event.date|date:"D, d.M" }} ab {{ event.time }}</p>
-                        <p>Wo: {{ event.location }}</p>
+    <div class="row">
+        {% for event in  events %}
+            <div class="col-6 p-3">
+                <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
+                    <h3>{{ event.title }}</h3>
+                    <p>Wann: {{ event.date|date:"D, d.M" }} ab {{ event.time }}</p>
+                    <p>Wo:</p>
+                    <ul>
+                        {% for location in event.locations.all %}
+                            <li>{{ location.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if event.orgname %}
+                        <p>Organisator: {{ event.orgname }}</p>
+                    {% endif %}
+                    {% if event.link %}
                         <a href="{{ event.link }}">Details</a>
-                        <p>Kategorie: {{ event.category }}</p>
-                    </div>
+                    {% endif %}
+
+                    <p>Kategorie: {{ event.category }}</p>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
+    </div>
     </div>
 {% endblock %}
