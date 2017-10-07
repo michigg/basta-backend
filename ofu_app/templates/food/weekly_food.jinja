@@ -7,12 +7,12 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            {{ macros.day_menu(title='Speiseplan für Feldkirchenstraße Bamberg', location_menu=feki_menu, fail_text='Die Feki Mensa hat heute geschlossen.') }}
-            {{ macros.day_menu(title='Speiseplan für Austraße Bamberg', location_menu=austr_menu, fail_text='Die Austr Mensa hat heute geschlossen.') }}
+            {{ macros.week_menu(title='Speiseplan für Feldkirchenstraße Bamberg', location_menus=feki_menu, fail_text='Die Feki Mensa hat heute geschlossen.') }}
+            {{ macros.week_menu(title='Speiseplan für Austraße Bamberg', location_menus=austr_menu, fail_text='Die Austr Mensa hat heute geschlossen.') }}
         </div>
         <div class="row">
-            {{ macros.day_menu(title='Cafeteria Erba-Insel', location_menu=erba_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
-            {{ macros.day_menu(title='Cafeteria Markusplatz', location_menu=markus_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
+            {{ macros.week_menu(title='Cafeteria Erba-Insel', location_menus=erba_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
+            {{ macros.week_menu(title='Cafeteria Markusplatz', location_menus=markus_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
         </div>
         <div class="row">
             <div class="col p-2">

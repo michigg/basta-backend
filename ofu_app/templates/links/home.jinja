@@ -1,0 +1,28 @@
+{% extends "base.jinja" %}
+{% import 'macros/overview_pages.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Essen an der OFU</h1>
+{% endblock %}
+{% block content %}
+    <div class="container text-dark">
+        <div class="row">
+            {{ macros.link_item(title='Roofis', url='https://suche.wiai.de/', description='Finde deinen Raum zum lernen.') }}
+            {{ macros.link_item(title='VC', url='https://vc.uni-bamberg.de/moodle/', description='Virtueller Campus') }}
+        </div>
+        <div class="row">
+            {{ macros.link_item(title='Flexnow2', url='https://www.uni-bamberg.de/pruefungsamt/flexnow/', description='') }}
+            {{ macros.link_item(title='Univis', url='http://univis.uni-bamberg.de/', description='') }}
+        </div>
+        <div class="row">
+            {{ macros.link_item(title='Bus und Bahn',
+            url='https://www.vgn.de/verbindungen/?to=de%3A09461%3A20080&td=coord%3A4418901%3A629758%3ANAV4%3ABamberg%2C%20An%20der%20Weberei%205',
+            description='') }}
+            {{ macros.link_item(title='Zuv Portal', url='https://zul.zuv.uni-bamberg.de/qisserver/rds?state=user&type=0', description='') }}
+        </div>
+        <div class="row">
+            {{ macros.link_item(title='WIAI Open', url='https://isfswiaiopen.wiai.de/',
+            description='Du willst der Fachschaft WIAI einen Besuch abstatten, aber weißt nicht, ob gerade jemand da ist? Dann kannst du jetzt hier nachschauen.') }}
+            {{ macros.link_item(title='RZ Störungen', url='https://www.uni-bamberg.de/rz/wir/itsm/reporting/', description='') }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.jinja' %}
+{% import '/macros/overview_pages.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Events in Bamberg</h1>
+{% endblock %}
+{% block content %}
+    <div class="container text-dark">
+        <div class="row">
+            {{ macros.home_item(title='Week Events', url_id='week-events', description='Übersicht über alle Events an der Uni und Veranstaltungen der HSnGs in der zukünftigen Woche.') }}
+            {{ macros.home_item(title='All registered Events', url_id='all-events', description='Übersicht über alle Events an der Uni und Veranstaltungen der HSnGs') }}
+        </div>
+    </div>
+{% endblock %}

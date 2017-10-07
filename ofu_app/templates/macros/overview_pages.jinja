@@ -1,0 +1,27 @@
+{% macro home_item(title, url_id, description='') -%}
+    <div class="col-6 p-3">
+        <div class="card">
+            <a href="{{ url(url_id) }}">
+
+                <div class="card-body">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <p class="card-text">{{ description }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro link_item(title, url, description='') -%}
+    <div class="col-6 p-3">
+        <div class="card">
+            <a href="{{ url }}">
+
+                <div class="card-body">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <p class="card-text">{{ description }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endmacro %}

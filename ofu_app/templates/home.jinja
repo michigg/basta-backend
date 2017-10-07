@@ -1,40 +1,15 @@
 {% extends 'base.jinja' %}
+{% import '/macros/overview_pages.jinja' as macros %}
 {% block headline %}
-    <h1 class="text-center">App für die Uni Bamberg</h1>
+    <h1 class="text-center">App für Studenten der Universität Bamberg</h1>
 {% endblock %}
 {% block content %}
     <div class="container text-dark">
         <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Food</h4>
-                        <p class="card-text">Übersicht über Essensmöglichkeiten für Studenten in der Stadt Bamberg </p>
-                        <a href="{% url 'food' %}" class="btn btn-primary">Zur Mainpage</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Events</h4>
-                        <p class="card-text">Übersicht über alle Events an der Universität Bambergs und Veranstaltungen
-                            der HSnGs.</p>
-                        <a href="{% url 'events-main' %}" class="btn btn-primary">Zur Mainpage</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Rooms</h4>
-                        <p class="card-text">Übersicht über Räume an Universität Bamberg </p>
-                        <a href="{% url 'donar' %}" class="btn btn-primary">Zur Mainpage</a>
-                    </div>
-                </div>
-            </div>
+            {{ macros.home_item(title='Food', url_id='food', description='Übersicht über Essensmöglichkeiten') }}
+            {{ macros.home_item(title='Events', url_id='events-main', description='Übersicht über Events an der Universität Bambergs und Veranstaltungen der HSnGs.') }}
+            {{ macros.home_item(title='Nav', url_id='donar', description='Übersicht über Räume an Universität Bamberg') }}
+            {{ macros.home_item(title='Uni Pages', url_id='links-home', description='Linksammlung zu Services der Uni Bamberg') }}
         </div>
     </div>
 {% endblock %}

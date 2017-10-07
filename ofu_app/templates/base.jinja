@@ -10,8 +10,7 @@
     <meta name="author" content="Michael Götz"/>
     {#    {% javascript "main_js" %}#}
     {#    {% block js_head %}{% endblock %}#}
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{{ static('libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css') }}">
     {% block head_extra %}{% endblock %}
 </head>
 
@@ -19,7 +18,8 @@
 <body>
 {% block body %}
     {% block test %}
-        <div class="text-center bg-warning"><h4>Hinweis: Diese Seite dient <strong>nur</strong> zu Testzwecken. Wir garantieren weder die
+        <div class="text-center bg-warning"><h4>Hinweis: Diese Seite dient <strong>nur</strong> zu Testzwecken. Wir
+            garantieren weder die
             Vollständigkeit,
             noch
             die Korrektheit der dargestellten Daten.</h4>
@@ -39,7 +39,7 @@
                     <div class="col m-2 p-3">
                         <p class="has-text-centered">Hast du einen Fehler gefunden?</p>
                         <p>Melde uns diesen einfach über den E-Mail Link</p>
-                        <p></p><a href="mailto:mgoetz1995@gmail.com?subject=Bugreport">Bug Report</a></p>
+                        <p></p><a href="mailto:info.mgserver@gmail.com?subject=Bugreport">Bug Report</a></p>
                     </div>
                 </div>
                 <div class="row text-center">

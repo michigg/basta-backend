@@ -53,28 +53,16 @@ INSTALLED_APPS = [
 ROOT_URLCONF = 'ofu_app.urls'
 
 TEMPLATES = [
-    # {
-    #     "BACKEND": "django_jinja.backend.Jinja2",
-    #     'DIRS': [
-    #         os.path.join(BASE_DIR, 'templates'),
-    #     ],
-    #     "APP_DIRS": True,
-    #     "OPTIONS": {
-    #         "match_extension": ".jinja",
-    #         "match_regex": r"^(?!admin/).*",
-    #         "app_dirname": "templates",
-    #         "context_processors": [
-    #             "django.contrib.auth.context_processors.auth",
-    #             "django.template.context_processors.debug",
-    #             "django.template.context_processors.i18n",
-    #             "django.template.context_processors.media",
-    #             "django.template.context_processors.static",
-    #             "django.template.context_processors.tz",
-    #             "django.contrib.messages.context_processors.messages",
-    #         ],
-    #     },
-    #
-    # },
+    {
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': 'ofu_app.jinja2.environment'
+        },
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['templates'],

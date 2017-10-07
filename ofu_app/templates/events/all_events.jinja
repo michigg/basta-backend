@@ -1,7 +1,7 @@
 {% extends 'base.jinja' %}
 {% block headline %}
     <h1 class="text-center">Alle Events an der OFU </h1>
-    <h2 class="text-center">{{ startdate }} bis {{ enddate }}</h2>
+    <h2 class="text-center">{{ startdate.strftime("%d.%m.%Y") }} bis {{ enddate.strftime("%d.%m.%Y") }}</h2>
 {% endblock %}
 {% block content %}
     <div class="container">
@@ -10,10 +10,10 @@
             <div class="col-6 p-3">
                 <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
                     <h3>{{ event.title }}</h3>
-                    <p>Wann: {{ event.date|date:"D, d.M" }} ab {{ event.time }}</p>
+                    <p>Wann: {{ event.date.strftime("%d.%m.") }} ab {{ event.time.strftime("%H:%M") }}</p>
                     <p>Wo:</p>
                     <ul>
-                        {% for location in event.locations.all %}
+                        {% for location in event.locations.all() %}
                             <li>{{ location.name }}</li>
                         {% endfor %}
                     </ul>

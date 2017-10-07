@@ -7,7 +7,7 @@ from apps.events.models import Event
 
 # Create your views here.
 def events_main_page(request):
-    return render(request, "events/events.jinja")
+    return render(request, "events/home.jinja")
 
 
 def all_events(request):

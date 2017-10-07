@@ -1,0 +1,37 @@
+{% macro day_menu(title, location_menu, fail_text) -%}
+    <div class="col p-2">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>{{ title }}</h2>
+            {% if location_menu %}
+                <p>{{ location_menu.date.strftime('%d.%m.%Y') }}</p>
+                {{ get_menu(location_menu.menu.all()) }}
+            {% else %}
+                <p> {{ fail_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro week_menu(title, location_menus, fail_text) -%}
+    <div class="col p-2">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>{{ title }}</h2>
+            {% if location_menus %}
+                {% for menu in location_menus %}
+                    <p><strong>{{ menu.date.strftime('%A.%m.%Y') }}</strong></p>
+                    {{ get_menu(menu.menu.all()) }}
+                {% endfor %}
+            {% else %}
+                <p> {{ fail_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro get_menu(menu) -%}
+    <ul>
+        {% for single_food in menu %}
+            <li><p>{{ single_food.name }}</p></li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
