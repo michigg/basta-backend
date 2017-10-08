@@ -17,7 +17,9 @@
                                 <li>{{ location.name }}</li>
                             {% endfor %}
                         </ul>
-                        <a href="{{ event.link }}">Details</a>
+                        {% if event.link %}
+                            <a href="{{ event.link }}">Details</a>
+                        {% endif %}
                         <p>Kategorie: {{ event.category }}</p>
                     </div>
                 </div>

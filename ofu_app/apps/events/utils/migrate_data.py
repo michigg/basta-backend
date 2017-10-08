@@ -22,19 +22,30 @@ def writeFekideDataInDB(data):
         for event in date['events']:
             try:
                 Location.objects.create(name=event['location'])
-                event_obj = Event.objects.create()
-                event_obj.save()
-                event_obj.date = datetime.strptime(date['date'], "%d.%m.%Y")
-                event_obj.category = event['category']
-                event_obj.link = event['link']
-                event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
-                event_obj.title = event['title']
-                event_obj.locations.add(Location.objects.get(name=event['location']))
-                event_obj.save()
-                Event.objects.filter(title="").delete()
+            except IntegrityError:
+                # print("Location %s already exists." % event['location'])
+                pass
+
+            try:
+                event_obj, new = Event.objects.get_or_create(date=datetime.strptime(date['date'], "%d.%m.%Y"),
+                                                             title=event['title'])
+                if new:
+                    event_obj.category = event['category']
+                    event_obj.link = event['link']
+                    event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
+                    event_obj.locations.add(Location.objects.get(name=event['location']))
+                    event_obj.save()
+                    Event.objects.filter(title="").delete()
+                else:
+                    print("Event %s already exists. Start Update" % str(event_obj.title))
+                    event_obj.category = event['category']
+                    event_obj.link = event['link']
+                    event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
+                    event_obj.locations.add(Location.objects.get(name=event['location']))
+                    event_obj.save()
             except IntegrityError:
                 # ignored
-                break
+                pass
 
 
 def deleteUnivisObjects():
@@ -107,21 +118,29 @@ def writeUnivisEventsInDB(events: list):
                     Event.objects.filter(title="").delete()
 
 
+def write_out_db_objects():
+    pprint("Event: " + str(Event.objects.count()))
+    pprint("Location: " + str(Location.objects.count()))
+
+
 def main():
-    deleteUnivisObjects()
-    events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_HuWi)
-    writeUnivisDataInDB(events, rooms, persons)
-    events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_SoWi)
-    writeUnivisDataInDB(events, rooms, persons)
-    events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_GuK)
-    writeUnivisDataInDB(events, rooms, persons)
-    events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_WIAI)
-    writeUnivisDataInDB(events, rooms, persons)
+    print("Aktueller Stand:")
+    write_out_db_objects()
+
+    # deleteUnivisObjects()
+    # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_HuWi)
+    # writeUnivisDataInDB(events, rooms, persons)
+    # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_SoWi)
+    # writeUnivisDataInDB(events, rooms, persons)
+    # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_GuK)
+    # writeUnivisDataInDB(events, rooms, persons)
+    # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_WIAI)
+    # writeUnivisDataInDB(events, rooms, persons)
 
     writeFekideDataInDB(fekide_eventpage_parser.parsePage())
 
-    pprint("Event: " + str(Event.objects.count()))
-    pprint("Location: " + str(Location.objects.count()))
+    print("Neuer Stand:")
+    write_out_db_objects()
 
 
 if __name__ == '__main__':

@@ -39,7 +39,6 @@ def writeStudentenwerkDataInDB(data):
 
 
 def writeFekideDataInDB(data):
-    print(data)
     for happyhour_data in data['happyhours']:
         time = str(happyhour_data['time']).replace(" ", "").split("-")
         happyhour, new = HappyHour.objects.get_or_create(date=datetime.strptime(data['day'], "%A, %d.%m.%Y"),
@@ -47,9 +46,7 @@ def writeFekideDataInDB(data):
                                                          description=happyhour_data['description'],
                                                          starttime=datetime.strptime(time[0], "%H:%M").time(),
                                                          endtime=datetime.strptime(time[1], "%H:%M").time())
-        print("HH: %s, NEW: %s" % (str(happyhour), str(new)))
         if not new:
-            print("Update db object " + happyhour.location)
             happyhour.date = datetime.strptime(data['day'], "%A, %d.%m.%Y")
             happyhour.location = happyhour_data['location']
             happyhour.description = happyhour_data['description']
