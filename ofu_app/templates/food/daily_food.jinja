@@ -31,7 +31,7 @@
                             {% for happy_hour in happy_hours %}
                                 <tr>
                                     <td>{{ happy_hour.location }}</td>
-                                    <td>{{ happy_hour.time }}</td>
+                                    <td>{{ happy_hour.starttime.strftime('%H:%M') }} - {{ happy_hour.endtime.strftime('%H:%M') }}</td>
                                     <td>{{ happy_hour.description }}</td>
                                 </tr>
                             {% endfor %}

@@ -8,5 +8,10 @@ from django.shortcuts import render
 def home(request):
     return render(request, "home.jinja", {})
 
+
 def links(request):
     return render(request, "links/home.jinja", {})
+
+
+def impressum(request):
+    return render(request, "impressum.jinja", {})

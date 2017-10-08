@@ -31,8 +31,8 @@ class SingleFood(models.Model):
 class HappyHour(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
-    starttime = models.DateField(default=timezone.now)
-    endtime = models.DateField(default=timezone.now)
+    starttime = models.TimeField(default=timezone.now)
+    endtime = models.TimeField(default=timezone.now)
     location = models.CharField(max_length=MAX_LENGTH)
     description = models.CharField(max_length=MAX_LENGTH)
 

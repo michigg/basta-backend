@@ -41,14 +41,17 @@ def writeStudentenwerkDataInDB(data):
 def writeFekideDataInDB(data):
     for happyhour_data in data['happyhours']:
         time = str(happyhour_data['time']).replace(" ", "").split("-")
-        try:
-            HappyHour.objects.create(date=datetime.strptime(data['day'], "%A, %d.%m.%Y"),
-                                     location=happyhour_data['location'], description=happyhour_data['description'],
-                                     starttime=datetime.strptime(time[0], "%H:%M"),
-                                     endtime=datetime.strptime(time[1], "%H:%M"))
-        except IntegrityError:
-            # ignored
-            break
+        happyhour, new = HappyHour.objects.get_or_create(date=datetime.strptime(data['day'], "%A, %d.%m.%Y"),
+                                                         location=happyhour_data['location'],
+                                                         description=happyhour_data['description'],
+                                                         starttime=datetime.strptime(time[0], "%H:%M"),
+                                                         endtime=datetime.strptime(time[1], "%H:%M"))
+        if not new:
+            happyhour.date = datetime.strptime(data['day'], "%A, %d.%m.%Y")
+            happyhour.location = happyhour_data['location']
+            happyhour.description = happyhour_data['description']
+            happyhour.starttime = datetime.strptime(time[0], "%H:%M")
+            happyhour.endtime = datetime.strptime(time[1], "%H:%M")
 
 
 def main():

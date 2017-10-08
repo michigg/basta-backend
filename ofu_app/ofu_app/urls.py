@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^food/', include('apps.food.urls')),
     url(r'^events/', include('apps.events.urls')),
     url(r'^donar/', include('apps.donar.urls')),
-    url(r'^links/', views.links, name='links-home'),
+    url(r'^links/$', views.links, name='links-home'),
+    url(r'^impressum/$', views.impressum, name='impressum'),
 ]
