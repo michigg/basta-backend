@@ -1,25 +1,13 @@
 {% extends 'base.jinja' %}
+{% import '/macros/overview_pages.jinja' as macros %}
 {% block headline %}
-    <h1 class="text-center">Alle Räume an der OFU </h1>
+    <h1 class="text-center">App für Studenten der Universität Bamberg</h1>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container text-dark">
         <div class="row">
-            {% for room in  rooms %}
-                <div class="col-6 p-3">
-                    <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
-                        <h3>{{ room.name }}</h3>
-                        <p><strong>Key:</strong> {{ room.key }}</p>
-                        <p><strong>Address:</strong>  {{ room.address }}</p>
-                        <p><strong>Building Key:</strong>  {{ room.building_key }}</p>
-                        <p><strong>Floor:</strong>  {{ room.floor }}</p>
-                        <p><strong>Orgname:</strong>  {{ room.orgname }}</p>
-                        <p><strong>Short:</strong>  {{ room.short }}</p>
-                        <p><strong>Size:</strong>  {{ room.size }}</p>
-                        <p><strong>Description:</strong>  {{ room.description }}</p>
-                    </div>
-                </div>
-            {% endfor %}
+            {{ macros.home_item(title='All Rooms', url_id='all-rooms', description='Übersicht über alle Lehrräume an der Universität Bamberg.') }}
+            {{ macros.home_item(title='Search Rooms', url_id='search-rooms', description='Du weißt nicht wo du hin musst? Hier kannst du ihn finden.') }}
         </div>
     </div>
 {% endblock %}

@@ -19,4 +19,7 @@ from apps.donar import views
 
 urlpatterns = [
     url(r'^$', views.home, name='donar'),
+    url(r'^all$', views.all_rooms, name='all-rooms'),
+    url(r'^search/$', views.search_room, name='search-rooms'),
+    url(r'^search/(?P<room>.+/.+)/$', views.show_room, name='show-room'),
 ]
