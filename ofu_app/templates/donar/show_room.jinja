@@ -7,39 +7,52 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
             crossorigin=""></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadData);
+        document.addEventListener('DOMContentLoaded', resizeMap);
+        window.onresize = resizeMap;
+
+        function loadData() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    generateMap(JSON.parse(this.response))
+                }
+            };
+            xhttp.open("GET", "http://nominatim.openstreetmap.org/search/?format=json&city=Bamberg&street={{ room.address }}", true);
+            xhttp.send();
+        }
+
+
+        function generateMap(streets) {
+            if (streets.length > 0) {
+                var lon = streets[0]['lon'];
+                var lat = streets[0]['lat'];
+                var map = L.map('map').setView([lat, lon], 13);
+
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                L.marker([lat, lon]).addTo(map)
+                    .bindPopup('{{ room.short }} </br> {{ room.address }}')
+                    .openPopup();
+            }
+
+        }
+
+        function resizeMap() {
+            var height = window.innerHeight
+            document.getElementById('map').style.height = height + 'px'
+            console.log(height)
+        }
+    </script>
 {% endblock %}
 {% block headline %}
     <h1 class="text-center"> Donar </h1>
 {% endblock %}
 {% block content %}
     {# TODO: implement Leaflet #}
-    {#    <div id="mapid" style="height: 280px;"></div>#}
-    {#    <script>#}
-    {#        var mymap = L.map('mapid').setView([51.505, -0.09], 13);#}
-    {#        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {#}
-    {#            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',#}
-    {#            maxZoom: 18,#}
-    {#            id: 'mapbox.streets',#}
-    {#            accessToken: 'your.mapbox.access.token'#}
-    {#        }).addTo(mymap);#}
-    {#    </script>#}
-    <div class="container">
-        <div class="row">
-            {% if room %}
-                <div class="col-12">
-                    <div class="p-3 border border-dark roundep-3 border border-dark rounded bg-light text-dark">
-                        <h3>{{ room.name }}</h3>
-                        <p><strong>Key:</strong> {{ room.key }}</p>
-                        <p><strong>Address:</strong> {{ room.address }}</p>
-                        <p><strong>Building Key:</strong> {{ room.building_key }}</p>
-                        <p><strong>Floor:</strong> {{ room.floor }}</p>
-                        <p><strong>Orgname:</strong> {{ room.orgname }}</p>
-                        <p><strong>Short:</strong> {{ room.short }}</p>
-                        <p><strong>Size:</strong> {{ room.size }}</p>
-                        <p><strong>Description:</strong> {{ room.description }}</p>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
+    <div id="kart"></div>
+    <div id="map"></div>
 {% endblock %}
