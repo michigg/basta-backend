@@ -1,94 +1,14 @@
 {% extends 'base.jinja' %}
 {% block head_extra_first %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-          crossorigin=""/>
+    <link rel="stylesheet" href="{{ static('libs/leaflet/leaflet.css') }}"/>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-            crossorigin="">
-    </script>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
-    <link rel="stylesheet" href="leaflet-routing-machine.css"/>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="leaflet-routing-machine.js"></script>
-    <script>
-        var endLat = '';
-        var endLon = '';
-        var startLat = '';
-        var startLon = '';
-        document.addEventListener('DOMContentLoaded', loadData);
-        document.addEventListener('DOMContentLoaded', resizeMap);
-        document.addEventListener('DOMContentLoaded', getPos);
-        document.getElementById("navigate").onclick = makeRoute();
-
-        window.onresize = resizeMap;
-
-        function loadData() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    generateMap(JSON.parse(this.response))
-                }
-            };
-            xhttp.open("GET", "https://nominatim.openstreetmap.org/search/?format=json&city=Bamberg&street={{ room.address }}", true);
-            xhttp.send();
-        }
-
-
-        function generateMap(streets) {
-            if (streets.length > 0) {
-                endLon = streets[0]['lon'];
-                endLat = streets[0]['lat'];
-                var map = L.map('map').setView([endLat, endLon], 16);
-
-                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
-
-                L.marker([endLat, endLon]).addTo(map)
-                    .bindPopup('{{ room.short }} </br> {{ room.address }}')
-                    .openPopup();
-            }
-
-        }
-
-        function resizeMap() {
-            var height = window.innerHeight
-            document.getElementById('map').style.height = height + 'px'
-        }
-
-        function getPos() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log(position);
-                    startLat = position.coords.latitude;
-                    startLon = position.coords.longitude;
-                }, function (err) {
-                    console.log(err.code)
-                    console.log(err.message)
-                })
-            } else {
-                document.getElementById('map').innerHTML('Geolocation not available')
-            }
-        }
-
-        function makeRoute() {
-            L.Routing.control({
-                waypoints: [
-                    L.latLng(startLat, startLon),
-                    L.latLng(endLat, endLon)
-                ]
-            }).addTo(map);
-        }
-    </script>
+    <script src="{{ static('libs/leaflet/leaflet.js') }}"></script>
+    <script id="nav_data" src="{{ static('js/donar/navigate.js') }}" data-address="{{ room.address }}"
+            data-short="{{ room.short }}"></script>
 {% endblock %}
 {% block headline %}
     <h1 class="text-center"> Donar </h1>
 {% endblock %}
 {% block content %}
-    {# TODO: implement Leaflet #}
-    <div id="kart"></div>
     <div id="map"></div>
-    <button class="button" type="button" id="navigate">Route</button>
 {% endblock %}
