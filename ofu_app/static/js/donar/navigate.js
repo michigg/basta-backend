@@ -55,8 +55,14 @@ function resizeMap() {
     document.getElementById('map').style.height = height + 'px'
 }
 
+/**
+ * save current position in global vars
+ */
 function getPos() {
     if (navigator.geolocation) {
+        var geo_option = {
+            enableHighAccuracy: true,
+        }
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position);
             startLat = position.coords.latitude;
@@ -64,7 +70,7 @@ function getPos() {
         }, function (err) {
             console.log(err.code)
             console.log(err.message)
-        })
+        }, geo_option)
     } else {
         document.getElementById('map').innerHTML('Geolocation not available')
     }
