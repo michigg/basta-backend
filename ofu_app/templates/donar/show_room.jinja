@@ -10,6 +10,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', loadData);
         document.addEventListener('DOMContentLoaded', resizeMap);
+        getPos();
+
         window.onresize = resizeMap;
 
         function loadData() {
@@ -44,7 +46,18 @@
         function resizeMap() {
             var height = window.innerHeight
             document.getElementById('map').style.height = height + 'px'
-            console.log(height)
+        }
+
+        function getPos() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log(position)
+                }, function () {
+                    console.log('no pos')
+                })
+            } else {
+                document.getElementById('map').innerHTML('Geolocation not available')
+            }
         }
     </script>
 {% endblock %}
