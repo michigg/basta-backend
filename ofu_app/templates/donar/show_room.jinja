@@ -6,11 +6,21 @@
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
             integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-            crossorigin=""></script>
+            crossorigin="">
+    </script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <link rel="stylesheet" href="leaflet-routing-machine.css"/>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="leaflet-routing-machine.js"></script>
     <script>
+        var endLat = '';
+        var endLon = '';
+        var startLat = '';
+        var startLon = '';
         document.addEventListener('DOMContentLoaded', loadData);
         document.addEventListener('DOMContentLoaded', resizeMap);
-        getPos();
+        document.addEventListener('DOMContentLoaded', getPos);
+        document.getElementById("navigate").onclick = makeRoute();
 
         window.onresize = resizeMap;
 
@@ -28,15 +38,15 @@
 
         function generateMap(streets) {
             if (streets.length > 0) {
-                var lon = streets[0]['lon'];
-                var lat = streets[0]['lat'];
-                var map = L.map('map').setView([lat, lon], 13);
+                endLon = streets[0]['lon'];
+                endLat = streets[0]['lat'];
+                var map = L.map('map').setView([endLat, endLon], 16);
 
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
 
-                L.marker([lat, lon]).addTo(map)
+                L.marker([endLat, endLon]).addTo(map)
                     .bindPopup('{{ room.short }} </br> {{ room.address }}')
                     .openPopup();
             }
@@ -51,13 +61,25 @@
         function getPos() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log(position)
-                }, function () {
-                    console.log('no pos')
+                    console.log(position);
+                    startLat = position.coords.latitude;
+                    startLon = position.coords.longitude;
+                }, function (err) {
+                    console.log(err.code)
+                    console.log(err.message)
                 })
             } else {
                 document.getElementById('map').innerHTML('Geolocation not available')
             }
+        }
+
+        function makeRoute() {
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(startLat, startLon),
+                    L.latLng(endLat, endLon)
+                ]
+            }).addTo(map);
         }
     </script>
 {% endblock %}
@@ -68,4 +90,5 @@
     {# TODO: implement Leaflet #}
     <div id="kart"></div>
     <div id="map"></div>
+    <button class="button" type="button" id="navigate">Route</button>
 {% endblock %}
