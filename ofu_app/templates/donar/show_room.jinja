@@ -19,7 +19,7 @@
                     generateMap(JSON.parse(this.response))
                 }
             };
-            xhttp.open("GET", "http://nominatim.openstreetmap.org/search/?format=json&city=Bamberg&street={{ room.address }}", true);
+            xhttp.open("GET", "https://nominatim.openstreetmap.org/search/?format=json&city=Bamberg&street={{ room.address }}", true);
             xhttp.send();
         }
 
