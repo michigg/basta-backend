@@ -10,6 +10,7 @@
     <meta name="author" content="Michael Götz"/>
     {#    {% javascript "main_js" %}#}
     {#    {% block js_head %}{% endblock %}#}
+    {% block head_extra_first %}{% endblock %}
     <link rel="stylesheet" href="{{ static('libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css') }}">
     {% block head_extra %}{% endblock %}
 </head>

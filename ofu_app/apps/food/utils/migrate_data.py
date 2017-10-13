@@ -54,6 +54,9 @@ def writeFekideDataInDB(data):
             happyhour.endtime = datetime.strptime(time[1], "%H:%M").time()
             happyhour.save()
 
+        print("%s: Happy Hour: Location: %s, Description: %s" % (
+            str(happyhour.date.date()), str(happyhour.location), str(happyhour.description)))
+
 
 def writeoutDBObjects():
     pprint("SingleFood: " + str(SingleFood.objects.count()))
@@ -65,7 +68,8 @@ def delete():
     happy_hours = HappyHour.objects.all()
     print("Deleted following Happy Hours:")
     for happy_hour in happy_hours:
-        print("Happy Hour: Location: %s, Description: %s" % (str(happy_hour.location), str(happy_hour.description)))
+        print("%s: Happy Hour: Location: %s, Description: %s" % (
+            str(happy_hour.date), str(happy_hour.location), str(happy_hour.description)))
         happy_hour.delete()
 
 

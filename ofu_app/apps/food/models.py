@@ -37,7 +37,7 @@ class HappyHour(models.Model):
     description = models.CharField(max_length=MAX_LENGTH)
 
     class Meta:
-        unique_together = ('date', 'location')
+        unique_together = ('date', 'location', 'starttime', 'endtime')
 
     def __str__(self):
         return "Date: %s, Location: %s" % (self.date.strftime("%Y.%m.%d"), self.location)
