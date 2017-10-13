@@ -27,14 +27,15 @@ function loadData() {
 
 
 function generateMap(streets) {
-    var address = document.getElementById('nav_data').getAttribute('data-address')
-    var address_short = document.getElementById('nav_data').getAttribute('data-short')
-    console.log(streets)
+    var address = document.getElementById('nav_data').getAttribute('data-address');
+    var address_short = document.getElementById('nav_data').getAttribute('data-short');
+    var zoomlevel = 13.5;
+    console.log(streets);
     if (streets.length > 0) {
         endLon = streets[0]['lon'];
         endLat = streets[0]['lat'];
-        console.log(endLat)
-        var map = L.map('map').setView([endLat, endLon], 16);
+        console.log(endLat);
+        var map = L.map('map').setView([endLat, endLon], zoomlevel);
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
