@@ -1,0 +1,23 @@
+{% extends 'base.jinja' %}
+{% block js_extra %}
+    <script src="{{ static('js/events/sort_categories.js') }}"></script>
+{% endblock %}
+{% block css_extra %}
+    <link rel="stylesheet" href="{{ static('css/events/main.css') }}">
+{% endblock %}
+{% block bottom_nav %}
+    <nav id="food-nav" class="navbar navbar-default bg-light">
+        <div class="container">
+            <a class="nav-link" href="{{ url('day-events') }}">Today</a>
+            <a class="nav-link" href="{{ url('week-events') }}">Week</a>
+            <a class="nav-link" href="{{ url('all-events') }}">All</a>
+            <div id="category-jump-up" class="nav-link"><i class="fa fa-bars" aria-hidden="true"></i>
+                <div class="jump-up-menu">
+                    {% for category in categories %}
+                        <p class="jump-up-elem" onclick="showCategory('{{ category }}')">{{ category }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
