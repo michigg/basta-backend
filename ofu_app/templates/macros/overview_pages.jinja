@@ -12,6 +12,18 @@
     </div>
 {% endmacro %}
 
+{% macro home_item_with_icon(icon, url_id) -%}
+    <div class="col-6 p-3">
+        <div class="card">
+            <a href="{{ url(url_id) }}">
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fa {{ icon }} fa-4x" aria-hidden="true"></i></h4>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro link_item(title, url, description='') -%}
     <div class="col-6 p-3">
         <div class="card">
