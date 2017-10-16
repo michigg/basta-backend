@@ -15,28 +15,7 @@
             {{ macros.week_menu(title='Markusplatz', location_menus=markus_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
         </div>
         <div class="row">
-            <div class="col p-2">
-                <div class="p-3 border border-dark rounded bg-light text-dark">
-                    <h2>Happy Hour Guide von Feki.de</h2>
-                    {% if happy_hours %}
-                        <div class="row">
-                            <div class="col-4">Location</div>
-                            <div class="col-4">Time</div>
-                            <div class="col-4">Description</div>
-                            {% for happy_hour in happy_hours %}
-                                <div class="row">
-                                    <div class="col-4">{{ happy_hour.location }}</div>
-                                    <div class="col-4">{{ happy_hour.starttime.strftime('%H:%M') }} - {{ happy_hour.endtime.strftime('%H:%M') }}</div>
-                                    <div class="col-4">{{ happy_hour.description }}</div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <p>Leider gibt es heute keine Happy Hours :(</p>
-                    {% endif %}
-                </div>
-            </div>
+             {{ macros.happy_hours(happy_hours=happy_hours) }}
         </div>
     </div>
-
 {% endblock %}

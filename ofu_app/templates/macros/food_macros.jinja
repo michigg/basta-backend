@@ -35,3 +35,28 @@
         {% endfor %}
     </ul>
 {% endmacro %}
+
+{% macro happy_hours(happy_hours) %}
+    <div class="col p-2">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>Happy Hours <small>von Feki.de</small></h2>
+            {% if happy_hours %}
+                <div class="row">
+                    <div class="col-4"><strong>Location</strong></div>
+                    <div class="col-4"><strong>Time</strong></div>
+                    <div class="col-4"><strong>Description</strong></div>
+                </div>
+                {% for happy_hour in happy_hours %}
+                    <div class="row">
+                        <div class="col-4">{{ happy_hour.location }}</div>
+                        <div class="col-4">{{ happy_hour.starttime.strftime('%H:%M') }}
+                            - {{ happy_hour.endtime.strftime('%H:%M') }}</div>
+                        <div class="col-4">{{ happy_hour.description }}</div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% else %}
+                <p>Leider gibt es heute keine Happy Hours :(</p>
+            {% endif %}
+    </div>
+{% endmacro %}
