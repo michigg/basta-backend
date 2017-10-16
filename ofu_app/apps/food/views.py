@@ -39,6 +39,7 @@ def weekly_food(request):
     happy_hours = HappyHour.objects.filter(date__gte=today, date__lte=lastday)
     return render(request, "food/weekly_food.jinja", {
         'day': today,
+        'lastday': lastday,
         'happy_hours': happy_hours,
         'feki_menu': feki_menu,
         'austr_menu': austr_menu,

@@ -10,24 +10,21 @@
     <meta name="author" content="Michael Götz"/>
     {#    {% javascript "main_js" %}#}
     {#    {% block js_head %}{% endblock %}#}
-    {% block head_extra_first %}{% endblock %}
+    {% block js_extra %}{% endblock %}
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ static('libs/font-awesome-4.7.0/css/font-awesome.css') }}">
-    {#    <link rel="stylesheet" href="{{ static('libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css') }}">#}
-    {% block head_extra %}{% endblock %}
+    <link rel="stylesheet" href="{{ static('libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css') }}">
+    {% block css_extra %}{% endblock %}
 </head>
 
 {# ===== Body ===== #}
 <body>
 {% block body %}
-    {% block headline %}
-    {% endblock %}
+    {% block headline %}{% endblock %}
     <div class="container-fluid bg-dark text-white">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </div>
+
     {% block test %}
         <div class="text-center bg-warning pb-2">
             <h4>Hinweis: Diese Seite dient <strong>nur</strong> zu Testzwecken.
@@ -35,6 +32,8 @@
                 die Korrektheit der dargestellten Daten.</h4>
         </div>
     {% endblock %}
+
+    {% block bottom_nav %}{% endblock %}
     {% block footer %}
         <footer>
             <div class="container-fluid bg-dark text-white">

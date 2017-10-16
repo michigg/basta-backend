@@ -1,0 +1,13 @@
+footer{
+    /*mb equal height in #food-nav*/
+    margin-bottom: 60px;
+}
+
+/** Sticky Bottom Nav **/
+#food-nav {
+    z-index: 5000;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 60px;
+}
