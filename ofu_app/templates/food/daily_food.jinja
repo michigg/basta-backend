@@ -17,26 +17,20 @@
         <div class="row">
             <div class="col p-2">
                 <div class="p-3 border border-dark rounded bg-light text-dark">
-                    <h2>Happy Hours Guide von Feki.de</h2>
+                    <h2>Happy Hour Guide von Feki.de</h2>
                     {% if happy_hours %}
-                        <table class="table">
-                            <thead class="thead-inverse">
-                            <tr>
-                                <th>Location</th>
-                                <th>Time</th>
-                                <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <div class="row">
+                            <div class="col-4">Location</div>
+                            <div class="col-4">Time</div>
+                            <div class="col-4">Description</div>
                             {% for happy_hour in happy_hours %}
-                                <tr>
-                                    <td>{{ happy_hour.location }}</td>
-                                    <td>{{ happy_hour.starttime.strftime('%H:%M') }} - {{ happy_hour.endtime.strftime('%H:%M') }}</td>
-                                    <td>{{ happy_hour.description }}</td>
-                                </tr>
+                                <div class="row">
+                                    <div class="col-4">{{ happy_hour.location }}</div>
+                                    <div class="col-4">{{ happy_hour.starttime.strftime('%H:%M') }} - {{ happy_hour.endtime.strftime('%H:%M') }}</div>
+                                    <div class="col-4">{{ happy_hour.description }}</div>
+                                </div>
                             {% endfor %}
-                            </tbody>
-                        </table>
+                        </div>
                     {% else %}
                         <p>Leider gibt es heute keine Happy Hours :(</p>
                     {% endif %}
