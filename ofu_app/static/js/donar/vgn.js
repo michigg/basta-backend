@@ -13,6 +13,7 @@ function getPos() {
         navigator.geolocation.getCurrentPosition(function (position) {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
+            document.getElementById('position').innerHTML = "Lat:" + pos['lat'] + " Lon: " + pos['lon']
         }, function (err) {
         }, geo_option)
     }
@@ -42,6 +43,7 @@ function loadVGNPos() {
     document.getElementsByTagName('body')[0].style.visibility = "hidden"
     pos = getPos()
     console.log(pos)
+
     getVGNCoords(pos['lat'], pos['lon'])
 }
 

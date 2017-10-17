@@ -7,13 +7,14 @@
     <p class="text-center">Donar</p>
 {% endblock %}
 {% block content %}
+    <p id="position"></p>
     <div class="row">
         {% if locations %}
             {% for location in locations %}
                 <div class="col-12 p-1">
                     <div class="p-2 border border-dark rounded-3 border border-dark rounded bg-light text-dark">
                         <a class="connection" href="">{{ location.name }}</a>
-                        <p class="destination" hidden>{{ location.coords}}</p>
+                        <p class="destination" hidden>{{ location.coords }}</p>
                     </div>
                 </div>
             {% endfor %}
