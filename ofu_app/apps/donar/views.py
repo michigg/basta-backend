@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from apps.donar.models import Room
+from apps.donar.models import VGN_Coords
 
 
 # Create your views here.
@@ -26,3 +27,7 @@ def search_room(request):
 def show_room(request, room):
     room = Room.objects.get(short=room)
     return render(request, 'donar/show_room.jinja', {'room': room})
+
+
+def bus_connections(request):
+    return render(request, '')
