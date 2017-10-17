@@ -6,8 +6,9 @@
 {% block content %}
     <div class="container text-dark">
         <div class="row">
-            {{ macros.home_item(title='All Rooms', url_id='all-rooms', description='Übersicht über alle Lehrräume an der Universität Bamberg.') }}
-            {{ macros.home_item(title='Search Rooms', url_id='search-rooms', description='Du weißt nicht wo du hin musst? Hier kannst du ihn finden.') }}
+            {{ macros.home_item_with_icon(icon='fa-map-o', url_id='search-rooms', title="Donar", icon_size='fa-3x') }}
+            {{ macros.home_item_with_icon(icon='fa-search', link='https://suche.wiai.de/', title="Roofis", icon_size='fa-3x') }}
+            {{ macros.home_item_with_icon(icon='fa-bus', url_id='', title='Bus und Bahn', icon_size='fa-3x') }}
         </div>
     </div>
 {% endblock %}
