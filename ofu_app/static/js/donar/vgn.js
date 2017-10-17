@@ -4,22 +4,18 @@
 document.addEventListener('DOMContentLoaded', loadVGNPos);
 
 function getPos() {
-    var lat = 49.8955663;
-    var lon = 10.886907899999999;
+    var lat = 49.90734;
+    var lon = 10.90459;
     if (navigator.geolocation) {
         var geo_option = {
             enableHighAccuracy: true
         };
         navigator.geolocation.getCurrentPosition(function (position) {
-            console.log(position);
             lat = position.coords.latitude;
             lon = position.coords.longitude;
         }, function (err) {
-            console.log(err.code);
-            console.log(err.message);
         }, geo_option)
     }
-    console.log(lat)
     return {'lat': lat, 'lon': lon};
 }
 function loadData(url) {
@@ -27,7 +23,6 @@ function loadData(url) {
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        console.log('receive')
         if (this.readyState == 4 && this.status == 200) {
             setVGNLinks(JSON.parse(this.response))
         }
@@ -40,7 +35,6 @@ function loadData(url) {
 function getVGNCoords(lat, lon) {
     console.log("getVGNCoords: " + lat + "/" + lon)
     var url = "https://www.vgn.de/ib/site/tools/VN_PointDetail.php?Edition=de&lat=" + lat + "&lon=" + lon + "&mode=fnSetFromEFA&mode2=origin&_=1508264908632";
-    console.log(url)
     loadData(url);
 }
 
@@ -52,10 +46,9 @@ function loadVGNPos() {
 }
 
 function setVGNLinks(response) {
-    console.log("Get Response: " + response);
     var type = response['ident']['type'];
     var startpoint = response['ident']['name'];
-    console.log(startpoint)
+    console.log("Startpoint" + startpoint)
     var connections = document.getElementsByClassName('connection');
     var destinations = document.getElementsByClassName('destination')
     for (var i = 0; i < connections.length; i++) {
