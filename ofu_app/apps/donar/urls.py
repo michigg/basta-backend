@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^search/$', views.search_room, name='search-rooms'),
     url(r'^search/(?P<room>.+/.+)/$', views.show_room, name='show-room'),
     url(r'^search/(?P<room>.+)/$', views.show_room, name='show-room'),
+
+    # VGN
+    url(r'^bus/$', views.bus_connections, name='vgn-bus'),
 ]

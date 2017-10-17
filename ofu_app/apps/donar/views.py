@@ -30,4 +30,5 @@ def show_room(request, room):
 
 
 def bus_connections(request):
-    return render(request, '')
+    locations = VGN_Coords.objects.all()
+    return render(request, 'donar/vgn_connections.jinja', {'locations': locations})
