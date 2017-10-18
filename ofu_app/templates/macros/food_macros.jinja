@@ -13,12 +13,12 @@
 {% endmacro %}
 
 {% macro week_menu(title, location_menus, fail_text) -%}
-    <div class="col p-2">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 p-2">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             <h2>{{ title }}</h2>
             {% if location_menus %}
                 {% for menu in location_menus %}
-                    <p><strong>{{ menu.date.strftime('%A.%m.%Y') }}</strong></p>
+                    <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
                     {{ get_menu(menu.menu.all()) }}
                 {% endfor %}
             {% else %}
@@ -29,7 +29,7 @@
 {% endmacro %}
 
 {% macro get_menu(menu) -%}
-    <ul>
+    <ul class="border">
         {% for single_food in menu %}
             <li><p>{{ single_food.name }}</p></li>
         {% endfor %}
@@ -39,19 +39,16 @@
 {% macro happy_hours(happy_hours) %}
     <div class="col p-2">
         <div class="p-3 border border-dark rounded bg-light text-dark">
-            <h2>Happy Hours <small>von Feki.de</small></h2>
+            <h2>Happy Hours
+                <small>von Feki.de</small>
+            </h2>
             {% if happy_hours %}
-                <div class="row">
-                    <div class="col-4"><strong>Location</strong></div>
-                    <div class="col-4"><strong>Time</strong></div>
-                    <div class="col-4"><strong>Description</strong></div>
-                </div>
                 {% for happy_hour in happy_hours %}
-                    <div class="row">
-                        <div class="col-4">{{ happy_hour.location }}</div>
-                        <div class="col-4">{{ happy_hour.starttime.strftime('%H:%M') }}
+                    <div class="row border">
+                        <div class="col-7 col-sm-8 col-md-4 col-lg-4 col-xl-4">{{ happy_hour.location }}</div>
+                        <div class="col-5 col-sm-4 col-md-3 col-lg-3 col-xl-3">{{ happy_hour.starttime.strftime('%H:%M') }}
                             - {{ happy_hour.endtime.strftime('%H:%M') }}</div>
-                        <div class="col-4">{{ happy_hour.description }}</div>
+                        <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">{{ happy_hour.description }}</div>
                     </div>
                 {% endfor %}
                 </div>
