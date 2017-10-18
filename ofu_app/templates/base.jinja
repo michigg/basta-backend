@@ -1,3 +1,4 @@
+{% import '/macros/nav.jinja' as nav %}
 {# ===== HTML ===== #}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -12,13 +13,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ static('libs/font-awesome-4.7.0/css/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ static('libs/bootstrap-4.0.0-beta-dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ static('css/nav.css') }}">
     {% block css_extra %}{% endblock %}
 </head>
 
 {# ===== Body ===== #}
 <body>
+
 {% block body %}
-    {% block headline %}{% endblock %}
+    <div class="row">
+        <div class="col-2">
+            <div id="menu-button"><i class="fa fa-bars" aria-hidden="true"></i>
+                {{ nav.main_nav() }}
+            </div>
+        </div>
+        <div class="col-8">
+            {% block headline %}{% endblock %}</div>
+        <div class="col-2"></div>
+    </div>
     <div class="container-fluid bg-dark text-white">
         {% block content %}{% endblock %}
     </div>

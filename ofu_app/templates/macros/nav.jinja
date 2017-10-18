@@ -1,0 +1,13 @@
+{% macro main_nav() -%}
+    <nav id="main-nav">
+        <div class="nav-wrapper">
+            <div class="inner-nav">
+                <p class="menu-head">BaStA Menu</p>
+                <a class="menu-item" href="{{ url('daily-food') }}">Food</a>
+                <a class="menu-item" href="{{ url('day-events') }}">Events</a>
+                <a class="menu-item" href="{{ url('donar') }}">Donar</a>
+                <a class="menu-item" href="{{ url('links-home') }}">Links</a>
+            </div>
+        </div>
+    </nav>
+{% endmacro %}
