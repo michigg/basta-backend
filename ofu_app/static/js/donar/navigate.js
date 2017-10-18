@@ -5,6 +5,7 @@ var endLat = '';
 var endLon = '';
 var startLat = 49.8955663;
 var startLon = 10.886907899999999;
+var accuracy = 1;
 document.addEventListener('DOMContentLoaded', loadData);
 document.addEventListener('DOMContentLoaded', resizeMap);
 document.addEventListener('DOMContentLoaded', getPos);
@@ -34,10 +35,9 @@ function generateMap(streets) {
     if (streets.length > 0) {
         endLon = streets[0]['lon'];
         endLat = streets[0]['lat'];
-        console.log(endLat);
         var map = L.map('map').setView([endLat, endLon], zoomlevel);
 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
@@ -47,6 +47,12 @@ function generateMap(streets) {
         L.marker([startLat, startLon]).addTo(map)
             .bindPopup('You are here!')
             .openPopup();
+        L.circle([startLat, startLon], {
+            color: '#6b6b6b',
+            fillColor: '#6b6b6b',
+            fillOpacity: 0.4,
+            radius: accuracy
+        }).addTo(map);
     }
 
 }
@@ -62,15 +68,17 @@ function resizeMap() {
 function getPos() {
     if (navigator.geolocation) {
         var geo_option = {
-            enableHighAccuracy: true,
-        }
+            enableHighAccuracy: true
+        };
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position);
             startLat = position.coords.latitude;
             startLon = position.coords.longitude;
+            accuracy = position.coords.accuracy;
+            console.log('Lat: ' + startLat + ' Lon: ' + startLon + ' Acc: ' + accuracy)
         }, function (err) {
-            console.log(err.code)
-            console.log(err.message)
+            console.log(err.code);
+            console.log(err.message);
         }, geo_option)
     } else {
         document.getElementById('map').innerHTML('Geolocation not available')
