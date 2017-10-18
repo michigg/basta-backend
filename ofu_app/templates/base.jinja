@@ -23,13 +23,15 @@
 {% block body %}
     <div class="row">
         <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            {% block headline %}{% endblock %}</div>
+        <div class="col-2">
             <div id="menu-button"><i class="fa fa-bars" aria-hidden="true"></i>
                 {{ nav.main_nav() }}
             </div>
         </div>
-        <div class="col-8">
-            {% block headline %}{% endblock %}</div>
-        <div class="col-2"></div>
     </div>
     <div class="container-fluid bg-dark text-white">
         {% block content %}{% endblock %}

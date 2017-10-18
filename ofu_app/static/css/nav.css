@@ -45,8 +45,22 @@
     font-weight: bold;
 }
 
-#menu-button:hover #main-nav {
+#menu-button:hover #main-nav, #menu-button:active #main-nav {
     left: 0;
+}
+
+#menu-button:hover i, #menu-button:active i {
+    color: red !important;
+}
+
+#menu-button {
+    text-align: center;
+    margin-top: 12px;;
+    height: 100%;
+}
+
+#menu-button i {
+
 }
 
 
