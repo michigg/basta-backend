@@ -26,4 +26,5 @@ urlpatterns = [
 
     # VGN
     url(r'^bus/$', views.bus_connections, name='vgn-bus'),
+    url(r'^bus/(?P<vgn_coords>.+)/(?P<position>.+)/$', views.vgn_redirect, name='vgn-redirect'),
 ]

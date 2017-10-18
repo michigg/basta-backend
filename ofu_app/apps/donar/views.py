@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from apps.donar.models import Room
 from apps.donar.models import VGN_Coords
@@ -32,3 +32,7 @@ def show_room(request, room):
 def bus_connections(request):
     locations = VGN_Coords.objects.all()
     return render(request, 'donar/vgn_connections.jinja', {'locations': locations})
+
+
+def vgn_redirect(request, position, vgn_coords):
+    return redirect('https://www.vgn.de/verbindungen/?to=' + position + '&td=' + vgn_coords)

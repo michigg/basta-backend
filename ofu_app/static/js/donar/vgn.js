@@ -3,25 +3,28 @@
  */
 document.addEventListener('DOMContentLoaded', loadVGNPos);
 
+function loadVGNPos() {
+    document.getElementById('vgn-links').style.visibility = "hidden";
+    getPos();
+}
+
 function getPos() {
-    var lat = 49.90734;
-    var lon = 10.90459;
+    lat = 49.90734;
+    lon = 10.90459;
     if (navigator.geolocation) {
         var geo_option = {
             enableHighAccuracy: true
         };
         navigator.geolocation.getCurrentPosition(function (position) {
-            lat = position.coords.latitude;
-            lon = position.coords.longitude;
-            document.getElementById('position').innerHTML = "Lat:" + pos['lat'] + " Lon: " + pos['lon']
+            getVGNCoords(position.coords.latitude, position.coords.longitude)
         }, function (err) {
+            console.log(err);
+            document.getElementById('err').textContent = "Leider konnte Ihre Position nicht ermittelt werden.";
         }, geo_option)
     }
-    return {'lat': lat, 'lon': lon};
 }
 function loadData(url) {
-    var address = document.getElementById('nav_data').getAttribute('data-address')
-
+    console.log("LOAD DATA")
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -34,28 +37,19 @@ function loadData(url) {
 
 
 function getVGNCoords(lat, lon) {
-    console.log("getVGNCoords: " + lat + "/" + lon)
+    console.log("getVGNCoords: " + lat + "/" + lon);
     var url = "https://www.vgn.de/ib/site/tools/VN_PointDetail.php?Edition=de&lat=" + lat + "&lon=" + lon + "&mode=fnSetFromEFA&mode2=origin&_=1508264908632";
     loadData(url);
-}
-
-function loadVGNPos() {
-    document.getElementsByTagName('body')[0].style.visibility = "hidden"
-    pos = getPos()
-    console.log(pos)
-
-    getVGNCoords(pos['lat'], pos['lon'])
 }
 
 function setVGNLinks(response) {
     var type = response['ident']['type'];
     var startpoint = response['ident']['name'];
-    console.log("Startpoint" + startpoint)
+    console.log("Startpoint" + startpoint);
     var connections = document.getElementsByClassName('connection');
-    var destinations = document.getElementsByClassName('destination')
     for (var i = 0; i < connections.length; i++) {
-        connections[i].href = 'https://www.vgn.de/verbindungen/?to=' + startpoint + '&td=' + destinations[i].innerHTML;
+        connections[i].href = connections[i].href.replace('position', startpoint);
         console.log(connections[i].href)
     }
-    document.getElementsByTagName('body')[0].style.visibility = "visible"
+    document.getElementById('vgn-links').style.visibility = "visible"
 }
