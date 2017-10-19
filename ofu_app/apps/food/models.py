@@ -23,6 +23,8 @@ class Menu(models.Model):
 class SingleFood(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=MAX_LENGTH)
+    image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
+    rating = models.FloatField(default=0)
 
     def __str__(self):
         return self.name
