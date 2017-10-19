@@ -33,6 +33,7 @@
             </div>
         </div>
     </div>
+    {% block bottom_nav %}{% endblock %}
     <div class="container-fluid bg-dark text-white">
         {% block content %}{% endblock %}
     </div>
@@ -45,7 +46,6 @@
         </div>
     {% endblock %}
 
-    {% block bottom_nav %}{% endblock %}
     {% block footer %}
         <footer>
             <div class="container-fluid bg-dark text-white">
