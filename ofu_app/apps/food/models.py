@@ -25,6 +25,11 @@ class SingleFood(models.Model):
     name = models.CharField(unique=True, max_length=MAX_LENGTH)
     image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
     rating = models.FloatField(default=0)
+    first_star = models.SmallIntegerField(default=0)
+    second_star = models.SmallIntegerField(default=0)
+    third_star = models.SmallIntegerField(default=0)
+    fourth_star = models.SmallIntegerField(default=0)
+    fifth_star = models.SmallIntegerField(default=0)
 
     def __str__(self):
         return self.name

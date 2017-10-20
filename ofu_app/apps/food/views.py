@@ -17,7 +17,27 @@ def daily_food(request):
     print("ID: %s, RATING: %s" % (id, rating))
     if id and rating:
         food = SingleFood.objects.get(id=id)
-        food.rating = rating
+        if rating == str(1):
+            print("First Start")
+            food.first_star = food.first_star + 1
+        if rating == str(2):
+            print("First Start")
+            food.second_star += 1
+        if rating == str(3):
+            print("First Start")
+            food.third_star += 1
+        if rating == str(4):
+            print("First Start")
+            food.fourth_star += 1
+        if rating == str(5):
+            print("First Start")
+            food.fifth_star += 1
+        global_count = food.first_star + food.second_star + food.third_star + food.fourth_star + food.fifth_star
+        print("GLOBAL_COUNT: " + str(global_count))
+        sum = food.first_star * 1 + food.second_star * 2 + food.third_star * 3 + food.fourth_star * 4 + food.fifth_star * 5
+        print("SUM: " + str(sum))
+        food.rating = sum / global_count
+        print("SUMME:------------------" + str(sum / global_count))
         food.save()
         print("DONE")
 
