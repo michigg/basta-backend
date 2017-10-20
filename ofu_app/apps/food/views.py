@@ -5,11 +5,22 @@ import datetime
 
 from django.shortcuts import render
 
-from apps.food.models import Menu, HappyHour
+from apps.food.models import Menu, HappyHour, SingleFood
 
 
 # Create your views here.
 def daily_food(request):
+    print(
+        "REQUEST------------------------------------------------------------------------------------------------------")
+    id = request.GET.get('food_id', None)
+    rating = request.GET.get('rating', None)
+    print("ID: %s, RATING: %s" % (id, rating))
+    if id and rating:
+        food = SingleFood.objects.get(id=id)
+        food.rating = rating
+        food.save()
+        print("DONE")
+
     today = datetime.datetime.now()
     daily_menus = Menu.objects.filter(date__exact=today)
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()

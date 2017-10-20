@@ -1,5 +1,5 @@
-{% macro day_menu(title, location_menu, fail_text) -%}
-    <div class="col p-2">
+{% macro day_menu(title, location_menu, fail_text, css_id='menu') -%}
+    <div id="{{ css_id }}" class="col p-2 menu">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             <h2>{{ title }} </h2>
             {% if location_menu %}
@@ -18,8 +18,10 @@
             <h2>{{ title }}</h2>
             {% if location_menus %}
                 {% for menu in location_menus %}
-                    <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
-                    {{ get_menu(menu.menu.all()) }}
+                    <div class="menu">
+                        <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
+                        {{ get_menu(menu.menu.all()) }}
+                    </div>
                 {% endfor %}
             {% else %}
                 <p> {{ fail_text }}</p>
@@ -31,8 +33,10 @@
 {% macro get_menu(menu) -%}
     <ul class="border">
         {% for single_food in menu %}
-            <li><p>{{ single_food.name }} <i class="fa fa-star-o" aria-hidden="true"></i>
-            </p></li>
+            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
+                <p>{{ single_food.name }}<span
+                        class="rating-wrapper"></span></p>
+            </li>
         {% endfor %}
     </ul>
 {% endmacro %}

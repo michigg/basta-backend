@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^daily/$', views.daily_food, name='daily-food'),
     url(r'^weekly/$', views.weekly_food, name='weekly-food'),
     url(r'^all/$', views.food, name='all-food'),
+    url(r'^daily/$', views.daily_food, name='daily-food'),
 ]
