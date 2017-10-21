@@ -6,42 +6,12 @@ import datetime
 from django.shortcuts import render
 
 from apps.food.models import Menu, HappyHour, SingleFood
+from django.http import HttpResponse
 
 
 # Create your views here.
 def daily_food(request):
-    print(
-        "REQUEST------------------------------------------------------------------------------------------------------")
-    id = request.GET.get('food_id', None)
-    rating = request.GET.get('rating', None)
-    print("ID: %s, RATING: %s" % (id, rating))
-    if id and rating:
-        food = SingleFood.objects.get(id=id)
-        if rating == str(1):
-            print("First Start")
-            food.first_star = food.first_star + 1
-        if rating == str(2):
-            print("First Start")
-            food.second_star += 1
-        if rating == str(3):
-            print("First Start")
-            food.third_star += 1
-        if rating == str(4):
-            print("First Start")
-            food.fourth_star += 1
-        if rating == str(5):
-            print("First Start")
-            food.fifth_star += 1
-        global_count = food.first_star + food.second_star + food.third_star + food.fourth_star + food.fifth_star
-        print("GLOBAL_COUNT: " + str(global_count))
-        sum = food.first_star * 1 + food.second_star * 2 + food.third_star * 3 + food.fourth_star * 4 + food.fifth_star * 5
-        print("SUM: " + str(sum))
-        food.rating = sum / global_count
-        print("SUMME:------------------" + str(sum / global_count))
-        food.save()
-        print("DONE")
-
-    today = datetime.datetime.now() - datetime.timedelta(1)
+    today = datetime.datetime.now() - datetime.timedelta(2)
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
@@ -97,3 +67,27 @@ def all_food(request):
 def food(request):
     return render(request, "food/home.jinja", {
     })
+
+
+def food_rating(request):
+    food_id = request.GET.get('food_id', None)
+    rating = request.GET.get('rating', None)
+    if food_id and rating:
+        print("ID: %s, RATING: %s" % (food_id, rating))
+        food = SingleFood.objects.get(id=food_id)
+        if rating == str(1):
+            food.first_star = food.first_star + 1
+        if rating == str(2):
+            food.second_star += 1
+        if rating == str(3):
+            food.third_star += 1
+        if rating == str(4):
+            food.fourth_star += 1
+        if rating == str(5):
+            food.fifth_star += 1
+        global_count = food.first_star + food.second_star + food.third_star + food.fourth_star + food.fifth_star
+        sum = food.first_star * 1 + food.second_star * 2 + food.third_star * 3 + food.fourth_star * 4 + food.fifth_star * 5
+        food.rating = sum / global_count
+        print("SUMME: " + str(sum / global_count))
+        food.save()
+    return HttpResponse(status=200)
