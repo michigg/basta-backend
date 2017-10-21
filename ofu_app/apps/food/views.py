@@ -41,8 +41,7 @@ def daily_food(request):
         food.save()
         print("DONE")
 
-    today = datetime.datetime.now()
-    daily_menus = Menu.objects.filter(date__exact=today)
+    today = datetime.datetime.now() - datetime.timedelta(1)
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()

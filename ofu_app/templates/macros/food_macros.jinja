@@ -34,8 +34,8 @@
     <ul class="border">
         {% for single_food in menu %}
             <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
-                <p>{{ single_food.name }}<span
-                        class="rating-wrapper"></span></p>
+                <p>{{ single_food.name }}</p>
+                <p class="rating-wrapper"></p>
             </li>
         {% endfor %}
     </ul>
