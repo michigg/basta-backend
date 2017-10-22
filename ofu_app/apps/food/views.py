@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def daily_food(request):
-    today = datetime.datetime.now() - datetime.timedelta(2)
+    today = datetime.datetime.now()
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
@@ -90,4 +90,18 @@ def food_rating(request):
         food.rating = sum / global_count
         print("SUMME: " + str(sum / global_count))
         food.save()
-    return HttpResponse(status=200)
+        return HttpResponse(status=200)
+
+    return HttpResponse(status=404)
+
+
+def food_image(request):
+    food_id = request.GET.get('food_id', None)
+    img = request.GET.get('img', None)
+    if food_id and img:
+        food = SingleFood.objects.get(id=food_id)
+        food.image = img
+        food.save()
+        return HttpResponse(status=200)
+
+    return HttpResponse(status=404)

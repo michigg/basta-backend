@@ -1,5 +1,5 @@
 {% macro day_menu(title, location_menu, fail_text, css_id='menu') -%}
-    <div id="{{ css_id }}" class="col p-2 menu">
+    <div id="{{ css_id }}" class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2 menu">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             <h2>{{ title }} </h2>
             {% if location_menu %}
@@ -13,7 +13,7 @@
 {% endmacro %}
 
 {% macro week_menu(title, location_menus, fail_text) -%}
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 p-2">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             <h2>{{ title }}</h2>
             {% if location_menus %}
@@ -35,21 +35,22 @@
         {% for single_food in menu %}
             <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
                 <div class="row">
-                    <div class="food-name col-8"><p>{{ single_food.name }}</p></div>
-                    <div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="Gericht" width="304"
-                                                          height="236"></div>
+                    <div class="food-name col-12"><p>{{ single_food.name }}</p></div>
+                    {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="Gericht" width="80"
+                                                          height="80"></div>#}
                 </div>
                 <div class="row">
                     <div class="rating-wrapper col-6 text-left"></div>
-                    <div class="col-6 text-right">
-                        <label for="pic-upload" class="custom-pic-upload">
+                    {#<div class="col-6 text-right">
+                        <label for="pic-upload-{{ single_food.id }}" class="custom-pic-upload">
                             <i class="fa fa-camera" aria-hidden="true"></i>
                         </label>
                         <div class="pic-input-wrapper">
-                            {# TODO: extract style to external css file #}
-                            <input id="pic-upload" class="pic-upload" type="file" name="photo" id="upload-photo" style="display: none !important;"/>
+                            #}{# TODO: extract style to external css file #}{#
+                            <input id="pic-upload-{{ single_food.id }}" class="pic-upload" type="file" name="photo"
+                                   id="upload-photo" style="display: none !important;"/>
                         </div>
-                    </div>
+                    </div>#}
                 </div>
             </li>
         {% endfor %}

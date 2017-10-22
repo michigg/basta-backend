@@ -13,18 +13,31 @@ function add_img_class() {
 }
 
 function readURL(obj) {
-    var picClass = "img-" + $(obj).attr('class').split(' ')[1].split('-')[2];
-    console.log(picClass);
-    input = $('.' + picClass)[0];
+    var inputClass = "img-upload-" + $(obj).attr('class').split(' ')[1].split('-')[2];
+    console.log(inputClass);
+    input = $('.' + inputClass)[0];
     var file = input.files[0];
     console.log(file);
 
-    var reader = new FileReader();
-    reader.onload = function () {
-        document.getElementById('clock').style.backgroundImage = "url(" + reader.result + ")";
-    }
-    if (file) {
+    if (window.FileReader) {
+        reader = new FileReader();
+        reader.onloadend = function (e) {
+            var picClass = "img-" + $(obj).attr('class').split(' ')[1].split('-')[2];
+            showUploadedItem(e.target.result, picClass);
+        };
         reader.readAsDataURL(file);
-    } else {
     }
+
+}
+
+function showUploadedItem(source, picClass) {
+    console.log("Show Image: " + picClass + "  source: " + source);
+    $('.' + picClass).each(function () {
+        console.log($(this));
+        $(this).attr('src',source);
+    });
+}
+
+function upload_image(source) {
+
 }
