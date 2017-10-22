@@ -1,4 +1,4 @@
-footer{
+footer {
     /*mb equal height in #food-nav*/
     margin-bottom: 60px;
 }
@@ -10,4 +10,21 @@ footer{
     position: fixed;
     width: 100%;
     height: 60px;
+}
+
+.food-name p {
+    margin-bottom: 0;
+}
+
+/** Picture Input **/
+.pic-upload {
+    display: none !important;
+}
+
+.custom-pic-upload {
+    /*border: 1px solid #ccc;*/
+    display: inline-block;
+    /*padding: 6px 12px;*/
+    padding-right: 5px;
+    cursor: pointer;
 }

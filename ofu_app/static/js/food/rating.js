@@ -10,7 +10,7 @@ function rate_init() {
     $('.star').on("mouseenter mouseleave", function () {
         showRating(this);
     }).on("click", function () {
-        console.log('Click')
+        console.log('Click');
         sendRating(this);
     })
 }
