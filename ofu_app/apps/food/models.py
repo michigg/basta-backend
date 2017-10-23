@@ -32,6 +32,14 @@ class SingleFood(models.Model):
     fifth_star = models.SmallIntegerField(default=0)
 
     def __str__(self):
+        return "%s Rating: %f" % (self.name, self.rating)
+
+
+class Allergene(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=MAX_LENGTH)
+
+    def __str__(self):
         return self.name
 
 
