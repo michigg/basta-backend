@@ -7,6 +7,8 @@ from django.shortcuts import render
 
 from apps.food.models import Menu, HappyHour, SingleFood
 from django.http import HttpResponse
+from rest_framework import viewsets
+from apps.food.serializers import MenuSerializer, SingleFoodSerializer
 
 
 # Create your views here.
@@ -104,4 +106,12 @@ def food_image(request):
         food.save()
         return HttpResponse(status=200)
 
-    return HttpResponse(status=404)
+    return HttpResponse(status=404)  #
+
+
+class FoodViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Menu.objects.all()
+    serializer_class = MenuSerializer

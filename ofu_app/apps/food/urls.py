@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework import routers
 
 from apps.food import views
+router = routers.DefaultRouter()
+router.register(r'api', views.FoodViewSet)
 
 urlpatterns = [
     url(r'^$', views.food, name='food'),
@@ -25,4 +28,5 @@ urlpatterns = [
     url(r'^all/$', views.food, name='all-food'),
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
+    url(r'^', include(router.urls)),
 ]
