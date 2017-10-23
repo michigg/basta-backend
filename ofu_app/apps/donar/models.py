@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 MAX_LENGTH = 60
 
@@ -23,3 +24,20 @@ class VGN_Coords(models.Model):
     coords = models.CharField(max_length=MAX_LENGTH, unique=True)
     longitude = models.CharField(max_length=MAX_LENGTH, unique=True)
     latitude = models.CharField(max_length=MAX_LENGTH, unique=True)
+
+
+class Lecture(models.Model):
+    id = models.AutoField(primary_key=True)
+    univis_ref = models.CharField(max_length=MAX_LENGTH, unique=True)
+    univis_id = models.CharField(max_length=MAX_LENGTH, unique=True)
+    name = models.CharField(max_length=MAX_LENGTH)
+    short = models.CharField(max_length=MAX_LENGTH)
+    type = models.CharField(max_length=MAX_LENGTH)
+    lecturer_id = models.CharField(max_length=MAX_LENGTH)
+    term = models.ManyToManyField('Lecture_Terms', blank=False)
+
+
+class Lecture_Terms(models.Model):
+    id = models.AutoField(primary_key=True)
+    starttime = time = models.TimeField(blank=False, default=timezone.now())
+    room = models.ManyToManyField('Room', blank=False, blank=True, null=True)
