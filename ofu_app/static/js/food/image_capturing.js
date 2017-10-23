@@ -5,7 +5,7 @@ function add_img_class() {
     $('.food-item').each(function () {
         var food_id = $(this).data('food');
         console.log("ITEM: " + $(this) + " FOOD-ID: " + food_id);
-        $(this).find('.img').addClass('img-' + food_id);
+        $(this).find('.image-wrapper').addClass('img-' + food_id);
         $(this).find('.pic-upload').addClass('img-upload-' + food_id).on('change', function () {
             readURL(this)
         });
@@ -33,8 +33,12 @@ function readURL(obj) {
 function showUploadedItem(source, picClass) {
     console.log("Show Image: " + picClass + "  source: " + source);
     $('.' + picClass).each(function () {
-        console.log($(this));
-        $(this).attr('src',source);
+        console.log(this);
+        var img = this.childNodes[0];
+        var placeholder = this.childNodes[1];
+        console.log(img);
+        $(img).attr('src', source);
+        placeholder.style.display = 'none';
     });
 }
 

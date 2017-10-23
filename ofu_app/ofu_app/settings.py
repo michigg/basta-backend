@@ -23,7 +23,7 @@ SECRET_KEY = '7tm($-7tz!co8762!)ptmj%)80)qa^z0odee*8-!be!i(a!p4j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['mg-server.ddns.net', 'localhost', '127.0.0.1', '192.168.100.8']
+ALLOWED_HOSTS = ['mg-server.ddns.net', 'localhost', '127.0.0.1', '192.168.100.8', '141.13.129.250']
 
 # Application definition
 

@@ -22,9 +22,21 @@ footer {
 }
 
 .custom-pic-upload {
-    /*border: 1px solid #ccc;*/
     display: inline-block;
-    /*padding: 6px 12px;*/
     padding-right: 5px;
     cursor: pointer;
+}
+
+.image-wrapper:active img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 8000;
+}
+
+.image-wrapper img {
+    width: 80px;
+    height: 80px;
 }
