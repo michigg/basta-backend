@@ -1,87 +1,21 @@
-{% extends 'base.jinja' %}
+{% extends 'food/food_wrapper.jinja' %}
+{% import '/macros/food_macros.jinja' as macros %}
 {% block headline %}
-    <h1 class="text-center">Essen an der OFU für {{ day }}</h1>
+    <h1 class="text-center">Food </h1>
+    <p class="text-center">Day: {{ day.strftime("%d.%m.%Y") }}</p>
 {% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col m-2 p-3 border border-dark rounded">
-                {% if feki_menu %}
-                    <h2>{{ feki_menu.location }}</h2>
-                    <p>{{ feki_menu.date }}</p>
-                    {% for single_food in feki_menu.menu.all %}
-                        <p>{{ single_food.name }}</p>
-                    {% endfor %}
-
-                {% else %}
-                    <p>Die Feki Mensa hat heute geschlossen :(</p>
-                {% endif %}
-            </div>
-            <div class="col m-2 p-3 border border-dark rounded">
-                {% if austr_menu %}
-                    <h2>{{ austr_menu.location }}</h2>
-                    <p>{{ austr_menu.date }}</p>
-                    {% for single_food in austr_menu.menu.all %}
-                        <p>{{ single_food.name }}</p>
-                    {% endfor %}
-
-                {% else %}
-                    <p>Die Austr Mensa hat heute geschlossen :(</p>
-                {% endif %}
-            </div>
-            <div class="col m-2 p-3 border border-dark rounded">
-                {% if erba_cafete %}
-                    <h2>{{ erba_cafete.location }}</h2>
-                    <p>{{ erba_cafete.date }}</p>
-                    {% for single_food in erba_cafete.menu.all %}
-                        <p>{{ single_food.name }}</p>
-                    {% endfor %}
-
-                {% else %}
-                    <p>Ist heute Freitag?</p>
-                    <p> Nein? Dann ist die Erba Cafete wohl heute geschlossen :(</p>
-                {% endif %}
-            </div>
-            <div class="col m-2 p-3 border border-dark rounded">
-                {% if markus_cafete %}
-                    <h2>{{ markus_cafete.location }}</h2>
-                    <p>{{ markus_cafete.date }}</p>
-                    {% for single_food in markus_cafete.menu.all %}
-                        <p>{{ single_food.name }}</p>
-                    {% endfor %}
-
-                {% else %}
-                    <p>Ist heute Freitag?</p>
-                    <p> Nein? Dann ist die Markus Cafete wohl heute geschlossen :(</p>
-                {% endif %}
-            </div>
+            {{ macros.day_menu(title='Feki', location_menu=feki_menu, fail_text='Die Feki Mensa hat heute geschlossen.', css_id="feki") }}
+            {{ macros.day_menu(title='Austraße', location_menu=austr_menu, fail_text='Die Austr Mensa hat heute geschlossen.', css_id="austr") }}
         </div>
         <div class="row">
-            <div class="col m-2 p-3 border border-dark rounded">
-                <h2>Happy Hour Guide von Feki.de</h2>
-                {% if happy_hours %}
-                    <table class="table">
-                        <thead class="thead-inverse">
-                        <tr>
-                            <th>Location</th>
-                            <th>Time</th>
-                            <th>Description</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for happy_hour in happy_hours %}
-                            <tr>
-                                <td>{{ happy_hour.location }}</td>
-                                <td>{{ happy_hour.time }}</td>
-                                <td>{{ happy_hour.description }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <p>Leider gibt es heute keine Happy Hours :(</p>
-                {% endif %}
-            </div>
+            {{ macros.day_menu(title='Erba', location_menu=erba_cafete, fail_text='Aktuell gibt es keine warmen Speisen', css_id="erba") }}
+            {{ macros.day_menu(title='Markusplatz', location_menu=markus_cafete, fail_text='Aktuell gibt es keine warmen Speisen',css_id="markuspl") }}
+        </div>
+        <div class="row">
+            {{ macros.happy_hours(happy_hours=happy_hours) }}
         </div>
     </div>
 

@@ -23,7 +23,7 @@ SECRET_KEY = '7tm($-7tz!co8762!)ptmj%)80)qa^z0odee*8-!be!i(a!p4j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['mg-server.ddns.net', 'localhost', '127.0.0.1', ]
+ALLOWED_HOSTS = ['mg-server.ddns.net', 'localhost', '127.0.0.1', '192.168.100.8', '141.13.129.250']
 
 # Application definition
 
@@ -37,43 +37,39 @@ INSTALLED_APPS = [
     'django_jinja',
     'apps.food',
     'apps.events',
+    'apps.donar',
+    'rest_framework',
 ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
 
 ROOT_URLCONF = 'ofu_app.urls'
 
 TEMPLATES = [
-    # {
-    #     "BACKEND": "django_jinja.backend.Jinja2",
-    #     'DIRS': [
-    #         os.path.join(BASE_DIR, 'templates'),
-    #     ],
-    #     "APP_DIRS": True,
-    #     "OPTIONS": {
-    #         "match_extension": ".jinja",
-    #         "match_regex": r"^(?!admin/).*",
-    #         "app_dirname": "templates",
-    #         "context_processors": [
-    #             "django.contrib.auth.context_processors.auth",
-    #             "django.template.context_processors.debug",
-    #             "django.template.context_processors.i18n",
-    #             "django.template.context_processors.media",
-    #             "django.template.context_processors.static",
-    #             "django.template.context_processors.tz",
-    #             "django.contrib.messages.context_processors.messages",
-    #         ],
-    #     },
-    #
-    # },
+    {
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': 'ofu_app.jinja2.environment'
+        },
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR,'templates')],
@@ -162,3 +158,6 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # FORCE_SCRIPT_NAME = "app"
+# Media files should be stored here
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'

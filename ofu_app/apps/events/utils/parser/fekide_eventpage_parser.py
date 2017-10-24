@@ -64,7 +64,6 @@ def getAllDates(url: str):
 def parsePage():
     pagecontent = {}
     pagecontent['dates'] = getAllDates(LINK_FEKIDE_Events)
-    jsondata = json.dumps(pagecontent)
-    return jsondata
+    return pagecontent
 
 # parsePage()

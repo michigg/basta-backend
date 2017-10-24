@@ -1,0 +1,15 @@
+{% extends 'events/events_wrapper.jinja' %}
+{% import '/macros/event_macros.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Events</h1>
+    <p class="text-center">{{ date.strftime("%d.%m.%Y") }}</p>
+{% endblock %}
+{% block content %}
+    <div class="container">
+    <div id="events" class="row">
+        {% for event in  events %}
+            {{ macros.event(event) }}
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

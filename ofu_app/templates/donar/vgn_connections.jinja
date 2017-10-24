@@ -1,0 +1,23 @@
+{% extends 'base.jinja' %}
+{% block js_extra %}
+    <script id="nav_data" src="{{ static('js/donar/vgn.js') }}"></script>
+{% endblock %}
+{% block headline %}
+    <h1 class="text-center"> VGN Connections</h1>
+    <p class="text-center">Donar</p>
+{% endblock %}
+{% block content %}
+    <p id="err"></p>
+    <div id="vgn-links" class="row">
+        {% if locations %}
+            {% for location in locations %}
+                <div class="col-12 p-1">
+                    <div class="p-2 border border-dark rounded-3 border border-dark rounded bg-light text-dark">
+                        <a class="connection"
+                           href="{{ url('vgn-redirect', args=[location.coords, 'position']) }}">{{ location.name }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

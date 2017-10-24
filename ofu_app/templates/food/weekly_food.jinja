@@ -1,0 +1,21 @@
+{% extends 'food/food_wrapper.jinja' %}
+{% import '/macros/food_macros.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Food </h1>
+    <p class="text-center">Week: {{ day.strftime("%d.%m.%Y") }} - {{ lastday.strftime("%d.%m.%Y") }}</p>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {{ macros.week_menu(title='Feki', location_menus=feki_menu, fail_text='Die Feki Mensa hat heute geschlossen.') }}
+            {{ macros.week_menu(title='Austraße', location_menus=austr_menu, fail_text='Die Austr Mensa hat heute geschlossen.') }}
+        </div>
+        <div class="row">
+            {{ macros.week_menu(title='Erba', location_menus=erba_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
+            {{ macros.week_menu(title='Markusplatz', location_menus=markus_cafete, fail_text='Aktuell gibt es keine warmen Speisen') }}
+        </div>
+        <div class="row">
+             {{ macros.happy_hours(happy_hours=happy_hours) }}
+        </div>
+    </div>
+{% endblock %}

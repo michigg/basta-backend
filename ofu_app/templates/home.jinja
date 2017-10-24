@@ -1,28 +1,18 @@
 {% extends 'base.jinja' %}
+{% import '/macros/overview_pages.jinja' as macros %}
 {% block headline %}
-    <h1 class="text-center">App für die Uni Bamberg</h1>
+    <header class="">
+        <h1 class="text-center" style="font-size: 20px">BaStA</h1>
+        <p class="text-center">Bamberger Studierenden App</p>
+    </header>
 {% endblock %}
 {% block content %}
     <div class="container text-dark">
         <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Food</h4>
-                        <p class="card-text">Übersicht über Essensmöglichkeiten für Studenten in der Stadt Bamberg </p>
-                        <a href="{% url 'food' %}" class="btn btn-primary">Zur Mainpage</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Events</h4>
-                        <p class="card-text">Übersicht über alle Events an der Universität Bambergs und Veranstaltungen der HSnGs.</p>
-                        <a href="{% url 'events-main' %}" class="btn btn-primary">Zur Mainpage</a>
-                    </div>
-                </div>
-            </div>
+            {{ macros.home_item_with_icon(icon='fa-cutlery', url_id='daily-food', title='Food') }}
+            {{ macros.home_item_with_icon(icon='fa-calendar-o', url_id='day-events', title='Events') }}
+            {{ macros.home_item_with_icon(icon='fa-compass', url_id='donar', title='Nav') }}
+            {{ macros.home_item_with_icon(icon='fa-th-large', url_id='links-home', title='Links') }}
         </div>
     </div>
-{% endblock %}
+{% endblock %}fa-cutlery

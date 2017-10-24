@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import datetime
+import re
 
 SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
 
@@ -16,18 +17,20 @@ def getFoodplanName(soup):
 
 
 def getRightLine(lines):
+    foodlines = []
+    pattern = re.compile("[0-9]+.+[A-Z]+")
     for line in list(lines):
-        if str(line).__contains__("<br/>"):
-            return line
-    return ""
+        line = line.getText()
+        if pattern.match(line):
+            foodlines.append(line)
+    return foodlines
 
 
 def getFoodPerDay(soup):
     days = []
     lines = soup.select('.csc-default .bodytext')
-    line = getRightLine(lines)
-    foods = str(line).strip('<p class="bodytext">').strip('</').split("<br/>")
-    for food in foods:
+    foodlines = getRightLine(lines)
+    for food in foodlines:
         dayObj = {}
         day = str(food).split()[0]
         foodName = str(food).replace(day, "").strip()

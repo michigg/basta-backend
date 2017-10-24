@@ -1,0 +1,16 @@
+{% extends 'base.jinja' %}
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+{% block js_extra %}
+<script src="{{ static('libs/leaflet/leaflet.js') }}"></script>
+<script id="nav_data" src="{{ static('js/donar/navigate.js') }}" data-address="{{ room.address }}"
+        data-short="{{ room.short }}"></script>
+{% endblock %}
+{% block css_extra %}
+    <link rel="stylesheet" href="{{ static('libs/leaflet/leaflet.css') }}"/>
+{% endblock %}
+{% block headline %}
+    <h1 class="text-center"> Donar </h1>
+{% endblock %}
+{% block content %}
+    <div id="map"></div>
+{% endblock %}

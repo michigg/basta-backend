@@ -1,0 +1,80 @@
+{% macro day_menu(title, location_menu, fail_text, css_id='menu') -%}
+    <div id="{{ css_id }}" class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2 menu">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>{{ title }} </h2>
+            {% if location_menu %}
+                <p>{{ location_menu.date.strftime('%d.%m.%Y') }}</p>
+                {{ get_menu(location_menu.menu.all()) }}
+            {% else %}
+                <p> {{ fail_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro week_menu(title, location_menus, fail_text) -%}
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>{{ title }}</h2>
+            {% if location_menus %}
+                {% for menu in location_menus %}
+                    <div class="menu">
+                        <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
+                        {{ get_menu(menu.menu.all()) }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p> {{ fail_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro get_menu(menu) -%}
+    <ul class="border">
+        {% for single_food in menu %}
+            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
+                <div class="row">
+                    <div class="food-name col-8"><p>{{ single_food.name }}</p></div>
+                    {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
+                                                          height="800"><i class="img-placeholder fa fa-cutlery text-right"></i></div>#}
+                </div>
+                <div class="row">
+                    <div class="rating-wrapper col-6 text-left"></div>
+                    {#<div class="col-6 text-right">
+                        <label for="pic-upload-{{ single_food.id }}" class="custom-pic-upload">
+                            <i class="fa fa-camera" aria-hidden="true"></i>
+                        </label>
+                        <div class="pic-input-wrapper">
+#}{#                             TODO: extract style to external css file#}{#
+                            <input id="pic-upload-{{ single_food.id }}" class="pic-upload" type="file" name="photo"
+                                   id="upload-photo" style="display: none !important;"/>
+                        </div>
+                    </div>#}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro happy_hours(happy_hours) %}
+    <div class="col p-2">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            <h2>Happy Hours
+                <small>von Feki.de</small>
+            </h2>
+            {% if happy_hours %}
+                {% for happy_hour in happy_hours %}
+                    <div class="row border">
+                        <div class="col-7 col-sm-8 col-md-4 col-lg-4 col-xl-4">{{ happy_hour.location }}</div>
+                        <div class="col-5 col-sm-4 col-md-3 col-lg-3 col-xl-3">{{ happy_hour.starttime.strftime('%H:%M') }}
+                            - {{ happy_hour.endtime.strftime('%H:%M') }}</div>
+                        <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">{{ happy_hour.description }}</div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% else %}
+                <p>Leider gibt es heute keine Happy Hours :(</p>
+            {% endif %}
+    </div>
+{% endmacro %}

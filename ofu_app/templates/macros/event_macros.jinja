@@ -1,0 +1,22 @@
+{% macro event(event) -%}
+    <div class="col-sm-12 col-md-6 col p-3 event {{ event.category }}">
+        <div class="p-3 border border-dark rounded bg-light text-dark">
+            {% if event.link %}
+                <a href="{{ event.link }}">
+                    <h5>{{ event.title }}</h5></a>
+                <small>{{ event.category }}</small>
+            {% else %}
+                <h5>{{ event.title }}</h5>
+                <small>{{ event.category }}</small>
+            {% endif %}
+
+            <p class="mb-0">Wann: {{ event.date.strftime("%d.%m.") }}
+                ab {{ event.time.strftime("%H:%M") }}</p>
+            <p>Wo:
+                {% for location in event.locations.all() %}
+                    <span>{{ location.name }}</span>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+{% endmacro %}

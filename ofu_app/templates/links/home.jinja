@@ -1,0 +1,19 @@
+{% extends "base.jinja" %}
+{% import 'macros/overview_pages.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Linksammlung</h1>
+{% endblock %}
+{% block content %}
+    <div class="container text-dark">
+        <div class="row">
+            {{ macros.link_item(title='VC', url='https://vc.uni-bamberg.de/moodle/', description='Virtueller Campus') }}
+            {{ macros.link_item(title='Flexnow2', url='https://www.uni-bamberg.de/pruefungsamt/flexnow/', description='') }}
+            {{ macros.link_item(title='Univis', url='http://univis.uni-bamberg.de/', description='') }}
+            {{ macros.link_item(title='Zuv Portal', url='https://zul.zuv.uni-bamberg.de/qisserver/rds?state=user&type=0', description='') }}
+            {{ macros.link_item(title='WIAI Open', url='https://isfswiaiopen.wiai.de/',
+            description='Ist gerade jemand in der FS?') }}
+            {{ macros.link_item(title='RZ Störungen', url='https://www.uni-bamberg.de/rz/wir/itsm/reporting/', description='') }}
+            {{ macros.link_item(title='WIAI Soundboard', url='http://sound.fswiai.de', description='Teil deinen Sound mit der FS') }}
+        </div>
+    </div>
+{% endblock %}

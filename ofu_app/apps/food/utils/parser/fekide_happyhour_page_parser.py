@@ -45,9 +45,7 @@ def parsePage(url: str):
     pagecontent['happyhours'] = happyhours
     pagecontent['day'] = getDay()
     pagecontent['execution_time'] = datetime.datetime.today().strftime("%A, %d.%m.%Y")
-
-    jsondata = json.dumps(pagecontent)
-    return jsondata
+    return pagecontent
 
 # LINK_FEKIDE_GUIDE = "https://www.feki.de/happyhour/wochenuebersicht"
 # parsePage(LINK_FEKIDE_GUIDE)
