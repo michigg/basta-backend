@@ -7,7 +7,10 @@ from django.shortcuts import render
 
 from apps.food.models import Menu, HappyHour, SingleFood
 from django.http import HttpResponse
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from apps.food.serializers import MenuSerializer, SingleFoodSerializer
 
 
@@ -106,7 +109,15 @@ def food_image(request):
         food.save()
         return HttpResponse(status=200)
 
-    return HttpResponse(status=404)  #
+    return HttpResponse(status=404)
+
+
+@api_view(['GET'])
+def serialize_daily_food(request, location="", year="", month="", day=""):
+    request_date = datetime.datetime.strptime((year + "-" + month + "-" + day), "%Y-%m-%d")
+    queryset = Menu.objects.filter(location__contains=location).filter(date__exact=request_date)
+    serializer = MenuSerializer(queryset)
+    return Response(serializer)
 
 
 class FoodViewSet(viewsets.ModelViewSet):
@@ -115,3 +126,26 @@ class FoodViewSet(viewsets.ModelViewSet):
     """
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
+
+class FoodList(generics.ListAPIView):
+    serializer_class = MenuSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        if 'location' in self.kwargs:
+            location = self.kwargs['location']
+        else:
+            location = ""
+
+        if 'year' in self.kwargs and 'month' in self.kwargs and 'day' in self.kwargs:
+            request_date = datetime.datetime.strptime(
+                (self.kwargs['year'] + "-" + self.kwargs['month'] + "-" + self.kwargs['day']), "%Y-%m-%d")
+        else:
+            request_date = datetime.datetime.now()
+        print("LOCATION: " + location)
+        print("DATE: " + str(request_date))
+        return Menu.objects.filter(location__contains=location).filter(date__exact=request_date)
