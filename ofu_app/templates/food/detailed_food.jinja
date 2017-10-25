@@ -15,7 +15,7 @@
         <div id="alergens" class="row">
             <div class="col-12"><h5>Allergene</h5></div>
             <ul>
-                {% for alergen in food.allergens %}
+                {% for alergen in food.allergens.all() %}
                     <li>{{ alergen }}</li>
                 {% endfor %}
             </ul>
