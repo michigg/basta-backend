@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^all/$', views.food, name='all-food'),
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
+    url(r'^detail/(?P<id>[0-9]+)/$', views.food_detail, name='food-detail')
 ]
