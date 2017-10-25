@@ -15,17 +15,30 @@ def getMenuDay(soup):
 
 
 def getFoodPerDay(soup):
-    days = []
+    week_menus = []
     for day in soup.select('.currentweek .day'):
-        dayObj = {}
+        menu = {}
         daysoup = BeautifulSoup(str(day), "lxml")
         day = getMenuDay(daysoup)
-        dayMenu = [e.getText() for e in daysoup.select('.menuwrap .menu .left .title')]
+        day_menu = []
+        for singleFood in daysoup.select('.menuwrap .menu'):
+            singleFoodObj = {}
+            singleFoodSoup = BeautifulSoup(str(singleFood), "lxml")
+            title = singleFoodSoup.find('div', {'class': 'title'}).getText()
+            allergens = [e.getText() for e in singleFoodSoup.select('.left .additnr .toggler ul li')]
+            prices = {}
+            prices['price_student'] = singleFoodSoup.select('.price')[0]['data-default']
+            prices['price_employee'] = singleFoodSoup.select('.price')[0]['data-bed']
+            prices['price_guest'] = singleFoodSoup.select('.price')[0]['data-guest']
+            singleFoodObj['title'] = title
+            singleFoodObj['allergens'] = allergens
+            singleFoodObj['prices'] = prices
+            day_menu.append(singleFoodObj)
 
-        dayObj['date'] = str(day).split(" ")[1]
-        dayObj['menu'] = dayMenu
-        days.append(dayObj)
-    return days
+        menu['date'] = str(day).split(" ")[1]
+        menu['menu'] = day_menu
+        week_menus.append(menu)
+    return week_menus
 
 
 def parsePage(url: str):
@@ -50,4 +63,6 @@ def parsePage(url: str):
 def getFoodplanName(soup):
     foodplan_name = soup.select('.mensamenu h2')[0].getText()
     return foodplan_name
-# parsePage(FEKI_URL)
+
+
+parsePage(FEKI_URL)
