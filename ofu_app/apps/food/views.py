@@ -48,6 +48,11 @@ def weekly_food(request):
     })
 
 
+def food_detail(request, id):
+    food = SingleFood.objects.get(id=id)
+    return render(request, "food/detailed_food.jinja", {'food': food})
+
+
 def all_food(request):
     menus = Menu.objects.all()
     feki_menu = menus.filter(location__contains="Feldkirchenstraße")
