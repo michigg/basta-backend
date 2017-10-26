@@ -35,8 +35,17 @@
         {% for single_food in menu %}
             <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
                 <div class="row">
-                    <div class="food-name col-8"><a href="{{ url('food-detail', args=[single_food.id]) }}"><p>{{ single_food.name }}</p></a></div>
-                    <div class="col-4"><span class="float-right">{{ single_food.price_student}}</span></div>
+                    <div class="food-name col-8">
+                        {% if single_food.price_student %}
+                            <a href="{{ url('food-detail', args=[single_food.id]) }}">
+                                <p>{{ single_food.name }}</p></a>
+                        {% else %}
+                            <p>{{ single_food.name }}</p>
+                        {% endif %}
+                    </div>
+                    {% if single_food.price_student %}
+                        <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>
+                    {% endif %}
                     {# <div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
                                                           height="800"><i class="img-placeholder fa fa-cutlery text-right"></i></div> #}
                 </div>
