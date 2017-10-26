@@ -34,8 +34,10 @@ def getFoodPerDay(soup):
         dayObj = {}
         day = str(food).split()[0]
         foodName = str(food).replace(day, "").strip()
+        singleFoodObj = {}
+        singleFoodObj['title'] = foodName
         dayObj['date'] = day
-        dayObj['menu'] = [foodName]
+        dayObj['menu'] = [singleFoodObj]
         days.append(dayObj)
     return days
 

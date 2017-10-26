@@ -1,0 +1,31 @@
+{% extends 'food/food_wrapper.jinja' %}
+{% import '/macros/food_macros.jinja' as macros %}
+{% block headline %}
+    <h1 class="text-center">Food </h1>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row p-3 border border-dark rounded bg-light text-dark">
+            <div id="title" class="col-12"><h4>{{ food.name }}</h4></div>
+                <div class="col-8 mt-2">
+                    <div class="col-12"><h5>Allergene</h5></div>
+                    <ul>
+                        {% for alergen in food.allergens.all() %}
+                            <li>{{ alergen }}</li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+                <div class="col-4 mt-2">
+                    <div id="prices" class="">
+                        <div><strong>Preise</strong></div>
+                        <div class="student">Student: {{ food.price_student }}</div>
+                        <div class="price-employee">Employee: {{ food.price_employee }}</div>
+                        <div class="price-guest">Guest: {{ food.price_guest }}</div>
+                    </div>
+                    <div id="rating" class="mt-3"><strong>Rating:</strong> {{ food.rating }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

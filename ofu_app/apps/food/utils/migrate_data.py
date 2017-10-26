@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from pprint import pprint
 from django.db.utils import IntegrityError
-from apps.food.models import SingleFood, Menu, HappyHour
+from apps.food.models import SingleFood, Menu, HappyHour, Allergene
 from apps.food.utils.parser import mensa_page_parser, fekide_happyhour_page_parser, cafete_page_parser
 
 # CONFIG SERVICE LINKS
@@ -21,12 +21,37 @@ def getJsonFromFile(path):
 def writeStudentenwerkDataInDB(data):
     data = json.loads(data)
     for menu in data['weekmenu']:
+
         foodlist = []
         for single_food in menu['menu']:
+            if 'allergens' in single_food:
+                allergens = []
+                for allergen in single_food['allergens']:
+                    try:
+                        allergens.append(Allergene.objects.create(name=allergen))
+                    except IntegrityError:
+                        allergens.append(Allergene.objects.get(name=allergen))
             try:
-                foodlist.append(SingleFood.objects.create(name=single_food))
+                if 'prices' in single_food:
+                    db_single_food = SingleFood.objects.create(name=single_food['title'],
+                                                               price_student=single_food['prices']['price_student'],
+                                                               price_employee=single_food['prices']['price_employee'],
+                                                               price_guest=single_food['prices']['price_guest'])
+                else:
+                    db_single_food = SingleFood.objects.create(name=single_food['title'])
+                if 'allergens' in locals():
+                    db_single_food.allergens = allergens
+                foodlist.append(db_single_food)
             except IntegrityError:
-                foodlist.append(SingleFood.objects.get(name=single_food))
+                db_single_food = SingleFood.objects.get(name=single_food['title'])
+                if 'prices' in single_food:
+                    db_single_food.price_student = single_food['prices']['price_student'],
+                    db_single_food.price_employee = single_food['prices']['price_employee'],
+                    db_single_food.price_guest = single_food['prices']['price_guest']
+                if 'allergens' in locals():
+                    db_single_food.allergens = allergens
+
+                foodlist.append(db_single_food)
         try:
             date = datetime.strptime(str(menu['date']), "%d.%m.").replace(year=datetime.today().year)
             menu = Menu.objects.create(location=data['name'],
