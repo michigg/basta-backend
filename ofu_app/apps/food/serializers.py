@@ -5,7 +5,7 @@ from rest_framework import serializers
 class SingleFoodSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SingleFood
-        fields = ('name',)
+        fields = ('name', 'rating')
 
 
 class MenuSerializer(serializers.HyperlinkedModelSerializer):
