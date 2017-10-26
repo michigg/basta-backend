@@ -1,5 +1,5 @@
-{% macro event(event) -%}
-    <div class="col-sm-12 col-md-6 col p-3 event {{ event.category }}">
+  {% macro event(event) -%}
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col p-3 event {{ event.category }}">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             {% if event.link %}
                 <a href="{{ event.link }}">
