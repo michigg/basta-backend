@@ -23,6 +23,9 @@ class Menu(models.Model):
 class SingleFood(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=MAX_LENGTH)
+    price_student = models.CharField(max_length=10, blank=True, null=True)
+    price_employee = models.CharField(max_length=10, blank=True, null=True)
+    price_guest = models.CharField(max_length=10, blank=True, null=True)
     image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
     rating = models.FloatField(default=0)
     first_star = models.SmallIntegerField(default=0)
@@ -30,9 +33,10 @@ class SingleFood(models.Model):
     third_star = models.SmallIntegerField(default=0)
     fourth_star = models.SmallIntegerField(default=0)
     fifth_star = models.SmallIntegerField(default=0)
+    allergens = models.ManyToManyField("Allergene", blank=True)
 
     def __str__(self):
-        return "%s Rating: %f" % (self.name, self.rating)
+        return "%s - Rating: %f - Student Price: %s" % (self.name, self.rating, self.price_student)
 
 
 class Allergene(models.Model):

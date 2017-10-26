@@ -33,12 +33,12 @@ urlpatterns = [
     url(r'^all/$', views.food, name='all-food'),
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
-
     url(r'^api/', include(router.urls)),
     url(r'^api/(?P<location>[a-zA-Z]+)/$', views.FoodList.as_view(), name='rating-food'),
     url(r'^api/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$', views.FoodList.as_view(),
         name='rating-food'),
-    url(r'^api/(?P<location>[a-zA-Z]+)/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$', views.FoodList.as_view(),
+    url(r'^api/(?P<location>[a-zA-Z]+)/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
+        views.FoodList.as_view(),
         name='rating-food'),
-
+    url(r'^detail/(?P<id>[0-9]+)/$', views.food_detail, name='food-detail')
 ]
