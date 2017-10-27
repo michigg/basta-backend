@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.donar',
     'rest_framework',
+    'analytical',
 ]
 
 REST_FRAMEWORK = {
@@ -160,3 +161,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Media files should be stored here
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+
+PIWIK_DOMAIN_PATH = 'mg-server.ddns.net/piwik'
+PIWIK_SITE_ID = '1'
