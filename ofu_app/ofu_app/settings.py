@@ -58,7 +58,7 @@ REST_FRAMEWORK = {
 # ]
 
 ROOT_URLCONF = 'ofu_app.urls'
-
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates'),
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
@@ -160,3 +160,5 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Media files should be stored here
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'home'
