@@ -1,7 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from apps.donar.models import Room
-from apps.donar.utils import migrate_data_rooms
-
+from apps.donar.utils import migrate_data_vgn_coords
 
 class Command(BaseCommand):
     help = "Imports Rooms from Univis PRG"
@@ -10,5 +8,4 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        migrate_data_rooms.main()
-        self.stdout.write(self.style.SUCCESS('Successfully migrate data'))
+        migrate_data_vgn_coords.migrate()
