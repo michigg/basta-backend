@@ -43,6 +43,7 @@ def writeUnivisLectureTermsInDB(lecture, lecture_obj):
                     term_obj.save()
                     lecture_obj.term.add(term_obj)
                 except IntegrityError as err:
+                    print("ROOM_ID: " + str(room_id))
                     print(err.args)
 
         else:
@@ -61,6 +62,7 @@ def writeUnivisLectureTermsInDB(lecture, lecture_obj):
                 term_obj.save()
                 lecture_obj.term.add(term_obj)
             except IntegrityError as err:
+                print("ROOM_ID: " + str(room_id))
                 print(err.args)
 
 
@@ -110,13 +112,21 @@ def showStatus(status: str):
 def main():
     # get food jsons
     showStatus("Start with:")
-    # writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_SoWi)))
+    writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_SoWi)))
+    pprint("----------------------------------------------------------------------------------------")
+
     showStatus("After SoWi:")
-    # writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_GuK)))
+    writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_GuK)))
+    pprint("----------------------------------------------------------------------------------------")
+
     showStatus("After GuK:")
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_HuWi)))
+    pprint("----------------------------------------------------------------------------------------")
+
     showStatus("After HuWi:")
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_WIAI)))
+    pprint("----------------------------------------------------------------------------------------")
+    
     showStatus("After WIAI:")
 
 

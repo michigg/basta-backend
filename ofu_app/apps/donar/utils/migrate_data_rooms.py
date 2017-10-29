@@ -100,6 +100,7 @@ def main():
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("v")))
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("w")))
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("d")))
+    writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("x")))
 
     pprint("Now: Room: " + str(Room.objects.count()))
 
