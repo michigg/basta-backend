@@ -9,6 +9,8 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.core.mail import send_mail
+from django.shortcuts import HttpResponse
 
 
 def signup(request):
@@ -18,16 +20,26 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            current_site = get_current_site(request)
+            current_site = request.META['HTTP_HOST']
             subject = 'Activate Your MySite Account'
             message = render_to_string('registration/account_activation_email.jinja', {
                 'user': user,
-                'domain': current_site.domain,
+                'domain': current_site,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            user.email_user(subject, message)
-            return redirect('account_activation_sent')
+
+            res = send_mail(
+                'Subject here',
+                'Here is the message.',
+                'signup.basta@gmail.com',
+                ['mgoetz1995@gmail.com'],
+                fail_silently=False,
+            )
+            # res = send_mail(from_email="signup.basta@gmail.com", recipient_list=[user.username], subject=subject, message=message)
+            return HttpResponse('%s' % res)
+            # user.email_user(subject, message)
+            # return redirect('account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.jinja', {'form': form})
@@ -45,9 +57,9 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return render(request, 'registration/account_activation_success.jinja')
     else:
-        return render(request, 'account_activation_invalid.html')
+        return render(request, 'registration/account_activation_invalid.jinja')
 
 
 def account_activation_sent(request):

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'apps.food',
     'apps.events',
     'apps.donar',
+    'apps.registration',
     'rest_framework',
 ]
 
@@ -165,7 +166,12 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'home'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'signup.basta@gmail.com'
+EMAIL_HOST_PASSWORD = '1/SL^QzlSuP<`8gkP4Fd'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
 
 ACCOUNT_EMAIL_UNIQUE = True
 ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
