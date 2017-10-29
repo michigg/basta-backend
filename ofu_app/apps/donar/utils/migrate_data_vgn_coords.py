@@ -1,8 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
 from apps.donar.models import VGN_Coords
 
 
-def migrate_locations():
+def migrate():
     locations = []
     locations.append(
         {'location': 'Erba', 'vgn_key': 'coord%3A4418901%3A629758%3ANAV4%3ABamberg%2C An der Weberei 5',
@@ -65,13 +64,3 @@ def migrate_locations():
             location_obj.coords = location['vgn_key']
             location_obj.latitude = location['lat']
             location_obj.longitude = location['lon']
-
-
-class Command(BaseCommand):
-    help = "Imports Rooms from Univis PRG"
-
-    def add_arguments(self, parser):
-        pass
-
-    def handle(self, *args, **options):
-        migrate_locations()
