@@ -5,19 +5,46 @@
         <h2>Sign up</h2>
         <form method="post" action="{{ url('signup') }}">
             {% csrf_token %}
-            {% for field in form %}
-                <p>
-                    {{ field.label_tag }}<br>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p style="color: red">{{ error }}</p>
-                    {% endfor %}
-                </p>
-            {% endfor %}
-            <button type="submit">Sign up</button>
+            <label for="username" class="label">Username:</label>
+            <p>
+                <input id="username" type="text" name="username" required autofocus maxlength="150" id="id_username"/>
+                <small style="color: grey">Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern und
+                    @/./+/-/_.
+                </small>
+            </p>
+
+            <label for="email" class="label">E-Mail:</label>
+            <p>
+                <input id="email" type="email" name="email" required maxlength="254" id="id_email"/>
+                <small style="color: grey">Required. Inform a valid email address.</small>
+            </p>
+
+            <label for="password1" class="label">Password:</label>
+            <p>
+                <input id="password1" type="password" name="password1" required id="id_password1"/>
+                <small style="color: grey">
+                    <ul>
+                        <li>Das Passwort darf nicht zu ähnlich zu Ihren anderen
+                            persönlichen Informationen sein.
+                        </li>
+                        <li>Das Passwort muss mindestens 8 Zeichen
+                            enthalten.
+                        </li>
+                        <li>Das Passwort darf nicht allgemein üblich sein.</li>
+                        <li>Das
+                            Passwort darf nicht komplett aus Ziffern bestehen.
+                        </li>
+                    </ul>
+                </small>
+            </p>
+            <label for="password2" class="label">Retype Password:</label>
+            <p>
+                <input id="password2" type="password" name="password2" required id="id_password2"/>
+                <small style="color: grey">Bitte das selbe Passwort zur Bestätigung erneut eingeben.</small>
+            </p>
+
+            <input type="submit" class="button is-pulled-right" value="Sign up"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
         </form>
     </div>
 {% endblock %}

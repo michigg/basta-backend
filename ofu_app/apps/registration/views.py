@@ -29,17 +29,9 @@ def signup(request):
                 'token': account_activation_token.make_token(user),
             })
 
-            res = send_mail(
-                'Subject here',
-                'Here is the message.',
-                'signup.basta@gmail.com',
-                ['mgoetz1995@gmail.com'],
-                fail_silently=False,
-            )
-            # res = send_mail(from_email="signup.basta@gmail.com", recipient_list=[user.username], subject=subject, message=message)
-            return HttpResponse('%s' % res)
-            # user.email_user(subject, message)
-            # return redirect('account_activation_sent')
+            send_mail(from_email="signup.basta@gmail.com", recipient_list=[user.email], subject=subject,
+                      message=message)
+            return redirect('account_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.jinja', {'form': form})
@@ -63,4 +55,4 @@ def activate(request, uidb64, token):
 
 
 def account_activation_sent(request):
-    return render(request, 'home.jinja', {})
+    return render(request, 'registration/account_activation_sent.jinja', {})
