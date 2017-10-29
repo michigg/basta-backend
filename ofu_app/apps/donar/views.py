@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-
-from apps.donar.models import Room
+from django.db.models import Min
+from apps.donar.models import Room, Lecture, Lecture_Terms
 from apps.donar.models import VGN_Coords
 
 
@@ -15,11 +15,12 @@ def all_rooms(request):
 
 
 def search_room(request):
-    id = request.GET.get('search_room', None)
-    if id:
+    token = request.GET.get('search_room', None)
+    if token:
         # create a form instance and populate it with data from the request:
-        rooms = Room.objects.filter(short__contains=id)
-        return render(request, 'donar/search_rooms.jinja', {'id': id, 'rooms': rooms})
+        rooms_by_id = Room.objects.filter(short__contains=token)
+        lectures = Lecture.objects.annotate(min_starttime=Min('term__starttime')).filter(name__contains=token).order_by('min_starttime')
+        return render(request, 'donar/search_rooms.jinja', {'id': token, 'rooms': rooms_by_id, 'lectures': lectures})
 
     return render(request, 'donar/search_rooms.jinja', {})
 

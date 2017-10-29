@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from ofu_app import views
 
 urlpatterns = [
+    url(r'^login/$', auth_views.login, {'template_name': 'registration/login.jinja'}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^admin/', admin.site.urls),
+    # url(r'^signup/$', core_views.signup, name='signup'),
+    url(r"^account/", include("apps.registration.urls")),
 
     url(r'^$', views.home, name="home"),
     # -- Apps --

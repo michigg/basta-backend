@@ -1,0 +1,34 @@
+{% extends 'base.jinja' %}
+
+{% block headline %}<h3 class="text-center">BaStA Login</h3>{% endblock %}
+
+{% block content %}
+    <div class="col-12 text-center p-3 bg-light text-dark">
+        <h3>Login</h3>
+        <form method="post" action="{{ url('login') }}">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="message is-danger">
+                    <div class="message-body">
+                        Your username and password didn't match. Please try again.
+                    </div>
+                </div>
+            {% endif %}
+            <label for="id_username" class="label">Username:</label>
+            <p class="control">
+                <input id="id_username" class="input" maxlength="254" name="username" type="text">
+            </p>
+            <label for="id_password" class="label">Password:</label>
+            <p class="control">
+                <input id="id_password" class="input" name="password" type="password">
+            </p>
+            <input type="submit" class="button is-pulled-right" value="Login"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+
+
+    </div>
+    <div class="col-12 text-center p-3 bg-light text-dark">
+        <p>Du hast noch keinen Account? <a href="{{ url('signup') }}">Hier</a> geht's zur Registrierung</p>
+    </div>
+{% endblock %}

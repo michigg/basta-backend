@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.utils import timezone
 from django.db import models
+from django.contrib.auth.models import User
 
 MAX_LENGTH = 60
 
@@ -28,11 +29,6 @@ class SingleFood(models.Model):
     price_guest = models.CharField(max_length=10, blank=True, null=True)
     image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
     rating = models.FloatField(default=0)
-    first_star = models.SmallIntegerField(default=0)
-    second_star = models.SmallIntegerField(default=0)
-    third_star = models.SmallIntegerField(default=0)
-    fourth_star = models.SmallIntegerField(default=0)
-    fifth_star = models.SmallIntegerField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
 
     def __str__(self):
@@ -60,3 +56,13 @@ class HappyHour(models.Model):
 
     def __str__(self):
         return "Date: %s, Location: %s" % (self.date.strftime("%Y.%m.%d"), self.location)
+
+
+class UserRating(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
+    food = models.ForeignKey(SingleFood)
+    rating = models.FloatField(default=0)
+
+    def __str__(self):
+        return "User: %s - Rating: %s" % (self.user.username, self.rating)

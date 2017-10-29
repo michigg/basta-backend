@@ -25,6 +25,7 @@ function add_Stars() {
         var rating = $(this).data('rating');
         console.log("ITEM: " + $(this) + " FOOD-ID: " + food + " FOOD-RATING: " + rating);
         for (var i = 0; i < 5; i++) {
+            $(this).find('.rating-wrapper').addClass('food-' + food);
             $(this).find('.rating-wrapper').append('<i class="star-' + (i + 1) + '-' + food + ' fa fa-star-o star" aria-hidden="true"></i>');
         }
         buildRating(food, rating);
@@ -78,9 +79,22 @@ function sendRating(obj) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            console.log("sent");
+        }
+        if (this.readyState == 4 && this.status == 403) {
+            console.log("ERROR");
+            ratingError('food-' + food_id);
         }
     };
     console.log(url + "?rating=" + rating + "&food_id=" + food_id);
     xhttp.open("GET", url + "?rating=" + rating + "&food_id=" + food_id, true);
     xhttp.send();
+}
+
+function ratingError(obj) {
+    console.log("Show in " + obj);
+    $('.' + obj).append('<p class="rating-error">Please Log in to use the Rating function</p>');
+    setTimeout(function () {
+        $('.rating-error').remove();
+    }, 1500);
 }

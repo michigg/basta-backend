@@ -7,24 +7,45 @@
         <div class="row pt-5">
             <form type="get" action="{{ url('search-rooms') }}" style="margin: 0">
                 <input id="search_room" type="text" name="search_room" placeholder="Search...">
-                <button id="search_submit" type="submit">Submit</button>
+                <button id="search_submit" type="submit">Search</button>
             </form>
         </div>
-        <div class="row mt-4">
-            {% if id %}
+        {% if id %}
+            <div class="row mt-4">
                 <h2>Ergebnisse für: {{ id }}</h2>
-            {% endif %}
-        </div>
-        <div class="row">
-            {% if rooms %}
-                {% for room in  rooms %}
-                    <div class="col-12 p-1">
-                        <div class="p-2 border border-dark rounded-3 border border-dark rounded bg-light text-dark">
-                            <a href="{{ url('show-room', args=[room.short]) }}"><p><strong>Short:</strong> {{ room.short }}</p></a>
+            </div>
+            <div class="row">
+                {% if rooms %}
+                    <h3>Ergebnisse Räume:</h3>
+                    {% for room in  rooms %}
+                        <div class="col-12 p-1">
+                            <div class="p-2 border border-dark rounded-3 border border-dark rounded bg-light text-dark">
+                                <a href="{{ url('show-room', args=[room.short]) }}"><p>
+                                    <strong>Raum:</strong> {{ room.short }}</p></a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if lectures %}
+                    <h3>Ergebnisse Lehrveranstaltungen:</h3>
+                    {% for lecture in  lectures %}
+                        <div class="col-12 p-1">
+                            <div class="p-2 border border-dark rounded-3 border border-dark rounded bg-light text-dark">
+                                <h5>{{ lecture.name }}</h5>
+                                {% for term in lecture.term.all() %}
+                                    <small>Start: {{ term.starttime.strftime("%H:%M") }}</small>
+                                    {% for room in term.room.all() %}
+                                        <a href="{{ url('show-room', args=[room.short]) }}"><p>
+                                            <strong>Raum:</strong> {{ room.short }}</p></a>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

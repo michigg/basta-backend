@@ -129,13 +129,13 @@ def main():
 
     # deleteUnivisObjects()
     # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_HuWi)
-    # writeUnivisDataInDB(events, rooms, persons)
+    # writeUnivisRoomDataInDB(events, rooms, persons)
     # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_SoWi)
-    # writeUnivisDataInDB(events, rooms, persons)
+    # writeUnivisRoomDataInDB(events, rooms, persons)
     # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_GuK)
-    # writeUnivisDataInDB(events, rooms, persons)
+    # writeUnivisRoomDataInDB(events, rooms, persons)
     # events, rooms, persons = univis_eventpage_parser.parsePage(UNIVIS_RPG_WIAI)
-    # writeUnivisDataInDB(events, rooms, persons)
+    # writeUnivisRoomDataInDB(events, rooms, persons)
 
     writeFekideDataInDB(fekide_eventpage_parser.parsePage())
 
