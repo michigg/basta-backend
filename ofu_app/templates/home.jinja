@@ -2,13 +2,13 @@
 {% import '/macros/overview_pages.jinja' as macros %}
 {% block headline %}
     <header class="">
-        <h1 class="text-center" style="font-size: 20px">BaStA</h1>
+        <h1 class="text-center mb-0" style="font-size: 20px">BaStA</h1>
         <p class="text-center">Bamberger Studierenden App</p>
     </header>
 {% endblock %}
 {% block content %}
-    <div class="container text-dark">
-        <div class="row">
+    <div class="container">
+        <div class="row text-dark">
             {{ macros.home_item_with_icon(icon='fa-cutlery', url_id='daily-food', title='Food') }}
             {{ macros.home_item_with_icon(icon='fa-calendar-o', url_id='day-events', title='Events') }}
             {{ macros.home_item_with_icon(icon='fa-compass', url_id='donar', title='Nav') }}

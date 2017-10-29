@@ -5,7 +5,7 @@
     <p class="text-center">Week: {{ day.strftime("%d.%m.%Y") }} - {{ lastday.strftime("%d.%m.%Y") }}</p>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             {{ macros.week_menu(title='Feki', location_menus=feki_menu, fail_text='Die Feki Mensa hat heute geschlossen.') }}
             {{ macros.week_menu(title='Austraße', location_menus=austr_menu, fail_text='Die Austr Mensa hat heute geschlossen.') }}

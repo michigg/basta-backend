@@ -34,13 +34,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_jinja',
     'apps.food',
     'apps.events',
     'apps.donar',
+    'apps.registration',
     'rest_framework',
     'analytical',
 ]
+
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -59,7 +63,6 @@ REST_FRAMEWORK = {
 # ]
 
 ROOT_URLCONF = 'ofu_app.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
@@ -162,5 +165,19 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
+# monitoring
 PIWIK_DOMAIN_PATH = 'mg-server.ddns.net/piwik'
 PIWIK_SITE_ID = '1'
+
+LOGIN_REDIRECT_URL = 'home'
+
+# Sign Up E-Mail authentication
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'signup.basta@gmail.com'
+EMAIL_HOST_PASSWORD = '1\SL^QzlSuP<`8gkP4Fd'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+
+ACCOUNT_EMAIL_UNIQUE = True
+ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
