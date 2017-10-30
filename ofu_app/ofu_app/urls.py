@@ -20,7 +20,7 @@ from ofu_app import views
 
 urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'registration/login.jinja'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
+    url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
     url(r'^admin/', admin.site.urls),
     # url(r'^signup/$', core_views.signup, name='signup'),
     url(r"^account/", include("apps.registration.urls")),
