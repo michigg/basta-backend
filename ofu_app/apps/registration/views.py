@@ -11,6 +11,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.shortcuts import HttpResponse
+from apps.food.models import UserRating
 
 
 def signup(request):
@@ -56,3 +57,16 @@ def activate(request, uidb64, token):
 
 def account_activation_sent(request):
     return render(request, 'registration/account_activation_sent.jinja', {})
+
+
+def account_view(request):
+    if request.user.is_authenticated:
+        user = request.user
+        food_ratings = UserRating.objects.filter(user=user).order_by('food__name')
+
+        return render(request, 'registration/account_view.jinja',
+                      {'name': user.username, 'email': user.email, 'date_joined': user.date_joined,
+                       'food_ratings': food_ratings, 'first_name': user.first_name, 'last_name': user.last_name,
+                       'last_login': user.last_login})
+    else:
+        return HttpResponse(status=404)
