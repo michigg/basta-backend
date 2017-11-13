@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.donar',
     'apps.registration',
+    'api',
     'rest_framework',
     'analytical',
 ]
@@ -62,7 +63,7 @@ REST_FRAMEWORK = {
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 
-ROOT_URLCONF = 'ofu_app.urls'
+ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
@@ -71,7 +72,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'ofu_app.jinja2.environment'
+            'environment': 'core.jinja2.environment'
         },
     },
     {
@@ -89,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ofu_app.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
