@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 from datetime import timedelta
-from api.serializers.food_serializers import MenuSerializer
-from apps.food.models import Menu
+from api.serializers.food_serializers import MenuSerializer, HappyHourSerializer
+from apps.food.models import Menu, HappyHour
 from rest_framework import viewsets
 from django.http import JsonResponse
 
@@ -46,5 +46,24 @@ class FoodViewSet(viewsets.ModelViewSet):
 
         print("DATE: " + date)
         print(str(queryset))
+
+        return queryset
+
+
+class HappyHourViewSet(viewsets.ModelViewSet):
+    """
+     API endpoint that allows users to be viewed or edited.
+     """
+    queryset = HappyHour.objects.all()
+    serializer_class = HappyHourSerializer
+
+    def get_queryset(self):
+        queryset = HappyHour.objects.all()
+        type = self.request.query_params.get('type')
+
+        # if type == "food":
+        #     queryset = HappyHour.filter(location__contains="Austraße")
+        # elif type == "drinks":
+        #     queryset = HappyHour.filter(location__contains="Austraße")
 
         return queryset

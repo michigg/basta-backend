@@ -20,6 +20,7 @@ from api.views import food_views
 
 router = routers.DefaultRouter()
 router.register(r'food', food_views.FoodViewSet, base_name='Food')
+router.register(r'happy-hour', food_views.HappyHourViewSet, base_name='HappyHours')
 
 urlpatterns = [
     # url(r'^api/v1/', ),
