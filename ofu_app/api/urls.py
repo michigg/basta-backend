@@ -13,23 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework import routers
 
-from apps.food import views
+from api.views import food_views
+
+router = routers.DefaultRouter()
+router.register(r'food', food_views.FoodViewSet, base_name='Food')
+router.register(r'happy-hour', food_views.HappyHourViewSet, base_name='HappyHours')
 
 urlpatterns = [
-    url(r'^$', views.food, name='food'),
-
-    # Daily Menus
-    url(r'^daily/$', views.daily_food, name='daily-food'),
-
-    # Weekly Menus
-    url(r'^weekly/$', views.weekly_food, name='weekly-food'),
-
-    # All known Menus
-    # url(r'^all/$', views.food, name='all-food'),
-
-    # Food Rating
-    url(r'^daily/rating/$', views.food_rating, name='rating-food'),
-    url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
+    # url(r'^api/v1/', ),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
