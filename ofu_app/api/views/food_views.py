@@ -3,12 +3,17 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 from datetime import timedelta
+
 from api.serializers.food_serializers import MenuSerializer, HappyHourSerializer
 from apps.food.models import Menu, HappyHour
 from rest_framework import viewsets
-from django.http import JsonResponse
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
 
+# @api_view(['GET'])
+@permission_classes((AllowAny,))
 class FoodViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -44,12 +49,14 @@ class FoodViewSet(viewsets.ModelViewSet):
             else:
                 queryset = queryset.filter(date=datetime.strptime(date, "%Y-%m-%d"))
 
-        print("DATE: " + date)
+        print("DATE: " + str(date))
         print(str(queryset))
 
         return queryset
 
 
+# @api_view(['GET'])
+@permission_classes((AllowAny,))
 class HappyHourViewSet(viewsets.ModelViewSet):
     """
      API endpoint that allows users to be viewed or edited.
