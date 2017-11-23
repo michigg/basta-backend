@@ -29,6 +29,9 @@ urlpatterns = [
     # All known Menus
     # url(r'^all/$', views.food, name='all-food'),
 
+    # Food detailed
+    url(r'^(?P<id>[0-9]+)/$', views.food_detail, name='food-detail'),
+
     # Food Rating
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
