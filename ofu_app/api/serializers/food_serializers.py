@@ -1,11 +1,21 @@
-from apps.food.models import Menu, SingleFood, HappyHour
+from tkinter.constants import ALL
+
+from apps.food.models import Menu, SingleFood, HappyHour, Allergene
 from rest_framework import serializers
 
 
+class AllergensSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Allergene
+        fields = ('id', 'name')
+
+
 class SingleFoodSerializer(serializers.HyperlinkedModelSerializer):
+    allergens = AllergensSerializer(many=True, read_only=True)
+
     class Meta:
         model = SingleFood
-        fields = ('name', 'rating')
+        fields = ('name', 'rating', 'price_student', 'price_employee', 'price_guest', 'allergens')
 
 
 class MenuSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,7 +24,7 @@ class MenuSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ('date', 'location', 'menu')
+        fields = ('id', 'date', 'location', 'menu')
 
 
 class HappyHourSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,4 +34,4 @@ class HappyHourSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = HappyHour
-        fields = ('date', 'starttime', 'endtime', 'location', 'description')
+        fields = ('id', 'date', 'starttime', 'endtime', 'location', 'description')
