@@ -17,8 +17,18 @@ from core import views
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from rest_framework import routers
+from apps.food import urls as food_urls
+
+# API router
+api_router_v1 = routers.DefaultRouter()
+api_router_v1.registry.extend(food_urls.apiRouter_v1.registry)
+
+api_router_v1_1 = routers.DefaultRouter()
+api_router_v1_1.registry.extend(food_urls.apiRouter_v1_1.registry)
 
 urlpatterns = [
+    # -- User Managment --
     url(r'^login/$', auth_views.login, {'template_name': 'registration/login.jinja'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
     url(r'^admin/', admin.site.urls),
@@ -34,5 +44,8 @@ urlpatterns = [
     url(r'^links/$', views.links, name='links-home'),
     url(r'^impressum/$', views.impressum, name='impressum'),
 
-    url(r'', include('api.urls'))
+    # -- API --
+    url(r'^api/v1/', include(api_router_v1.urls)),
+    url(r'^api/v1.1/', include(api_router_v1_1.urls)),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

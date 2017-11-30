@@ -1,7 +1,6 @@
-from tkinter.constants import ALL
+from rest_framework import serializers
 
 from apps.food.models import Menu, SingleFood, HappyHour, Allergene
-from rest_framework import serializers
 
 
 class AllergensSerializer(serializers.HyperlinkedModelSerializer):
