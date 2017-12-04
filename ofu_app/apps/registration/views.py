@@ -1,17 +1,17 @@
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
-from apps.registration.forms import SignUpForm
+from apps.registration.forms import SignUpForm, ChangeUserDataForm
 from apps.registration.tokens import account_activation_token
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.core.mail import send_mail
-from django.shortcuts import HttpResponse
-from apps.food.models import UserRating
+from django.shortcuts import HttpResponse, redirect
+from apps.food.models import UserRating, UserFoodImage
 
 
 def signup(request):
@@ -62,11 +62,31 @@ def account_activation_sent(request):
 def account_view(request):
     if request.user.is_authenticated:
         user = request.user
+
         food_ratings = UserRating.objects.filter(user=user).order_by('food__name')
+        food_images = UserFoodImage.objects.filter(user=user)
+        print(food_images)
 
         return render(request, 'registration/account_view.jinja',
                       {'name': user.username, 'email': user.email, 'date_joined': user.date_joined,
                        'food_ratings': food_ratings, 'first_name': user.first_name, 'last_name': user.last_name,
-                       'last_login': user.last_login})
+                       'last_login': user.last_login, 'food_images': food_images})
+    else:
+        return HttpResponse(status=404)
+
+
+def account_change(request):
+    if request.user.is_authenticated:
+        instance = get_object_or_404(User, id=request.user.id)
+        form = ChangeUserDataForm(request.POST, instance=instance, initial={"first_name": "Hallo"})
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                return redirect('account')
+            else:
+                return HttpResponse(status=404)
+        else:
+            return render(request, 'registration/account_data_change.jinja', {'form': form})
+
     else:
         return HttpResponse(status=404)

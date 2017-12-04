@@ -31,28 +31,43 @@
 {% endmacro %}
 
 {% macro get_menu(menu) -%}
-    <ul class="border">
+    <ul class="border media-list">
         {% for single_food in menu %}
-            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
-                <div class="row">
-                    <div class="food-name col-8">
-                        {% if single_food.price_student %}
-                            <a href="{{ url('food-detail', args=[single_food.id]) }}">
-                                <p>{{ single_food.name }}</p></a>
-                        {% else %}
-                            <p>{{ single_food.name }}</p>
-                        {% endif %}
-                    </div>
-                    {% if single_food.price_student %}
-                        <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>
+            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item media">
+                <div class="mr-2 media-left media-middle">
+                    {# TODO: without many to many #}
+                    {% if single_food.image.all() %}
+                        {% for image in single_food.image.all() %}
+                            <a href="{{ image.image.url }}">
+                                <img src="{{ image.image.url }}" class="media-object" alt="Bild" width="80px">
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="/media/food/default/gorilla.jpg">
+                            <img src="/media/food/default/gorilla.jpg" class="media-object" alt="Bild" width="80px">
+                        </a>
                     {% endif %}
-                    {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
+                </div>
+                <div class="media-body">
+                    <div class="row">
+                        <div class="food-name col-8">
+                            {% if single_food.price_student %}
+                                <a href="{{ url('food-detail', args=[single_food.id]) }}">
+                                    <p>{{ single_food.name }}</p></a>
+                            {% else %}
+                                <p>{{ single_food.name }}</p>
+                            {% endif %}
+                        </div>
+                        {% if single_food.price_student %}
+                            <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>
+                        {% endif %}
+                        {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
                                                           height="800"><i
                             class="img-placeholder fa fa-cutlery text-right"></i></div>#}
-                </div>
-                <div class="row">
-                    <div class="rating-wrapper col-6 text-left"></div>
-                   {# <div class="col-6 text-right">
+                    </div>
+                    <div class="row">
+                        <div class="rating-wrapper col-6 text-left"></div>
+                        {# <div class="col-6 text-right">
                         <label for="pic-upload-{{ single_food.id }}" class="custom-pic-upload">
                             <i class="fa fa-camera" aria-hidden="true"></i>
                         </label>
@@ -62,6 +77,7 @@
                                    id="upload-photo" style="display: none !important;"/>
                         </div>
                     </div>#}
+                    </div>
                 </div>
             </li>
         {% endfor %}

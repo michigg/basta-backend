@@ -17,22 +17,24 @@ from core import views
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^login/$', auth_views.login, {'template_name': 'registration/login.jinja'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
-    url(r'^admin/', admin.site.urls),
-    # url(r'^signup/$', core_views.signup, name='signup'),
-    url(r'^account/', include("apps.registration.urls")),
+                  url(r'^login/$', auth_views.login, {'template_name': 'registration/login.jinja'}, name='login'),
+                  url(r'^logout/$', auth_views.logout, {'next_page': 'home'}, name='logout'),
+                  url(r'^admin/', admin.site.urls),
+                  # url(r'^signup/$', core_views.signup, name='signup'),
+                  url(r'^account/', include("apps.registration.urls")),
 
-    url(r'^$', views.home, name="home"),
+                  url(r'^$', views.home, name="home"),
 
-    # -- Apps --
-    url(r'^food/', include('apps.food.urls')),
-    url(r'^events/', include('apps.events.urls')),
-    url(r'^donar/', include('apps.donar.urls')),
-    url(r'^links/$', views.links, name='links-home'),
-    url(r'^impressum/$', views.impressum, name='impressum'),
+                  # -- Apps --
+                  url(r'^food/', include('apps.food.urls')),
+                  url(r'^events/', include('apps.events.urls')),
+                  url(r'^donar/', include('apps.donar.urls')),
+                  url(r'^links/$', views.links, name='links-home'),
+                  url(r'^impressum/$', views.impressum, name='impressum'),
 
-    url(r'', include('api.urls'))
-]
+                  url(r'', include('api.urls'))
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

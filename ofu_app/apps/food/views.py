@@ -2,16 +2,21 @@
 from __future__ import unicode_literals
 
 import datetime
+import os
 
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
+from pprint import pprint
 
-from apps.food.models import Menu, HappyHour, SingleFood, UserRating
+from apps.food.forms import UploadImageForm
+from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage
 
 
 # Create your views here.
 def daily_food(request):
-    today = datetime.datetime.now()
+    today = datetime.datetime.now() - datetime.timedelta(4)
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
@@ -49,8 +54,12 @@ def weekly_food(request):
 
 
 def food_detail(request, id):
+    if request.method == 'POST':
+        if pic_upload(request, id) == False:
+            return HttpResponse(status=404)
     food = SingleFood.objects.get(id=id)
-    return render(request, "food/detailed_food.jinja", {'food': food})
+    images = UserFoodImage.objects.filter(food=id)
+    return render(request, "food/detailed_food.jinja", {'food': food, 'images': images})
 
 
 def all_food(request):
@@ -94,7 +103,6 @@ def food_rating(request):
             food.save()
             return HttpResponse(status=200)
         return HttpResponse(status=404)
-
     return HttpResponse(status=403)
 
 
@@ -106,5 +114,22 @@ def food_image(request):
         food.image = img
         food.save()
         return HttpResponse(status=200)
-
     return HttpResponse(status=404)
+
+
+def pic_upload(request, id):
+    form = UploadImageForm(request.POST, request.FILES)
+    if form.is_valid():
+        try:
+            old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
+            old_user_pic.delete()
+            os.remove(os.path.join(settings.MEDIA_ROOT, old_user_pic.image.name))
+        except ObjectDoesNotExist:
+            pass
+        userPic = form.save(commit=False)
+        userPic.food = SingleFood.objects.get(id=id)
+        userPic.user = request.user
+        userPic.save()
+        return True
+    else:
+        return False

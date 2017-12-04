@@ -27,7 +27,7 @@ class SingleFood(models.Model):
     price_student = models.CharField(max_length=10, blank=True, null=True)
     price_employee = models.CharField(max_length=10, blank=True, null=True)
     price_guest = models.CharField(max_length=10, blank=True, null=True)
-    image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
+    image = models.ManyToManyField("UserFoodImage", related_name='user_images')
     rating = models.FloatField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
 
@@ -66,3 +66,16 @@ class UserRating(models.Model):
 
     def __str__(self):
         return "User: %s - Rating: %s" % (self.user.username, self.rating)
+
+
+class UserFoodImage(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
+    food = models.ForeignKey(SingleFood)
+    image = models.ImageField(upload_to='food/%Y/%m/%W', blank=True)
+
+    class Meta:
+        unique_together = ('user', 'food')
+
+    def __str__(self):
+        return "User: %s - Rating: %s" % (self.user.username, str(self.image))

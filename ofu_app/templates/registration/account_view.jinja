@@ -10,15 +10,30 @@
                 <p><strong>Vorname:</strong> {{ first_name }}</p>
                 <p><strong>Nachname:</strong> {{ last_name }}</p>
                 <p><strong>E-Mail:</strong> {{ email }}</p>
+                <a href="{{ url('change-account') }}">Bearbeiten</a>
             </div>
         </div>
         <div class="row p-1">
             <div class="col-12 p-3 bg-light text-dark">
                 <h4>Your Food Ratings:</h4>
-                {% for rating in food_ratings %}
-                    <p>{{ rating.food.name }}: {{ rating.rating }}</p>
-                {% endfor %}
+                <ul>
+                    {% for rating in food_ratings %}
+                        <li>{{ rating.food.name }}: {{ rating.rating }}</li>
+                    {% endfor %}
+                </ul>
             </div>
+        </div>
+        <div class="row p-1">
+            {% for image in food_images %}
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 p-3 bg-light text-dark">
+                    <p>{{ image.food.name }}</p>
+                    <div class="thumbnail">
+                        <a href="{{ image.image.url }}">
+                            <img src="{{ image.image.url }}" alt="Lights" style="width:100%">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
     <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center p-3">
