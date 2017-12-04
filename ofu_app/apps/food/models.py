@@ -12,7 +12,7 @@ class Menu(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
     location = models.CharField(max_length=MAX_LENGTH)
-    menu = models.ManyToManyField("SingleFood")
+    menu = models.ManyToManyField("SingleFood", related_name="foods")
 
     class Meta:
         unique_together = ('date', 'location')

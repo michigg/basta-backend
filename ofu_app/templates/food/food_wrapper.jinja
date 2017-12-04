@@ -3,8 +3,10 @@
     <script src="{{ static('libs/jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ static('js/food/rating.js') }}"></script>
     {#    <script src="{{ static('js/food/image_capturing.js') }}"></script>#}
+    <script src="{{ static('libs/lightbox2-master/dist/js/lightbox-plus-jquery.js') }}"></script>
 {% endblock %}
 {% block css_extra %}
+    <link href="{{ static('libs/lightbox2-master/dist/css/lightbox.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ static('css/food/main.css') }}">
 {% endblock %}
 {% block bottom_nav %}

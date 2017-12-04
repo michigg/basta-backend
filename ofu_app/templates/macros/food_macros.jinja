@@ -4,7 +4,7 @@
             <h2>{{ title }} </h2>
             {% if location_menu %}
                 <p>{{ location_menu.date.strftime('%d.%m.%Y') }}</p>
-                {{ get_menu(location_menu.menu.all()) }}
+                {{ get_menu(location_menu.menu.all(), title) }}
             {% else %}
                 <p> {{ fail_text }}</p>
             {% endif %}
@@ -30,7 +30,7 @@
     </div>
 {% endmacro %}
 
-{% macro get_menu(menu) -%}
+{% macro get_menu(menu, title="") -%}
     <ul class="border media-list">
         {% for single_food in menu %}
             <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item media">
@@ -38,12 +38,14 @@
                     {# TODO: without many to many #}
                     {% if single_food.image.all() %}
                         {% for image in single_food.image.all() %}
-                            <a href="{{ image.image.url }}">
+                            <a href="{{ image.image.url }}" data-lightbox="{{ title }}"
+                               data-title="{{ single_food.name }}">
                                 <img src="{{ image.image.url }}" class="media-object" alt="Bild" width="80px">
                             </a>
                         {% endfor %}
                     {% else %}
-                        <a href="/media/food/default/gorilla.jpg">
+                        <a href="/media/food/default/gorilla.jpg" data-lightbox="{{ title }}"
+                           data-title="{{ single_food.name }}">
                             <img src="/media/food/default/gorilla.jpg" class="media-object" alt="Bild" width="80px">
                         </a>
                     {% endif %}
