@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import datetime
 import re
+from pprint import pprint
 
 SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
 
@@ -64,4 +65,4 @@ def parsePage(url: str):
 
 
 # LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
-# parsePage(LINK_ERBA_CAFETE)
+# pprint(parsePage(LINK_ERBA_CAFETE))

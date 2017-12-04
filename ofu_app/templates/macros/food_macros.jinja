@@ -51,12 +51,8 @@
                 <div class="media-body">
                     <div class="row">
                         <div class="food-name col-8">
-                            {% if single_food.price_student %}
-                                <a href="{{ url('food-detail', args=[single_food.id]) }}">
-                                    <p>{{ single_food.name }}</p></a>
-                            {% else %}
-                                <p>{{ single_food.name }}</p>
-                            {% endif %}
+                            <a href="{{ url('food-detail', args=[single_food.id]) }}">
+                                <p>{{ single_food.name }}</p></a>
                         </div>
                         {% if single_food.price_student %}
                             <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>

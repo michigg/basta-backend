@@ -20,10 +20,12 @@ def getJsonFromFile(path):
 
 def writeStudentenwerkDataInDB(data):
     data = json.loads(data)
+    pprint(data)
     for menu in data['weekmenu']:
-
+        pprint(menu)
         foodlist = []
         for single_food in menu['menu']:
+            pprint(single_food)
             if 'allergens' in single_food:
                 allergens = []
                 for allergen in single_food['allergens']:
@@ -53,17 +55,15 @@ def writeStudentenwerkDataInDB(data):
                         db_single_food.price_guest = single_food['prices']['price_guest']
                 if 'allergens' in locals():
                     db_single_food.allergens = allergens
-
                 foodlist.append(db_single_food)
         try:
             date = datetime.strptime(str(menu['date']), "%d.%m.").replace(year=datetime.today().year)
-            menu = Menu.objects.create(location=data['name'],
-                                       date=date)
+            menu = Menu.objects.create(location=data['name'], date=date)
             menu.menu = foodlist
             menu.save()
-        except IntegrityError:
+        except IntegrityError as error:
             # ignored
-            break
+            pass
 
 
 def writeFekideDataInDB(data):

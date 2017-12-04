@@ -28,7 +28,6 @@ def getFoodPerDay(soup):
             title = singleFoodSoup.find('div', {'class': 'title'}).getText()
             allergens = [e.getText() for e in singleFoodSoup.select('.left .additnr .toggler ul li')]
             prices = {}
-            print(singleFoodSoup.select('.price'))
             if singleFoodSoup.select('.price'):
                 prices['price_student'] = singleFoodSoup.select('.price')[0]['data-default']
             if singleFoodSoup.select('.price'):

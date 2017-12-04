@@ -58,8 +58,11 @@ def food_detail(request, id):
         if pic_upload(request, id) == False:
             return HttpResponse(status=404)
     food = SingleFood.objects.get(id=id)
-    images = UserFoodImage.objects.filter(food=id)
-    return render(request, "food/detailed_food.jinja", {'food': food, 'images': images})
+    if request.user.is_authenticated:
+        images = UserFoodImage.objects.filter(food=id, user=request.user)
+        return render(request, "food/detailed_food.jinja", {'food': food, 'images': images})
+    else:
+        return render(request, "food/detailed_food.jinja", {'food': food})
 
 
 def all_food(request):
@@ -79,8 +82,7 @@ def all_food(request):
 
 
 def food(request):
-    return render(request, "food/home.jinja", {
-    })
+    return render(request, "food/home.jinja", {})
 
 
 def food_rating(request):
