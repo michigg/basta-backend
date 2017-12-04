@@ -17,11 +17,18 @@ from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodIm
 # Create your views here.
 def daily_food(request):
     today = datetime.datetime.now()
+    lastday = today + datetime.timedelta(7)
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
     markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="markus").last()
     happy_hours = HappyHour.objects.filter(date__exact=today)
+
+    weekly_menus = Menu.objects.filter(date__gte=today, date__lte=lastday)
+    weekly_feki_menu = weekly_menus.filter(location__contains="Feldkirchenstraße")
+    weekly_austr_menu = weekly_menus.filter(location__contains="Austraße")
+    weekly_erba_cafete = weekly_menus.filter(location__contains="Erba")
+    weekly_markus_cafete = weekly_menus.filter(location__contains="markus")
 
     return render(request, "food/daily_food.jinja", {
         'day': today,
@@ -30,6 +37,10 @@ def daily_food(request):
         'austr_menu': austr_menu,
         'erba_cafete': erba_cafete,
         'markus_cafete': markus_cafete,
+        'weekly_feki_menu': weekly_feki_menu,
+        'weekly_austr_menu': weekly_austr_menu,
+        'weekly_erba_cafete': weekly_erba_cafete,
+        'weekly_markus_cafete': weekly_markus_cafete,
     })
 
 
