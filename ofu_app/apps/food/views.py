@@ -16,7 +16,7 @@ from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodIm
 
 # Create your views here.
 def daily_food(request):
-    today = datetime.datetime.now() - datetime.timedelta(4)
+    today = datetime.datetime.now()
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
