@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import json
 import datetime
 
-FEKI_URL = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
+
+# FEKI_URL = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
 
 
 def loadPage(url: str):
@@ -27,9 +28,13 @@ def getFoodPerDay(soup):
             title = singleFoodSoup.find('div', {'class': 'title'}).getText()
             allergens = [e.getText() for e in singleFoodSoup.select('.left .additnr .toggler ul li')]
             prices = {}
-            prices['price_student'] = singleFoodSoup.select('.price')[0]['data-default']
-            prices['price_employee'] = singleFoodSoup.select('.price')[0]['data-bed']
-            prices['price_guest'] = singleFoodSoup.select('.price')[0]['data-guest']
+            print(singleFoodSoup.select('.price'))
+            if singleFoodSoup.select('.price'):
+                prices['price_student'] = singleFoodSoup.select('.price')[0]['data-default']
+            if singleFoodSoup.select('.price'):
+                prices['price_employee'] = singleFoodSoup.select('.price')[0]['data-bed']
+            if singleFoodSoup.select('.price'):
+                prices['price_guest'] = singleFoodSoup.select('.price')[0]['data-guest']
             singleFoodObj['title'] = title
             singleFoodObj['allergens'] = allergens
             singleFoodObj['prices'] = prices
@@ -64,5 +69,4 @@ def getFoodplanName(soup):
     foodplan_name = soup.select('.mensamenu h2')[0].getText()
     return foodplan_name
 
-
-parsePage(FEKI_URL)
+# parsePage(FEKI_URL)

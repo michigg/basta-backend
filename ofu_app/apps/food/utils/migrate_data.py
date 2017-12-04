@@ -45,9 +45,12 @@ def writeStudentenwerkDataInDB(data):
             except IntegrityError:
                 db_single_food = SingleFood.objects.get(name=single_food['title'])
                 if 'prices' in single_food:
-                    db_single_food.price_student = single_food['prices']['price_student'],
-                    db_single_food.price_employee = single_food['prices']['price_employee'],
-                    db_single_food.price_guest = single_food['prices']['price_guest']
+                    if 'price_student' in single_food['prices']:
+                        db_single_food.price_student = single_food['prices']['price_student']
+                    if 'price_employee' in single_food['prices']:
+                        db_single_food.price_employee = single_food['prices']['price_employee']
+                    if 'price_guest' in single_food['prices']:
+                        db_single_food.price_guest = single_food['prices']['price_guest']
                 if 'allergens' in locals():
                     db_single_food.allergens = allergens
 
