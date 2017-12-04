@@ -35,10 +35,22 @@ def writeStudentenwerkDataInDB(data):
                         allergens.append(Allergene.objects.get(name=allergen))
             try:
                 if 'prices' in single_food:
+                    if 'price_student' in single_food['prices']:
+                        price_student = single_food['prices']['price_student']
+                    else:
+                        price_student = "None"
+                    if 'price_employee' in single_food['prices']:
+                        price_employee = single_food['prices']['price_employee']
+                    else:
+                        price_employee = "None"
+                    if 'price_guest' in single_food['prices']:
+                        price_guest = single_food['prices']['price_guest']
+                    else:
+                        price_guest = "None"
                     db_single_food = SingleFood.objects.create(name=single_food['title'],
-                                                               price_student=single_food['prices']['price_student'],
-                                                               price_employee=single_food['prices']['price_employee'],
-                                                               price_guest=single_food['prices']['price_guest'])
+                                                               price_student=price_student,
+                                                               price_employee=price_employee,
+                                                               price_guest=price_guest)
                 else:
                     db_single_food = SingleFood.objects.create(name=single_food['title'])
                 if 'allergens' in locals():
