@@ -43,7 +43,7 @@
             {% if location_menus %}
                 {% for menu in location_menus %}
                     <div class="menu">
-                        <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
+                        <p><strong>{{ menu.date.strftime('%A, %d.%m.%Y') }}</strong></p>
                         {{ get_menu(menu.menu.all()) }}
                     </div>
                 {% endfor %}
