@@ -15,21 +15,21 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="{{ title }}-daily" role="tabpanel"
                  aria-labelledby="{{ title }}-daily-tab">
-                {{ day_menu(location_menu, fail_text, css_id='menu') }}
+                {{ day_menu(title, location_menu, fail_text, css_id='menu') }}
             </div>
             <div class="tab-pane fade" id="{{ title }}-weekly" role="tabpanel" aria-labelledby="{{ title }}-weekly-tab">
-                {{ week_menu(location_menus, fail_text) }}
+                {{ week_menu(title, location_menus, fail_text) }}
             </div>
         </div>
     </div>
 {% endmacro %}
 
-{% macro day_menu(location_menu, fail_text, css_id='menu') -%}
+{% macro day_menu(title, location_menu, fail_text, css_id='menu') -%}
     <div id="{{ css_id }}" class="menu">
         <div class="p-3 border border-dark rounded bg-light text-dark">
             {% if location_menu %}
                 <p>{{ location_menu.date.strftime('%d.%m.%Y') }}</p>
-                {{ get_menu(location_menu.menu.all(), title) }}
+                {{ get_menu(location_menu.menu.all(), title+"daily") }}
             {% else %}
                 <p> {{ fail_text }}</p>
             {% endif %}
@@ -37,14 +37,14 @@
     </div>
 {% endmacro %}
 
-{% macro week_menu(location_menus, fail_text) -%}
-    <div class="">
+{% macro week_menu(title, location_menus, fail_text) -%}
+    <div>
         <div class="p-3 border border-dark rounded bg-light text-dark">
             {% if location_menus %}
                 {% for menu in location_menus %}
                     <div class="menu">
                         <p><strong>{{ menu.date.strftime('%A, %d.%m.%Y') }}</strong></p>
-                        {{ get_menu(menu.menu.all()) }}
+                        {{ get_menu(menu.menu.all(), title+"weekly") }}
                     </div>
                 {% endfor %}
             {% else %}
