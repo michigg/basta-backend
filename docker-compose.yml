@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+ basta_server_web:
+  image: docker.wiai.de/basta/server:0.1
+  build: .
+  ports:
+   - "8080:8080"
+# basta_server_db:
+#  image: postgres:alpine
+  
