@@ -5,5 +5,5 @@ RUN apk upgrade --update && \
 ADD ["ofu_app", "/app"]
 WORKDIR /app
 EXPOSE 80
-VOLUME ["/app/db.sqlite"]
+VOLUME ["/data"]
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:80"]
