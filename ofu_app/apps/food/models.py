@@ -27,7 +27,7 @@ class SingleFood(models.Model):
     price_student = models.CharField(max_length=10, blank=True, null=True)
     price_employee = models.CharField(max_length=10, blank=True, null=True)
     price_guest = models.CharField(max_length=10, blank=True, null=True)
-    image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
+    food_image = models.ImageField(upload_to='food/%Y/%m/', blank=True)
     rating = models.FloatField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
 
