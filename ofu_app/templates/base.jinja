@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>BaStA</title>
     <meta name="author" content="Michael Götz"/>
+    <script src="{{ static('libs/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ static('libs/bootstrap-4.0.0-beta-dist/js/bootstrap.js') }}"></script>
     {% block js_extra %}{% endblock %}
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ static('libs/font-awesome-4.7.0/css/font-awesome.css') }}">
@@ -38,7 +40,6 @@
 
 {# ===== Body ===== #}
 <body>
-
 {% block body %}
     <div class="container-fluid">
         <div class="row">
@@ -50,8 +51,10 @@
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
-                            <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                            <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user"
+                                                                                    aria-hidden="true"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out"
+                                                                                   aria-hidden="true"></i> Logout</a>
                         </div>
                     </div>
                 {% else %}

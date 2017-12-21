@@ -2,21 +2,34 @@
 from __future__ import unicode_literals
 
 import datetime
+import os
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
+from pprint import pprint
 
-from apps.food.models import Menu, HappyHour, SingleFood, UserRating
+from apps.food.forms import UploadImageForm
+from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage
 
 
 # Create your views here.
 def daily_food(request):
     today = datetime.datetime.now()
+    start_week = today - datetime.timedelta(today.weekday())
+    end_week = start_week + datetime.timedelta(7)
+
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
     erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
     markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="markus").last()
     happy_hours = HappyHour.objects.filter(date__exact=today)
+
+    weekly_menus = Menu.objects.filter(date__gte=start_week, date__lte=end_week)
+    weekly_feki_menu = weekly_menus.filter(location__contains="Feldkirchenstraße")
+    weekly_austr_menu = weekly_menus.filter(location__contains="Austraße")
+    weekly_erba_cafete = weekly_menus.filter(location__contains="Erba")
+    weekly_markus_cafete = weekly_menus.filter(location__contains="markus")
 
     return render(request, "food/daily_food.jinja", {
         'day': today,
@@ -25,6 +38,10 @@ def daily_food(request):
         'austr_menu': austr_menu,
         'erba_cafete': erba_cafete,
         'markus_cafete': markus_cafete,
+        'weekly_feki_menu': weekly_feki_menu,
+        'weekly_austr_menu': weekly_austr_menu,
+        'weekly_erba_cafete': weekly_erba_cafete,
+        'weekly_markus_cafete': weekly_markus_cafete,
     })
 
 
@@ -49,8 +66,15 @@ def weekly_food(request):
 
 
 def food_detail(request, id):
+    if request.method == 'POST':
+        if pic_upload(request, id) == False:
+            return HttpResponse(status=404)
     food = SingleFood.objects.get(id=id)
-    return render(request, "food/detailed_food.jinja", {'food': food})
+    if request.user.is_authenticated:
+        images = UserFoodImage.objects.filter(food=id, user=request.user)
+        return render(request, "food/detailed_food.jinja", {'food': food, 'images': images})
+    else:
+        return render(request, "food/detailed_food.jinja", {'food': food})
 
 
 def all_food(request):
@@ -70,8 +94,7 @@ def all_food(request):
 
 
 def food(request):
-    return render(request, "food/home.jinja", {
-    })
+    return render(request, "food/home.jinja", {})
 
 
 def food_rating(request):
@@ -94,7 +117,6 @@ def food_rating(request):
             food.save()
             return HttpResponse(status=200)
         return HttpResponse(status=404)
-
     return HttpResponse(status=403)
 
 
@@ -106,5 +128,22 @@ def food_image(request):
         food.image = img
         food.save()
         return HttpResponse(status=200)
-
     return HttpResponse(status=404)
+
+
+def pic_upload(request, id):
+    form = UploadImageForm(request.POST, request.FILES)
+    if form.is_valid():
+        try:
+            old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
+            old_user_pic.delete()
+
+        except ObjectDoesNotExist:
+            pass
+        userPic = form.save(commit=False)
+        userPic.food = SingleFood.objects.get(id=id)
+        userPic.user = request.user
+        userPic.save()
+        return True
+    else:
+        return False

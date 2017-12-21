@@ -1,14 +1,14 @@
 #main-nav {
     display: table;
     position: fixed;
-    left: -200px;
+    right: -200px;
     top: 0;
     background-color: transparent;
     z-index: 5000;
     height: 100%;
     width: 200px;
-    -webkit-transition: left 0.5s; /* For Safari 3.1 to 6.0 */
-    transition: left 0.5s;
+    -webkit-transition: right 0.5s; /* For Safari 3.1 to 6.0 */
+    transition: right 0.5s;
 }
 
 #main-nav .nav-wrapper {
@@ -18,7 +18,7 @@
 
 #main-nav .inner-nav .menu-item {
     padding: 10px;
-    padding-left: 20px;
+    padding-right: 20px;
     width: 100%;
     display: block;
     background-color: #ffffff;
@@ -39,14 +39,14 @@
     background-color: #ffffff;
     display: block;
     padding: 10px;
-    padding-left: 20px;
+    padding-right: 20px;
     margin-bottom: 0;
     text-transform: uppercase;
     font-weight: bold;
 }
 
 #menu-button:hover #main-nav, #menu-button:active #main-nav {
-    left: 0;
+    right: 0;
 }
 
 #menu-button:hover i, #menu-button:active i {

@@ -1,10 +1,35 @@
+{% macro tab_menu(title, location_menu, location_menus, fail_text, css_id='menu') -%}
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2">
+        <h2>{{ title }} </h2>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="{{ title }}-daily-tab" data-toggle="tab" href="#{{ title }}-daily"
+                   role="tab" aria-controls="{{ title }}-daily"
+                   aria-selected="true">Daily</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="{{ title }}-weekly-tab" data-toggle="tab" href="#{{ title }}-weekly" role="tab"
+                   aria-controls="{{ title }}-weekly" aria-selected="false">Weekly</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="{{ title }}-daily" role="tabpanel"
+                 aria-labelledby="{{ title }}-daily-tab">
+                {{ day_menu(title, location_menu, fail_text, css_id='menu') }}
+            </div>
+            <div class="tab-pane fade" id="{{ title }}-weekly" role="tabpanel" aria-labelledby="{{ title }}-weekly-tab">
+                {{ week_menu(title, location_menus, fail_text) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro day_menu(title, location_menu, fail_text, css_id='menu') -%}
-    <div id="{{ css_id }}" class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2 menu">
+    <div id="{{ css_id }}" class="menu">
         <div class="p-3 border border-dark rounded bg-light text-dark">
-            <h2>{{ title }} </h2>
             {% if location_menu %}
                 <p>{{ location_menu.date.strftime('%d.%m.%Y') }}</p>
-                {{ get_menu(location_menu.menu.all()) }}
+                {{ get_menu(location_menu.menu.all(), title+"daily") }}
             {% else %}
                 <p> {{ fail_text }}</p>
             {% endif %}
@@ -13,14 +38,13 @@
 {% endmacro %}
 
 {% macro week_menu(title, location_menus, fail_text) -%}
-    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 p-2">
+    <div>
         <div class="p-3 border border-dark rounded bg-light text-dark">
-            <h2>{{ title }}</h2>
             {% if location_menus %}
                 {% for menu in location_menus %}
                     <div class="menu">
-                        <p><strong>{{ menu.date.strftime('%A, %m.%Y') }}</strong></p>
-                        {{ get_menu(menu.menu.all()) }}
+                        <p><strong>{{ menu.date.strftime('%A, %d.%m.%Y') }}</strong></p>
+                        {{ get_menu(menu.menu.all(), title+"weekly") }}
                     </div>
                 {% endfor %}
             {% else %}
@@ -30,29 +54,42 @@
     </div>
 {% endmacro %}
 
-{% macro get_menu(menu) -%}
-    <ul class="border">
+{% macro get_menu(menu, title="") -%}
+    <ul class="border media-list">
         {% for single_food in menu %}
-            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item">
-                <div class="row">
-                    <div class="food-name col-8">
-                        {% if single_food.price_student %}
+            <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item media mb-2">
+                <div class="mr-2 media-left media-middle">
+                    {# TODO: without many to many #}
+                    {% if single_food.image.all() %}
+                        {% for image in single_food.image.all() %}
+                            <a href="{{ image.image.url }}" data-lightbox="{{ title }}"
+                               data-title="{{ single_food.name }}">
+                                <img src="{{ image.image.url }}" class="media-object" alt="Bild" width="80px">
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <a href="/media/food/default/gorilla.jpg" data-lightbox="{{ title }}"
+                           data-title="{{ single_food.name }}">
+                            <img src="/media/food/default/gorilla.jpg" class="media-object" alt="Bild" width="80px">
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="media-body">
+                    <div class="row">
+                        <div class="food-name col-8">
                             <a href="{{ url('food-detail', args=[single_food.id]) }}">
                                 <p>{{ single_food.name }}</p></a>
-                        {% else %}
-                            <p>{{ single_food.name }}</p>
+                        </div>
+                        {% if single_food.price_student %}
+                            <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>
                         {% endif %}
-                    </div>
-                    {% if single_food.price_student %}
-                        <div class="col-4"><span class="float-right">{{ single_food.price_student }}</span></div>
-                    {% endif %}
-                    {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
+                        {#<div class="image-wrapper col-4"><img src="" class="img-rounded img" alt="" width="1024"
                                                           height="800"><i
                             class="img-placeholder fa fa-cutlery text-right"></i></div>#}
-                </div>
-                <div class="row">
-                    <div class="rating-wrapper col-6 text-left"></div>
-                   {# <div class="col-6 text-right">
+                    </div>
+                    <div class="row">
+                        <div class="rating-wrapper col-6 text-left"></div>
+                        {# <div class="col-6 text-right">
                         <label for="pic-upload-{{ single_food.id }}" class="custom-pic-upload">
                             <i class="fa fa-camera" aria-hidden="true"></i>
                         </label>
@@ -62,6 +99,7 @@
                                    id="upload-photo" style="display: none !important;"/>
                         </div>
                     </div>#}
+                    </div>
                 </div>
             </li>
         {% endfor %}

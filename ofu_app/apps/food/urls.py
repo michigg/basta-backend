@@ -56,5 +56,4 @@ urlpatterns = [
     # Food Rating
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
-
 ]

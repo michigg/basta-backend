@@ -1,0 +1,33 @@
+{% extends 'base.jinja' %}
+
+{% block headline %}<h3 class="text-center">Account</h3>{% endblock %}
+
+{% block content %}
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 text-left p-3 pl-4">
+        <div class="row p-1">
+            <div class="col-12 p-3 bg-light text-dark">
+                <form method="post" action="{{ url('change-account') }}">
+                    {% csrf_token %}
+                    <label for="first_name" class="label">Vorname:</label>
+                    <p>
+                        <input id="first_name" type="text" name="first_name" value="{{ request.user.first_name }}"
+                               required autofocus maxlength="150"/>
+                    </p>
+                    <label for="last_name" class="label">Nachname:</label>
+                    <p>
+                        <input id="last_name" type="text" name="last_name"
+                               value="{{ request.user.last_name }}" required autofocus maxlength=" 150"/>
+                    </p>
+                    <label for="email" class="label">E-Mail:</label>
+                    <p>
+                        <input id="email" type="email" name="email" value="{{ request.user.email }}" required
+                               maxlength="
+                               254" id="id_email"/>
+                        <small style="color: grey">Required. Inform a valid email address.</small>
+                    </p>
+                    <input type="submit" class="button is-pulled-right" value="Save"/>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

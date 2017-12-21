@@ -1,17 +1,12 @@
 {% extends 'base.jinja' %}
 {% block js_extra %}
-    <script src="{{ static('libs/jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ static('js/food/rating.js') }}"></script>
     {#    <script src="{{ static('js/food/image_capturing.js') }}"></script>#}
+    <script src="{{ static('libs/lightbox2-master/dist/js/lightbox-plus-jquery.js') }}"></script>
 {% endblock %}
 {% block css_extra %}
+    <link href="{{ static('libs/lightbox2-master/dist/css/lightbox.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ static('css/food/main.css') }}">
 {% endblock %}
 {% block bottom_nav %}
-    <nav id="food-nav" class="navbar navbar-default bg-light">
-        <div class="container-fluid">
-            <a class="nav-link" href="{{ url('daily-food') }}"> Daily </a>
-            <a class="nav-link" href="{{ url('weekly-food') }}"> Weekly </a>
-        </div>
-    </nav>
 {% endblock %}

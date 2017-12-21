@@ -2,6 +2,7 @@
  * Created by michigg on 20.10.17.
  */
 document.addEventListener('DOMContentLoaded', rate_init);
+
 /**
  * setup page, Add event listener
  */
@@ -62,6 +63,13 @@ function buildRating(food_id, rating) {
     }
 }
 
+function fixRating(food_id) {
+    $('.food-' + food_id).css("color", "#0074D9");
+    for (var i = 0; i < 5; i++) {
+        $('.star-' + (i + 1) + '-' + food_id).off();
+    }
+}
+
 /**
  * Sends user Rating to server
  *
@@ -80,6 +88,8 @@ function sendRating(obj) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log("sent");
+            fixRating(food_id);
+
         }
         if (this.readyState == 4 && this.status == 403) {
             console.log("ERROR");

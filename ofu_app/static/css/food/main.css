@@ -40,3 +40,13 @@ footer {
     width: 80px;
     height: 80px;
 }
+
+.lb-image, .lb-outerContainer, .lb-image {
+    width: 56% !important;
+    height: auto !important;
+}
+
+.lb-image {
+    width: 100% !important;
+    height: auto !important;
+}
