@@ -60,8 +60,8 @@ class HappyHour(models.Model):
 
 class UserRating(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
-    food = models.ForeignKey(SingleFood)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
+    food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
     rating = models.FloatField(default=0)
 
     def __str__(self):
@@ -70,8 +70,8 @@ class UserRating(models.Model):
 
 class UserFoodImage(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
-    food = models.ForeignKey(SingleFood)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
+    food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
     image = models.ImageField(upload_to='food/%Y/%m/%W', blank=True)
 
     class Meta:

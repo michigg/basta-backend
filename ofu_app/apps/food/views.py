@@ -18,7 +18,7 @@ from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodIm
 def daily_food(request):
     today = datetime.datetime.now()
     start_week = today - datetime.timedelta(today.weekday())
-    end_week = start_week + datetime.timedelta(7)
+    end_week = start_week + datetime.timedelta(20)
 
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()

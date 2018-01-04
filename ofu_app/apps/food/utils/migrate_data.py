@@ -71,7 +71,7 @@ def writeStudentenwerkDataInDB(data):
         try:
             date = datetime.strptime(str(menu['date']), "%d.%m.").replace(year=datetime.today().year)
             menu = Menu.objects.create(location=data['name'], date=date)
-            menu.menu = foodlist
+            menu.menu.set(foodlist)
             menu.save()
         except IntegrityError as error:
             # ignored

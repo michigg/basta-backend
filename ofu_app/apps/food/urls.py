@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from apps.food import views
+from apps.food import views, admin_views
 from django.conf.urls import url, include
 
 urlpatterns = [
@@ -35,4 +35,8 @@ urlpatterns = [
     # Food Rating
     url(r'^daily/rating/$', views.food_rating, name='rating-food'),
     url(r'^weekly/rating/$', views.food_rating, name='rating-food'),
+
+    # Admin Pages
+    url(r'^admin/$', admin_views.food_picture_management, name='foodpicture-management'),
+    url(r'^admin/(?P<id>[0-9]+)/$', admin_views.food_picture_save, name='foodpicture-save'),
 ]
