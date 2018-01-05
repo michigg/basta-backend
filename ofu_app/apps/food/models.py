@@ -80,7 +80,7 @@ class UserFoodImage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
     food = models.ForeignKey(SingleFood)
     image = models.ImageField(upload_to='food/originals/%Y/%m/%W', blank=True)
-    thumbnail = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True)
+    thumb = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True)
 
     class Meta:
         unique_together = ('user', 'food')
@@ -104,12 +104,12 @@ class UserFoodImage(models.Model):
         suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
                                  temp_handle.read(),
                                  content_type='image/jpg')
-        self.thumbnail.save('%s_thumbnail.%s' % (self.food.name, 'jpg'), suf, save=False)
+        self.thumb.save('%s_%s_thumbnail.%s' % (self.food.name, self.user.username, 'jpg'), suf, save=False)
         # save the image object
-        self.image.name = "%s" % self.food.name
+        self.image.name = "%s_%s_original.%s" % (self.food.name, self.user.username, 'jpg')
         super(UserFoodImage, self).save(force_update, force_insert)
 
     def delete(self, using=None, keep_parents=False):
         os.remove(os.path.join(settings.MEDIA_ROOT, self.image.name))
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumbnail.name))
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumb.name))
         super(UserFoodImage, self).delete()

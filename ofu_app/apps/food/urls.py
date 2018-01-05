@@ -26,16 +26,16 @@ apiRouter_v1.register(r'happy-hour', api_views.HappyHourViewSet, base_name='Happ
 
 # API Version 1.1
 apiRouter_v1_1 = routers.DefaultRouter()
-apiRouter_v1_1.register(r'foods', api_views.FoodViewSet, base_name='Food')
-apiRouter_v1_1.register(r'foods/food/(?P<location>[feldkirchenstrasse, markusstrasse, erba, austrasse])/$',
+apiRouter_v1_1.register(r'food', api_views.FoodViewSet, base_name='Food')
+apiRouter_v1_1.register(r'food/(?P<location>[feldkirchenstrasse, markusstrasse, erba, austrasse])/$',
                         api_views.FoodViewSet, base_name='Food')
-apiRouter_v1_1.register(r'foods/food/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$', api_views.FoodViewSet,
+apiRouter_v1_1.register(r'food/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$', api_views.FoodViewSet,
                         base_name='Food')
 apiRouter_v1_1.register(
-    r'foods/food/(?P<location>)[feldkirchenstrasse, markusstrasse, erba, austrasse]/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
+    r'food/(?P<location>)[feldkirchenstrasse, markusstrasse, erba, austrasse]/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
     api_views.FoodViewSet, base_name='Food')
-apiRouter_v1_1.register(r'foods/food/today/$', api_views.FoodViewSet, base_name='Food')
-apiRouter_v1_1.register(r'foods/food/week/$', api_views.FoodViewSet, base_name='Food')
+apiRouter_v1_1.register(r'food/today/$', api_views.FoodViewSet, base_name='Food')
+apiRouter_v1_1.register(r'food/week/$', api_views.FoodViewSet, base_name='Food')
 apiRouter_v1_1.register(r'happy-hour', api_views.HappyHourViewSet, base_name='HappyHours')
 
 urlpatterns = [

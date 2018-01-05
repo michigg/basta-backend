@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from apps.food.models import Menu, SingleFood, HappyHour, Allergene
+from apps.food.models import Menu, SingleFood, HappyHour, Allergene, UserFoodImage
+
+
+class UserFoodImageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserFoodImage
+        fields = ('id', 'image', 'thumb')
 
 
 class AllergensSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,10 +17,11 @@ class AllergensSerializer(serializers.HyperlinkedModelSerializer):
 
 class SingleFoodSerializer(serializers.HyperlinkedModelSerializer):
     allergens = AllergensSerializer(many=True, read_only=True)
+    image = UserFoodImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = SingleFood
-        fields = ('name', 'rating', 'price_student', 'price_employee', 'price_guest', 'allergens')
+        fields = ('name', 'rating', 'price_student', 'price_employee', 'price_guest', 'allergens', 'image')
 
 
 class MenuSerializer(serializers.HyperlinkedModelSerializer):
