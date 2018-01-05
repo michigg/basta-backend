@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from datetime import timedelta
 
-from api.serializers.food_serializers import MenuSerializer, HappyHourSerializer
+from apps.food.api.serializers import MenuSerializer, HappyHourSerializer
 from apps.food.models import Menu, HappyHour
 from rest_framework import viewsets
 
@@ -14,7 +14,7 @@ from rest_framework.permissions import AllowAny
 
 # @api_view(['GET'])
 @permission_classes((AllowAny,))
-class FoodViewSet(viewsets.ModelViewSet):
+class FoodViewSet(viewsets.ModelViewSet, ):
     """
     API endpoint that allows users to be viewed or edited.
     """

@@ -6,6 +6,7 @@
     <div class="container">
         <div class="row pt-5">
             <form type="get" action="{{ url('search-rooms') }}" style="margin: 0">
+                {% csrf_token %}
                 <input id="search_room" type="text" name="search_room" placeholder="Search...">
                 <button id="search_submit" type="submit">Search</button>
             </form>
