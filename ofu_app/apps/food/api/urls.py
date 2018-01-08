@@ -28,5 +28,5 @@ urlpatterns = [
         api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(r'food/today/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(r'food/week/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
-    url(r'happy-hour', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
+    url(r'happy-hour', api_views.HappyHourViewSet.as_view({'get': 'list'})),
 ]
