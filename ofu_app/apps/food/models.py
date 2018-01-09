@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
+from django.utils.encoding import smart_text
 
 MAX_LENGTH = 60
 
@@ -59,6 +60,7 @@ class HappyHour(models.Model):
     description = models.CharField(max_length=MAX_LENGTH)
 
     class Meta:
+        # TODO: unique description instead of date
         unique_together = ('date', 'location', 'starttime', 'endtime')
 
     def __str__(self):
@@ -104,9 +106,10 @@ class UserFoodImage(models.Model):
         suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
                                  temp_handle.read(),
                                  content_type='image/jpg')
-        self.thumb.save('%s_%s_thumbnail.%s' % (self.food.name, self.user.username, 'jpg'), suf, save=False)
+        str_food = smart_text(self.food.name, encoding='utf-8')
+        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.username, 'jpg'), suf, save=False)
         # save the image object
-        self.image.name = "%s_%s_original.%s" % (self.food.name, self.user.username, 'jpg')
+        self.image.name = "%s_%s_original.%s" % (str_food, self.user.username, 'jpg')
         super(UserFoodImage, self).save(force_update, force_insert)
 
     def delete(self, using=None, keep_parents=False):
