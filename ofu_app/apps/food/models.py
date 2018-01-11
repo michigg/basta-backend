@@ -11,15 +11,19 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import smart_text
+from enum import Enum
 
 MAX_LENGTH = 60
+
+LOCATION_CHOICES = (
+('ERBA', 'Erba'), ('MARKUSPLATZ', 'Markusplatz'), ('FEKI', 'Feldkirchenstrasse'), ('AUSTRASSE', 'Austrasse'))
 
 
 # Create your models here.
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
-    location = models.CharField(max_length=MAX_LENGTH)
+    location = models.CharField(max_length=MAX_LENGTH, choices=LOCATION_CHOICES)
     menu = models.ManyToManyField("SingleFood", related_name="foods")
 
     class Meta:
