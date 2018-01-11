@@ -17,7 +17,7 @@ from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodIm
 def daily_food(request):
     today = datetime.datetime.now()
     start_week = today - datetime.timedelta(today.weekday())
-    end_week = start_week + datetime.timedelta(20)
+    end_week = start_week + datetime.timedelta(7)
 
     feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
     austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
@@ -135,6 +135,8 @@ def pic_upload(request, id):
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
         try:
+            food = SingleFood.objects.get(food=id)
+            food.image.clear
             old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
             old_user_pic.delete()
 

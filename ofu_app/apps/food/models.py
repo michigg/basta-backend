@@ -106,10 +106,11 @@ class UserFoodImage(models.Model):
         suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
                                  temp_handle.read(),
                                  content_type='image/jpg')
+        # TODO: Fix it
         str_food = smart_text(self.food.name, encoding='utf-8')
-        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.username, 'jpg'), suf, save=False)
+        self.thumb.save('%s_thumbnail.%s' % (self.food.id, 'jpg'), suf, save=False)
         # save the image object
-        self.image.name = "%s_%s_original.%s" % (str_food, self.user.username, 'jpg')
+        self.image.name = "%s_%s_original.%s" % (self.food.id, 'jpg')
         super(UserFoodImage, self).save(force_update, force_insert)
 
     def delete(self, using=None, keep_parents=False):
