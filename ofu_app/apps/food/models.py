@@ -12,7 +12,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.encoding import smart_text
 
-MAX_LENGTH = 60
+MAX_LENGTH = 256
 
 
 # Create your models here.

@@ -1,2 +1,7 @@
-django
-djangorestframework
+django==1.11.7
+django-jinja
+django-rest-framework
+django-analytical
+requests
+beautifulsoup4
+#psycopg2
