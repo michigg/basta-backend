@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.donar',
     'apps.registration',
-    'api',
     'rest_framework',
     'analytical',
 ]

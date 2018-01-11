@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.utils import timezone
-from django.db import models
+
+import os
+from io import BytesIO
+
+from PIL import Image
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db import models
+from django.utils import timezone
+from django.utils.encoding import smart_text
 
 MAX_LENGTH = 60
 
@@ -52,6 +60,7 @@ class HappyHour(models.Model):
     description = models.CharField(max_length=MAX_LENGTH)
 
     class Meta:
+        # TODO: unique description instead of date
         unique_together = ('date', 'location', 'starttime', 'endtime')
 
     def __str__(self):
@@ -60,8 +69,8 @@ class HappyHour(models.Model):
 
 class UserRating(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
-    food = models.ForeignKey(SingleFood)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
+    food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
     rating = models.FloatField(default=0)
 
     def __str__(self):
@@ -70,12 +79,40 @@ class UserRating(models.Model):
 
 class UserFoodImage(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False)
-    food = models.ForeignKey(SingleFood)
-    image = models.ImageField(upload_to='food/%Y/%m/%W', blank=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
+    food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='food/originals/%Y/%m/%W', blank=True)
+    thumb = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True)
 
     class Meta:
         unique_together = ('user', 'food')
 
     def __str__(self):
-        return "User: %s - Rating: %s" % (self.user.username, str(self.image))
+        return "User: %s - Image: %s" % (self.user.username, str(self.image))
+
+    def save(self, force_update=False, force_insert=False, thumb_size=(640, 480)):
+        image = Image.open(self.image)
+
+        if image.mode not in ('L', 'RGB'):
+            image = image.convert('RGB')
+        image.thumbnail(thumb_size, Image.ANTIALIAS)
+
+        # save the thumbnail to memory
+        temp_handle = BytesIO()
+        image.save(temp_handle, 'jpeg')
+        temp_handle.seek(0)  # rewind the file
+
+        # save to the thumbnail field
+        suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
+                                 temp_handle.read(),
+                                 content_type='image/jpg')
+        str_food = smart_text(self.food.name, encoding='utf-8')
+        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.username, 'jpg'), suf, save=False)
+        # save the image object
+        self.image.name = "%s_%s_original.%s" % (str_food, self.user.username, 'jpg')
+        super(UserFoodImage, self).save(force_update, force_insert)
+
+    def delete(self, using=None, keep_parents=False):
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.image.name))
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumb.name))
+        super(UserFoodImage, self).delete()
