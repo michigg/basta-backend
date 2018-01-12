@@ -27,6 +27,7 @@ class SingleFoodSerializer(serializers.HyperlinkedModelSerializer):
 class MenuSerializer(serializers.HyperlinkedModelSerializer):
     date = serializers.DateField(format='iso-8601')
     menu = SingleFoodSerializer(many=True, read_only=True)
+    location = serializers.ChoiceField(choices=Menu.LOCATION_CHOICES)
 
     class Meta:
         model = Menu

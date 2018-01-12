@@ -10,16 +10,23 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 
-MAX_LENGTH = 60
+MAX_LENGTH = 256
 
 
 # Create your models here.
 class Menu(models.Model):
+    ERBA = 'ERBA'
+    MARKUSPLATZ = 'MARKUSPLATZ'
+    FEKI = 'FEKI'
+    AUSTRASSE = 'AUSTRASSE'
+
+    LOCATION_CHOICES = (
+        (ERBA, 'Erba'), (MARKUSPLATZ, 'Markusplatz'), (FEKI, 'Feldkirchenstrasse'), (AUSTRASSE, 'Austrasse'))
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
-    location = models.CharField(max_length=MAX_LENGTH)
+    location = models.CharField(max_length=MAX_LENGTH, choices=LOCATION_CHOICES)
     menu = models.ManyToManyField("SingleFood", related_name="foods")
 
     class Meta:
@@ -106,9 +113,9 @@ class UserFoodImage(models.Model):
         suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
                                  temp_handle.read(),
                                  content_type='image/jpg')
-        # TODO: Fix it
-        str_food = smart_text(self.food.name, encoding='utf-8')
-        self.thumb.save('%s_thumbnail.%s' % (self.food.id, 'jpg'), suf, save=False)
+
+        str_food = smart_str(self.food.name, encoding='utf-8')
+        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.username, 'jpg'), suf, save=False)
         # save the image object
         self.image.name = "%s_%s_original.%s" % (self.food.id, 'jpg')
         super(UserFoodImage, self).save(force_update, force_insert)

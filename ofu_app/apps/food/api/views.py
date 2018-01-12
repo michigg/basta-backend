@@ -25,18 +25,17 @@ class FoodViewSet(viewsets.ModelViewSet, ):
         queryset = Menu.objects.all()
         location = self.request.query_params.get('location')
         date = self.request.query_params.get('date')
-
+        print(str(location).upper() == Menu.ERBA.upper())
         if location:
-            locations = ["erba", "feldkirchenstrasse", "austrasse", "markusplatz"]
-            if locations.__contains__(location):
-                if location == locations[0]:
-                    queryset = queryset.filter(location__contains="Erba")
-                elif location == locations[1]:
-                    queryset = queryset.filter(location__contains="Feldkirchen")
-                elif location == locations[2]:
-                    queryset = queryset.filter(location__contains="austraße")
-                elif location == locations[3]:
-                    queryset = queryset.filter(location__contains="markusplatz")
+            print(str(location).upper() == Menu.ERBA.upper())
+            if str(location).upper() is Menu.ERBA.upper():
+                queryset = queryset.filter(location_contains='Erba')
+            elif str(location).upper() is Menu.FEKI.upper():
+                queryset = queryset.filter(location=Menu.FEKI)
+            elif str(location).upper() is Menu.AUSTRASSE.upper():
+                queryset = queryset.filter(location=Menu.AUSTRASSE)
+            elif str(location).upper() is Menu.MARKUSPLATZ.upper():
+                queryset = queryset.filter(location=Menu.MARKUSPLATZ)
         if date:
             if date == "week":
                 today = datetime.now()
@@ -82,19 +81,16 @@ class FoodViewSetV1_1(viewsets.ModelViewSet, ):
             day = self.kwargs['day']
 
         if location:
-            # TODO better way to get location list
-            locations = ["erba", "feldkirchenstrasse", "austrasse", "markusstrasse"]
-            if locations.__contains__(location):
-                print("Location: " + str(location))
-                if location == locations[0]:
-                    queryset = queryset.filter(location__contains="Erba")
-                elif location == locations[1]:
-                    queryset = queryset.filter(location__contains="Feldkirchen")
-                elif location == locations[2]:
-                    queryset = queryset.filter(location__contains="Austraße")
-                elif location == locations[3]:
-                    queryset = queryset.filter(location__contains="Markusplatz")
-
+            if str(location).upper() == Menu.ERBA.upper():
+                queryset = queryset.filter(location__contains=Menu.ERBA)
+            elif str(location).upper() == Menu.FEKI.upper():
+                queryset = queryset.filter(location__contains=Menu.FEKI)
+            elif str(location).upper() == Menu.AUSTRASSE.upper():
+                print("Before: " + str(queryset))
+                queryset = queryset.filter(location__contains=Menu.AUSTRASSE)
+            elif str(location).upper() == Menu.MARKUSPLATZ.upper():
+                queryset = queryset.filter(location__contains=Menu.MARKUSPLATZ)
+        print(queryset)
         if year and month and day:
             date = '%s-%s-%s' % (year, month, day)
             queryset = queryset.filter(date=datetime.strptime(date, '%Y-%m-%d'))

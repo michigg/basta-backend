@@ -19,17 +19,17 @@ def daily_food(request):
     start_week = today - datetime.timedelta(today.weekday())
     end_week = start_week + datetime.timedelta(7)
 
-    feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
-    austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
-    erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
-    markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="markus").last()
+    feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.FEKI).last()
+    austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.AUSTRASSE).last()
+    erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.ERBA).last()
+    markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.MARKUSPLATZ).last()
     happy_hours = HappyHour.objects.filter(date__exact=today)
 
     weekly_menus = Menu.objects.filter(date__gte=start_week, date__lte=end_week)
-    weekly_feki_menu = weekly_menus.filter(location__contains="Feldkirchenstraße")
-    weekly_austr_menu = weekly_menus.filter(location__contains="Austraße")
-    weekly_erba_cafete = weekly_menus.filter(location__contains="Erba")
-    weekly_markus_cafete = weekly_menus.filter(location__contains="markus")
+    weekly_feki_menu = weekly_menus.filter(location__contains=Menu.FEKI)
+    weekly_austr_menu = weekly_menus.filter(location__contains=Menu.AUSTRASSE)
+    weekly_erba_cafete = weekly_menus.filter(location__contains=Menu.ERBA)
+    weekly_markus_cafete = weekly_menus.filter(location__contains=Menu.MARKUSPLATZ)
 
     return render(request, "food/daily_food.jinja", {
         'day': today,
