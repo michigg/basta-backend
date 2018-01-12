@@ -135,7 +135,7 @@ def pic_upload(request, id):
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
         try:
-            food = SingleFood.objects.get(food=id)
+            food = SingleFood.objects.get(id=id)
             food.image.clear
             old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
             old_user_pic.delete()
