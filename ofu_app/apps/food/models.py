@@ -115,9 +115,9 @@ class UserFoodImage(models.Model):
                                  content_type='image/jpg')
 
         str_food = smart_str(self.food.name, encoding='utf-8')
-        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.id, 'jpg'), suf, save=False)
+        self.thumb.save('%s_%s_thumbnail.%s' % (self.food.id, self.user.id, 'jpg'), suf, save=False)
         # save the image object
-        self.image.name = "%s_%s_original.%s" % (str_food, self.user.id, 'jpg')
+        self.image.name = "%s_%s_original.%s" % (self.food.id, self.user.id, 'jpg')
         super(UserFoodImage, self).save(force_update, force_insert)
 
     def delete(self, using=None, keep_parents=False):
