@@ -15,16 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from apps.food.api import views as api_views
+from apps.food.models import Menu
 
 urlpatterns = [
     # API Version 1.1
     url(r'^food/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
-    url(r'^food/(?P<location>feldkirchenstrasse|markusstrasse|erba|austrasse)/$',
+    url(r'^food/(?P<location>' + Menu.FEKI + '|' + Menu.MARKUSPLATZ + '|' + Menu.ERBA + '|' + Menu.AUSTRASSE + ')/$',
         api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(r'food/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
         api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(
-        r'food/(?P<location>feldkirchenstrasse|markusstrasse|erba|austrasse)/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
+        r'food/(?P<location>' + Menu.FEKI + '|' + Menu.MARKUSPLATZ + '|' + Menu.ERBA + '|' + Menu.AUSTRASSE + ')/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
         api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(r'food/today/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),
     url(r'food/week/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'})),

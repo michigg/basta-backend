@@ -13,14 +13,18 @@ from django.utils import timezone
 from django.utils.encoding import smart_text
 from enum import Enum
 
-MAX_LENGTH = 60
-
-LOCATION_CHOICES = (
-('ERBA', 'Erba'), ('MARKUSPLATZ', 'Markusplatz'), ('FEKI', 'Feldkirchenstrasse'), ('AUSTRASSE', 'Austrasse'))
+MAX_LENGTH = 256
 
 
 # Create your models here.
 class Menu(models.Model):
+    ERBA = 'ERBA'
+    MARKUSPLATZ = 'MARKUSPLATZ'
+    FEKI = 'FEKI'
+    AUSTRASSE = 'AUSTRASSE'
+
+    LOCATION_CHOICES = (
+        (ERBA, 'Erba'), (MARKUSPLATZ, 'Markusplatz'), (FEKI, 'Feldkirchenstrasse'), (AUSTRASSE, 'Austrasse'))
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
     location = models.CharField(max_length=MAX_LENGTH, choices=LOCATION_CHOICES)

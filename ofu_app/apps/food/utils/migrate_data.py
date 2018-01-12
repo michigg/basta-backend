@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from pprint import pprint
 from django.db.utils import IntegrityError
-from apps.food.models import SingleFood, Menu, HappyHour, Allergene, LOCATION_CHOICES
+from apps.food.models import SingleFood, Menu, HappyHour, Allergene
 from apps.food.utils.parser import mensa_page_parser, fekide_happyhour_page_parser, cafete_page_parser
 
 # CONFIG SERVICE LINKS
@@ -21,7 +21,7 @@ def getJsonFromFile(path):
 
 
 def getLocation(raw_loc):
-    for choice, name in zip(LOCATION_CHOICES, LOCATION_NAMES):
+    for choice, name in zip(Menu.LOCATION_CHOICES, LOCATION_NAMES):
         print(name.upper() in str(raw_loc).upper())
         if (name.upper() in str(raw_loc).upper()):
             return choice
