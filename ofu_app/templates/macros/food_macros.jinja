@@ -60,13 +60,11 @@
             <li data-food="{{ single_food.id }}" data-rating="{{ single_food.rating }}" class="food-item media mb-2">
                 <div class="mr-2 media-left media-middle">
                     {# TODO: without many to many #}
-                    {% if single_food.image.all() %}
-                        {% for image in single_food.image.all() %}
-                            <a href="{{ image.image.url }}" data-lightbox="{{ title }}"
-                               data-title="{{ single_food.name }}">
-                                <img src="{{ image.image.url }}" class="media-object" alt="Bild" width="80px">
-                            </a>
-                        {% endfor %}
+                    {% if single_food.image %}
+                        <a href="{{ single_food.image.image.url }}" data-lightbox="{{ title }}"
+                           data-title="{{ single_food.name }}">
+                            <img src="{{ single_food.image.image.url }}" class="media-object" alt="Bild" width="80px">
+                        </a>
                     {% else %}
                         <a href="/media/food/default/default.jpg" data-lightbox="{{ title }}"
                            data-title="{{ single_food.name }}">

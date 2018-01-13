@@ -2,15 +2,12 @@
 from __future__ import unicode_literals
 
 import datetime
-import os
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
-from pprint import pprint
 
 from apps.food.forms import UploadImageForm
-from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage
+from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage, FoodImage
 
 
 # Create your views here.
@@ -134,17 +131,10 @@ def food_image(request):
 def pic_upload(request, id):
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
-        try:
-            food = SingleFood.objects.get(id=id)
-            food.image.clear
-            old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
-            old_user_pic.delete()
-
-        except ObjectDoesNotExist:
-            pass
-        userPic = form.save(commit=False)
+        pic = form.save(commit=True)
+        userPic, success = UserFoodImage.objects.get_or_create(user_id=request.user)
+        userPic.image = pic
         userPic.food = SingleFood.objects.get(id=id)
-        userPic.user = request.user
         userPic.save()
         return True
     else:
