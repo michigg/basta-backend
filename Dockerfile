@@ -5,7 +5,7 @@ RUN apk upgrade --update && \
 	pip3 install -r /requirements.txt && rm /requirements.txt
 WORKDIR /app
 EXPOSE 80
-VOLUME ["/data"]
+VOLUME ["/app/data"]
 VOLUME ["/app/media"]
 ENTRYPOINT ["python3", "manage.py"]
 ADD ["ofu_app", "/app"]
