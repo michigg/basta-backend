@@ -48,7 +48,7 @@ class Lecture(models.Model):
 
 class Lecture_Terms(models.Model):
     id = models.AutoField(primary_key=True)
-    starttime = models.TimeField(blank=False, default=timezone.now())
+    starttime = models.TimeField(blank=False)
     room = models.ManyToManyField('Room', blank=True)
 
     def __str__(self):

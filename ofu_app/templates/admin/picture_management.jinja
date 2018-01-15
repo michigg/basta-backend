@@ -11,7 +11,7 @@
                 <div class="col-6">
                     <a href="{{ url('foodpicture-save', kwargs={'id':picture.id}) }}">
                         <h3>{{ picture.food.name }}</h3>
-                        <img src="{{ picture.image.url }}" style="width: 50%">
+                        <img src="{{ picture.image.image.url }}" style="width: 50%">
                     </a>
                 </div>
             {% endfor %}

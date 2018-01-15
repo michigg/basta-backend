@@ -12,10 +12,21 @@ LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken
 LINK_MARKUS_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-markusplatz.html"
 LINK_FEKIDE_GUIDE = "https://www.feki.de/happyhour"
 
+LOCATION_NAMES = ('erba', 'markusplatz', 'feldkirchenstraße', 'austraße')
+
 
 def getJsonFromFile(path):
     with open(path, "r") as file:
         return json.load(file)
+
+
+def getLocation(raw_loc):
+    for choice, name in zip(Menu.LOCATION_CHOICES, LOCATION_NAMES):
+        print(name.upper() in str(raw_loc).upper())
+        if (name.upper() in str(raw_loc).upper()):
+            return choice
+
+    print("LOCATION NOT FOUND")
 
 
 def writeStudentenwerkDataInDB(data):
@@ -69,8 +80,9 @@ def writeStudentenwerkDataInDB(data):
                     db_single_food.allergens = allergens
                 foodlist.append(db_single_food)
         try:
+
             date = datetime.strptime(str(menu['date']), "%d.%m.").replace(year=datetime.today().year)
-            menu = Menu.objects.create(location=data['name'], date=date)
+            menu = Menu.objects.create(location=getLocation(data['name']), date=date)
             menu.menu.set(foodlist)
             menu.save()
         except IntegrityError as error:

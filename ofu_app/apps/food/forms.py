@@ -1,8 +1,8 @@
 from django import forms
-from apps.food.models import UserFoodImage
+from apps.food.models import FoodImage
 
 
 class UploadImageForm(forms.ModelForm):
     class Meta:
-        model = UserFoodImage
+        model = FoodImage
         fields = ['image']

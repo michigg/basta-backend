@@ -10,16 +10,22 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import smart_text
 
 MAX_LENGTH = 256
 
 
 # Create your models here.
 class Menu(models.Model):
+    ERBA = 'ERBA'
+    MARKUSPLATZ = 'MARKUSPLATZ'
+    FEKI = 'FEKI'
+    AUSTRASSE = 'AUSTRASSE'
+
+    LOCATION_CHOICES = (
+        (ERBA, 'Erba'), (MARKUSPLATZ, 'Markusplatz'), (FEKI, 'Feldkirchenstrasse'), (AUSTRASSE, 'Austrasse'))
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
-    location = models.CharField(max_length=MAX_LENGTH)
+    location = models.CharField(max_length=MAX_LENGTH, choices=LOCATION_CHOICES)
     menu = models.ManyToManyField("SingleFood", related_name="foods")
 
     class Meta:
@@ -35,7 +41,7 @@ class SingleFood(models.Model):
     price_student = models.CharField(max_length=10, blank=True, null=True)
     price_employee = models.CharField(max_length=10, blank=True, null=True)
     price_guest = models.CharField(max_length=10, blank=True, null=True)
-    image = models.ManyToManyField("UserFoodImage", blank=True, null=True)
+    image = models.ForeignKey('FoodImage', on_delete=models.PROTECT, blank=True, null=True)
     rating = models.FloatField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
 
@@ -81,14 +87,19 @@ class UserFoodImage(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
     food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
-    image = models.ImageField(upload_to='food/originals/%Y/%m/%W', blank=True)
-    thumb = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True)
+    image = models.ForeignKey('FoodImage', on_delete=models.PROTECT)
 
     class Meta:
         unique_together = ('user', 'food')
 
     def __str__(self):
         return "User: %s - Image: %s" % (self.user.username, str(self.image))
+
+
+class FoodImage(models.Model):
+    id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to='food/originals/%Y/%m/%W', blank=True, null=True)
+    thumb = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True, null=True)
 
     def save(self, force_update=False, force_insert=False, thumb_size=(640, 480)):
         image = Image.open(self.image)
@@ -106,13 +117,13 @@ class UserFoodImage(models.Model):
         suf = SimpleUploadedFile(os.path.split(self.image.name)[-1],
                                  temp_handle.read(),
                                  content_type='image/jpg')
-        str_food = smart_text(self.food.name, encoding='utf-8')
-        self.thumb.save('%s_%s_thumbnail.%s' % (str_food, self.user.username, 'jpg'), suf, save=False)
+
+        self.thumb.save('%s_thumbnail.%s' % (self.id, 'jpg'), suf, save=False)
         # save the image object
-        self.image.name = "%s_%s_original.%s" % (str_food, self.user.username, 'jpg')
-        super(UserFoodImage, self).save(force_update, force_insert)
+        self.image.name = "%s_original.%s" % (self.id, 'jpg')
+        super(FoodImage, self).save(force_update, force_insert)
 
     def delete(self, using=None, keep_parents=False):
         os.remove(os.path.join(settings.MEDIA_ROOT, self.image.name))
         os.remove(os.path.join(settings.MEDIA_ROOT, self.thumb.name))
-        super(UserFoodImage, self).delete()
+        super(FoodImage, self).delete()

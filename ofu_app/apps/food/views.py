@@ -2,34 +2,31 @@
 from __future__ import unicode_literals
 
 import datetime
-import os
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
-from pprint import pprint
 
 from apps.food.forms import UploadImageForm
-from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage
+from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage, FoodImage
 
 
 # Create your views here.
 def daily_food(request):
     today = datetime.datetime.now()
     start_week = today - datetime.timedelta(today.weekday())
-    end_week = start_week + datetime.timedelta(20)
+    end_week = start_week + datetime.timedelta(7)
 
-    feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Feldkirchenstraße").last()
-    austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains="Austraße").last()
-    erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="Erba").last()
-    markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains="markus").last()
+    feki_menu = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.FEKI).last()
+    austr_menu = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.AUSTRASSE).last()
+    erba_cafete = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.ERBA).last()
+    markus_cafete = Menu.objects.filter(date__exact=today).filter(location__contains=Menu.MARKUSPLATZ).last()
     happy_hours = HappyHour.objects.filter(date__exact=today)
 
     weekly_menus = Menu.objects.filter(date__gte=start_week, date__lte=end_week)
-    weekly_feki_menu = weekly_menus.filter(location__contains="Feldkirchenstraße")
-    weekly_austr_menu = weekly_menus.filter(location__contains="Austraße")
-    weekly_erba_cafete = weekly_menus.filter(location__contains="Erba")
-    weekly_markus_cafete = weekly_menus.filter(location__contains="markus")
+    weekly_feki_menu = weekly_menus.filter(location__contains=Menu.FEKI)
+    weekly_austr_menu = weekly_menus.filter(location__contains=Menu.AUSTRASSE)
+    weekly_erba_cafete = weekly_menus.filter(location__contains=Menu.ERBA)
+    weekly_markus_cafete = weekly_menus.filter(location__contains=Menu.MARKUSPLATZ)
 
     return render(request, "food/daily_food.jinja", {
         'day': today,
@@ -134,15 +131,10 @@ def food_image(request):
 def pic_upload(request, id):
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
-        try:
-            old_user_pic = UserFoodImage.objects.get(user=request.user, food=id)
-            old_user_pic.delete()
-
-        except ObjectDoesNotExist:
-            pass
-        userPic = form.save(commit=False)
+        pic = form.save(commit=True)
+        userPic, success = UserFoodImage.objects.get_or_create(user_id=request.user)
+        userPic.image = pic
         userPic.food = SingleFood.objects.get(id=id)
-        userPic.user = request.user
         userPic.save()
         return True
     else:
