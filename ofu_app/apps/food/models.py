@@ -12,6 +12,12 @@ from django.db import models
 from django.utils import timezone
 
 MAX_LENGTH = 256
+MAX_FOOD_NAME = 256
+MAX_FOOD_LOCATION_LENGTH = 256
+MAX_FOOD_PRICE_LENGTH = 10
+MAX_FOOD_ALLERGENNAME_LENGTH = 256
+MAX_HAPPY_HOUR_LOCATION_LENGTH = 256
+MAX_HAPPY_HOUR_DESCRIPTION_LENGTH = 1024
 
 
 # Create your models here.
@@ -25,7 +31,7 @@ class Menu(models.Model):
         (ERBA, 'Erba'), (MARKUSPLATZ, 'Markusplatz'), (FEKI, 'Feldkirchenstrasse'), (AUSTRASSE, 'Austrasse'))
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
-    location = models.CharField(max_length=MAX_LENGTH, choices=LOCATION_CHOICES)
+    location = models.CharField(max_length=MAX_FOOD_LOCATION_LENGTH, choices=LOCATION_CHOICES)
     menu = models.ManyToManyField("SingleFood", related_name="foods")
 
     class Meta:
@@ -37,10 +43,10 @@ class Menu(models.Model):
 
 class SingleFood(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=MAX_LENGTH)
-    price_student = models.CharField(max_length=10, blank=True, null=True)
-    price_employee = models.CharField(max_length=10, blank=True, null=True)
-    price_guest = models.CharField(max_length=10, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=MAX_FOOD_NAME)
+    price_student = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
+    price_employee = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
+    price_guest = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
     image = models.ForeignKey('FoodImage', on_delete=models.PROTECT, blank=True, null=True)
     rating = models.FloatField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
@@ -51,7 +57,7 @@ class SingleFood(models.Model):
 
 class Allergene(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=MAX_LENGTH)
+    name = models.CharField(unique=True, max_length=MAX_FOOD_ALLERGENNAME_LENGTH)
 
     def __str__(self):
         return self.name
@@ -62,8 +68,8 @@ class HappyHour(models.Model):
     date = models.DateField(default=timezone.now)
     starttime = models.TimeField(default=timezone.now)
     endtime = models.TimeField(default=timezone.now)
-    location = models.CharField(max_length=MAX_LENGTH)
-    description = models.CharField(max_length=MAX_LENGTH)
+    location = models.CharField(max_length=MAX_HAPPY_HOUR_LOCATION_LENGTH)
+    description = models.CharField(max_length=MAX_HAPPY_HOUR_DESCRIPTION_LENGTH)
 
     class Meta:
         # TODO: unique description instead of date

@@ -4,8 +4,14 @@ services:
  basta_server_web:
   image: docker.wiai.de/basta/server:0.1
   build: .
-  ports:
-   - "8080:80"
-# basta_server_db:
-#  image: postgres:alpine
-  
+  volumes:
+   - ./data/data:/data
+   - ./data/media:/media
+  env_file:
+   - docker.env
+ basta_server_db:
+  image: postgres:10-alpine
+  volumes:
+   - ./data/pgdata/:/var/lib/postgresql/data/
+  env_file:
+   - docker.env
