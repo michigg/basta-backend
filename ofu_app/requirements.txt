@@ -1,9 +1,9 @@
-django==1.11.7
-django-jinja
-django-rest-framework
-django-analytical
-requests
-beautifulsoup4
-#psycopg2
-xmltodict
+django==2.0.1
+django-jinja==2.4.1
+django-rest-framework==0.1.0
+django-analytical==2.4.0
+requests==2.18.4
+beautifulsoup4==4.6.0
+#psycopg2==2.7.3.2
+xmltodict==0.11.0
 

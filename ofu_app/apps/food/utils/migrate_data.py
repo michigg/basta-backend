@@ -65,7 +65,7 @@ def writeStudentenwerkDataInDB(data):
                 else:
                     db_single_food = SingleFood.objects.create(name=single_food['title'])
                 if 'allergens' in locals():
-                    db_single_food.allergens = allergens
+                    db_single_food.allergens.set(allergens)
                 foodlist.append(db_single_food)
             except IntegrityError:
                 db_single_food = SingleFood.objects.get(name=single_food['title'])
@@ -77,7 +77,7 @@ def writeStudentenwerkDataInDB(data):
                     if 'price_guest' in single_food['prices']:
                         db_single_food.price_guest = single_food['prices']['price_guest']
                 if 'allergens' in locals():
-                    db_single_food.allergens = allergens
+                    db_single_food.allergens.set(allergens)
                 foodlist.append(db_single_food)
         try:
 

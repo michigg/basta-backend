@@ -6,7 +6,7 @@ from apps.food.models import Menu, SingleFood, HappyHour, Allergene, UserFoodIma
 class UserFoodImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserFoodImage
-        fields = ('id', 'image', 'thumb')
+        fields = ('id', 'image_image', 'image_thumb')
 
 
 class AllergensSerializer(serializers.HyperlinkedModelSerializer):
