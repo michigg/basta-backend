@@ -5,3 +5,5 @@ django-analytical
 requests
 beautifulsoup4
 #psycopg2
+xmltodict
+
