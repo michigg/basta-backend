@@ -60,11 +60,12 @@ def account_activation_sent(request):
 
 
 def account_view(request):
+    print("There it is ---------------------------------------------------------------------")
     if request.user.is_authenticated:
         user = request.user
 
         food_ratings = UserRating.objects.filter(user=user).order_by('food__name')
-        food_images = UserFoodImage.objects.filter(user=user)
+        food_images = UserFoodImage.objects.filter(user=user.id)
         print(food_images)
 
         return render(request, 'registration/account_view.jinja',

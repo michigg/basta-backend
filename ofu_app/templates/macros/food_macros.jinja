@@ -63,7 +63,7 @@
                     {% if single_food.image %}
                         <a href="{{ single_food.image.image.url }}" data-lightbox="{{ title }}"
                            data-title="{{ single_food.name }}">
-                            <img src="{{ single_food.image.image.url }}" class="media-object" alt="Bild" width="80px">
+                            <img src="{{ single_food.image.thumb.url }}" class="media-object" alt="Bild" width="80px">
                         </a>
                     {% else %}
                         <a href="{{ static('img/food/default.jpg') }}" data-lightbox="{{ title }}"
