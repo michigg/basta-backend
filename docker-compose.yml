@@ -3,12 +3,17 @@ version: "2"
 services:
  basta_server_web:
   image: docker.wiai.de/basta/server:0.1
-  build: .
+  build:
+   context: .
+   dockerfile: Dockerfile.dev
   volumes:
    - ./data/data:/data
    - ./data/media:/media
+   - ./ofu_app/:/app
   env_file:
    - docker.env
+  ports:
+   - 8080:80
  basta_server_db:
   image: postgres:10-alpine
   volumes:

@@ -132,9 +132,8 @@ def pic_upload(request, id):
     form = UploadImageForm(request.POST, request.FILES)
     if form.is_valid():
         pic = form.save(commit=True)
-        userPic, success = UserFoodImage.objects.get_or_create(user_id=request.user)
-        userPic.image = pic
-        userPic.food = SingleFood.objects.get(id=id)
+        food = SingleFood.objects.get(id=id)
+        userPic, success = UserFoodImage.objects.get_or_create(user_id=request.user.id, image=pic, food=food)
         userPic.save()
         return True
     else:
