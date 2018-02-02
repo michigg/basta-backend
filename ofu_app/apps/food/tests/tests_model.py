@@ -8,7 +8,7 @@ from apps.food.models import SingleFood
 
 # Create your tests here.
 
-class SingleFood_Created_Just_with_name(TestCase):
+class SingleFood_Scope(TestCase):
     def setUp(self):
         SingleFood.objects.create(name="testfood")
 
