@@ -114,7 +114,7 @@ class FoodViewSetV1_1(viewsets.ModelViewSet, ):
 
 # @api_view(['GET'])
 @permission_classes((AllowAny,))
-class FoodViewSetV1_1_Defaults(viewsets.ModelViewSet, ):
+class FoodViewSetV1_1(viewsets.ModelViewSet, ):
     """
         API endpoint that allows users to be viewed or edited.
         """
