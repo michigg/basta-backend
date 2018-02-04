@@ -1,6 +1,8 @@
 docker.env
 static_files/
 migrations/
+coverage_html/
+
 # Created by https://www.gitignore.io/api/pycharm,python,django
 .idea/
 
