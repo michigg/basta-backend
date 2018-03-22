@@ -1,23 +1,22 @@
-import requests
-from bs4 import BeautifulSoup
-import json
 import datetime
+import logging
 import re
-from pprint import pprint
+
+from bs4 import BeautifulSoup
+
+from . import load_page
+
+logger = logging.getLogger(__name__)
 
 SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
 
 
-def loadPage(url: str):
-    return requests.get(url).content
-
-
-def getFoodplanName(soup):
+def get_foodplan_name(soup):
     foodplan_name = soup.select(SPEISEPLAN_NAME_SELECTOR)[0].getText()
     return foodplan_name
 
 
-def getRightLine(lines):
+def get_right_line(lines):
     foodlines = []
     pattern = re.compile("[0-9]+.+[A-Z]+")
     for line in list(lines):
@@ -27,42 +26,42 @@ def getRightLine(lines):
     return foodlines
 
 
-def getFoodPerDay(soup):
+def get_food_per_day(soup):
     days = []
     lines = soup.select('.csc-default .bodytext')
-    foodlines = getRightLine(lines)
+    foodlines = get_right_line(lines)
     for food in foodlines:
-        dayObj = {}
         day = str(food).split()[0]
-        foodName = str(food).replace(day, "").strip()
-        singleFoodObj = {}
-        singleFoodObj['title'] = foodName
-        dayObj['date'] = day
-        dayObj['menu'] = [singleFoodObj]
-        days.append(dayObj)
+        food_name = str(food).replace(day, "").strip()
+        single_food_obj = {'title': food_name}
+        day_obj = {
+            'date': day,
+            'menu': [single_food_obj]
+        }
+        days.append(day_obj)
     return days
 
 
-def parsePage(url: str):
+def parse_page(url: str):
     pagecontent = {}
     # {mensaspeiseplan:
     #   {name:"",
     #    weekmenu: [day:{date:, menu:[,,,]}]
     #   }
     # }
+    try:
+        page = load_page(url)
+        soup = BeautifulSoup(page, "lxml")
+        foodplan_name = get_foodplan_name(soup)
 
-    page = loadPage(url)
-    mensaSpeiseplan = {}
-    soup = BeautifulSoup(page, "lxml")
-    foodplan_name = getFoodplanName(soup)
-
-    days = getFoodPerDay(soup)
-    mensaSpeiseplan['weekmenu'] = days
-    mensaSpeiseplan['name'] = foodplan_name
-    mensaSpeiseplan['execution_time'] = datetime.datetime.today().strftime("%A, %d.%m.%Y")
-    mensaSpeiseplanJson = json.dumps(mensaSpeiseplan)
-    return mensaSpeiseplanJson
-
+        days = get_food_per_day(soup)
+        return {
+            'weekmenu': days,
+            'name': foodplan_name,
+            'execution_time': datetime.datetime.today().strftime("%A, %d.%m.%Y")
+        }
+    except Exception as e:
+        logger.exception(e)
+    return None
 
 # LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
-# pprint(parsePage(LINK_ERBA_CAFETE))

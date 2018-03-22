@@ -1,14 +1,11 @@
-import requests
-from bs4 import BeautifulSoup
-import json
 import datetime
+import logging
 
+from bs4 import BeautifulSoup
 
-# FEKI_URL = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
+from . import load_page
 
-
-def loadPage(url: str):
-    return requests.get(url).content
+logger = logging.getLogger(__name__)
 
 
 def getMenuDay(soup):
@@ -18,12 +15,10 @@ def getMenuDay(soup):
 def getFoodPerDay(soup):
     week_menus = []
     for day in soup.select('.currentweek .day'):
-        menu = {}
         daysoup = BeautifulSoup(str(day), "lxml")
         day = getMenuDay(daysoup)
         day_menu = []
         for singleFood in daysoup.select('.menuwrap .menu'):
-            singleFoodObj = {}
             singleFoodSoup = BeautifulSoup(str(singleFood), "lxml")
             title = singleFoodSoup.find('div', {'class': 'title'}).getText()
             allergens = [e.getText() for e in singleFoodSoup.select('.left .additnr .toggler ul li')]
@@ -34,13 +29,16 @@ def getFoodPerDay(soup):
                 prices['price_employee'] = singleFoodSoup.select('.price')[0]['data-bed']
             if singleFoodSoup.select('.price'):
                 prices['price_guest'] = singleFoodSoup.select('.price')[0]['data-guest']
-            singleFoodObj['title'] = title
-            singleFoodObj['allergens'] = allergens
-            singleFoodObj['prices'] = prices
-            day_menu.append(singleFoodObj)
-
-        menu['date'] = str(day).split(" ")[1]
-        menu['menu'] = day_menu
+            single_food_obj = {
+                'title': title,
+                'allergens': allergens,
+                'prices': prices
+            }
+            day_menu.append(single_food_obj)
+        menu = {
+            'date': str(day).split(" ")[1],
+            'menu': day_menu
+        }
         week_menus.append(menu)
     return week_menus
 
@@ -52,16 +50,19 @@ def parsePage(url: str):
     #    weekmenu: [day:{date:, menu:[,,,]}]
     #   }
     # }
-    mensaSpeiseplan = {}
-    page = loadPage(url)
-    soup = BeautifulSoup(page, "lxml")
-    foodplan_name = getFoodplanName(soup)
-    days = getFoodPerDay(soup)
-    mensaSpeiseplan['weekmenu'] = days
-    mensaSpeiseplan['name'] = foodplan_name
-    mensaSpeiseplan['execution_time'] = datetime.datetime.today().strftime("%A, %d.%m.%Y")
-    mensaSpeiseplanJson = json.dumps(mensaSpeiseplan)
-    return mensaSpeiseplanJson
+    try:
+        page = load_page(url)
+        soup = BeautifulSoup(page, "lxml")
+        foodplan_name = getFoodplanName(soup)
+        days = getFoodPerDay(soup)
+        return {
+            'weekmenu': days,
+            'name': foodplan_name,
+            'execution_time': datetime.datetime.today().strftime("%A, %d.%m.%Y")
+        }
+    except Exception as e:
+        logger.exception(e)
+    return None
 
 
 def getFoodplanName(soup):
