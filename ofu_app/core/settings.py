@@ -208,12 +208,18 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': '/log/import_food.log',
             'formatter': 'default',
-        }
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
     },
     'loggers': {
         'apps.food.utils': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'mail_admins'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
     },
 }
+
+ADMINS = [('Michael Götz', 'mgoetz1995@gmail.com')]
