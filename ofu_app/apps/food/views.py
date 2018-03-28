@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from apps.food.forms import UploadImageForm
-from apps.food.models import Menu, HappyHour, SingleFood, UserRating, UserFoodImage, FoodImage
+from apps.food.models import Menu, HappyHour, SingleFood, UserFoodRating, UserFoodImage, FoodImage
 
 
 # Create your views here.
@@ -100,12 +100,12 @@ def food_rating(request):
         rating = request.GET.get('rating', None)
         if food_id and rating:
             food = SingleFood.objects.get(id=food_id)
-            user_rating, created = UserRating.objects.get_or_create(user=request.user,
-                                                                    food=food)
+            user_rating, created = UserFoodRating.objects.get_or_create(user=request.user,
+                                                                        food=food)
             user_rating.rating = rating
             user_rating.save()
 
-            food_user_ratings = UserRating.objects.all().filter(food=food)
+            food_user_ratings = UserFoodRating.objects.all().filter(food=food)
             sum = 0
             for food_user_rating in food_user_ratings:
                 sum += food_user_rating.rating

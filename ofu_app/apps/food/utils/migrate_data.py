@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from pprint import pprint
 from django.db.utils import IntegrityError
-from apps.food.models import SingleFood, Menu, HappyHour, Allergene
+from apps.food.models import SingleFood, Menu, HappyHour, Allergene, HappyHourLocation
 from apps.food.utils.parser import mensa_page_parser, fekide_happyhour_page_parser, cafete_page_parser
 import logging
 
@@ -75,21 +75,22 @@ def writeStudentenwerkDataInDB(data):
 def writeFekideDataInDB(data):
     for happyhour_data in data['happyhours']:
         time = str(happyhour_data['time']).replace(" ", "").split("-")
-        happyhour, new = HappyHour.objects.get_or_create(date=datetime.strptime(data['day'], "%A, %d.%m.%Y"),
-                                                         location=happyhour_data['location'],
-                                                         description=happyhour_data['description'],
-                                                         starttime=datetime.strptime(time[0], "%H:%M").time(),
-                                                         endtime=datetime.strptime(time[1], "%H:%M").time())
-        if not new:
+        try:
+            location, _ = HappyHourLocation.objects.get_or_create(name=happyhour_data['location'])
+            happyhour, _ = HappyHour.objects.get_or_create(location=location,
+                                                           starttime=datetime.strptime(time[0], "%H:%M").time(),
+                                                           endtime=datetime.strptime(time[1], "%H:%M").time())
             happyhour.date = datetime.strptime(data['day'], "%A, %d.%m.%Y")
-            happyhour.location = happyhour_data['location']
             happyhour.description = happyhour_data['description']
-            happyhour.starttime = datetime.strptime(time[0], "%H:%M").time()
-            happyhour.endtime = datetime.strptime(time[1], "%H:%M").time()
             happyhour.save()
 
-        logger.info("%s: Happy Hour: Location: %s, Description: %s",
-                    str(happyhour.date.date()), str(happyhour.location), str(happyhour.description))
+            logger.info("{date}: Happy Hour: Location: {location}, Description: {description}".format(
+                date=happyhour.date,
+                location=happyhour.location,
+                description=happyhour.description)
+            )
+        except Exception as e:
+            logger.exception(e)
 
 
 def writeoutDBObjects():
@@ -102,10 +103,13 @@ def writeoutDBObjects():
 
 def delete():
     happy_hours = HappyHour.objects.all()
-    print("Deleted following Happy Hours:")
+    logger.info("Deleted following Happy Hours:")
     for happy_hour in happy_hours:
-        print("%s: Happy Hour: Location: %s, Description: %s" % (
-            str(happy_hour.date), str(happy_hour.location), str(happy_hour.description)))
+        logger.info("{date}: Happy Hour: Location: {location}, Description: {description}".format(
+            date=happy_hour.date,
+            location=happy_hour.location,
+            description=happy_hour.description)
+        )
         happy_hour.delete()
 
 
