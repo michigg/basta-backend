@@ -13,21 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
-from apps.food.api.v1_1 import views as api_views
-from apps.food.models import Menu
+from django.urls import path
+from apps.food.api.v1_2 import views as api_views
 
 urlpatterns = [
-    # API Version 1.1
-    url(r'^food/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-all'),
-    url(r'^food/(?P<location>' + Menu.FEKI + '|' + Menu.MARKUSPLATZ + '|' + Menu.ERBA + '|' + Menu.AUSTRASSE + ')/$',
-        api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-location'),
-    url(r'food/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
-        api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-date'),
-    url(
-        r'food/(?P<location>' + Menu.FEKI + '|' + Menu.MARKUSPLATZ + '|' + Menu.ERBA + '|' + Menu.AUSTRASSE + ')/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/$',
-        api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-location-date'),
-    url(r'food/today/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-today'),
-    url(r'food/week/$', api_views.FoodViewSetV1_1.as_view({'get': 'list'}), name='api-v1_1-food-week'),
-    url(r'happy-hour', api_views.HappyHourViewSet.as_view({'get': 'list'}), name='api-v1_1-happy-hour-all'),
+    # API Version 1.2
+    path('food/menus/', api_views.ApiMenus.as_view(), name='menus'),
+    path('food/menus/<int:pk>/', api_views.ApiMenu.as_view(), name='menu'),
+    path('food/menus/locations', api_views.ApiMenusLocations.as_view(), name='menus-locations'),
+
+    path('food/meals/', api_views.ApiMeals.as_view(), name='meals'),
+    path('food/meals/<int:pk>', api_views.ApiMeal.as_view(), name='meal'),
+    path('food/allergens/', api_views.ApiAllergens.as_view(), name='allergens'),
+    path('food/meals/images/', api_views.ApiFoodImages.as_view(), name='images'),
+    path('food/meals/images/default', api_views.ApiFoodImagesDefault.as_view(), name='images-default'),
+    path('food/meals/<int:pk>/rating', api_views.ApiFoodRatingUpload.as_view(), name='meals-rating-upload'),
+    # path('food/meals/<int:pk>/image', api_views.ApiFoodImagesDefault.as_view(), name='meals-image-upload'),
+    # path('food/meals/<int:pk>/comment', api_views.ApiFoodImagesDefault.as_view(), name='meals-comment-upload'),
+
+    path('food/happy-hours/', api_views.ApiHappyHours.as_view(), name='happy-hours'),
+    path('food/happy-hours/<int:pk>', api_views.ApiHappyHours.as_view(), name='happy-hours'),
+    path('food/happy-hours/locations', api_views.ApiHappyHoursLocations.as_view(), name='happy-hours-locations'),
 ]
