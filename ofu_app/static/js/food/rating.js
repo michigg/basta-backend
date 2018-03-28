@@ -8,11 +8,18 @@ document.addEventListener('DOMContentLoaded', rate_init);
  */
 function rate_init() {
     add_Stars();
-    $('.star').on("mouseenter mouseleave", function () {
+    $('.star').on("mouseenter", function () {
         showRating(this);
     }).on("click", function () {
         console.log('Click');
         sendRating(this);
+    }).on("mouseleave", function () {
+        var rating = $(this).parent().parent().parent().parent().parent().data('rating');
+        var food_id = $(this).attr('class').split(' ')[0].split('-')[2];
+        buildRating(food_id, rating);
+        console.log("leaved");
+        console.log("rating" + $(this).parent().parent().parent().parent().parent().data('rating'));
+        console.log("food_id" + food_id);
     })
 }
 
