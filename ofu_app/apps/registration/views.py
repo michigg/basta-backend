@@ -11,7 +11,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.shortcuts import HttpResponse, redirect
-from apps.food.models import UserRating, UserFoodImage
+from apps.food.models import UserFoodRating, UserFoodImage
 
 
 def signup(request):
@@ -22,7 +22,7 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = request.META['HTTP_HOST']
-            subject = 'Activate Your MySite Account'
+            subject = 'Activate Your BaStA Account'
             message = render_to_string('registration/account_activation_email.jinja', {
                 'user': user,
                 'domain': current_site,
@@ -64,7 +64,7 @@ def account_view(request):
     if request.user.is_authenticated:
         user = request.user
 
-        food_ratings = UserRating.objects.filter(user=user).order_by('food__name')
+        food_ratings = UserFoodRating.objects.filter(user=user).order_by('food__name')
         food_images = UserFoodImage.objects.filter(user=user.id)
         print(food_images)
 
