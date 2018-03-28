@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 MAX_LENGTH = 256
 MAX_FOOD_NAME = 256
@@ -18,6 +19,7 @@ MAX_FOOD_PRICE_LENGTH = 10
 MAX_FOOD_ALLERGENNAME_LENGTH = 256
 MAX_HAPPY_HOUR_LOCATION_LENGTH = 256
 MAX_HAPPY_HOUR_DESCRIPTION_LENGTH = 1024
+MAX_FOOD_COMMENT_LENGTH = 2048
 
 
 # Create your models here.
@@ -29,6 +31,13 @@ class Menu(models.Model):
 
     LOCATION_CHOICES = (
         (ERBA, 'Erba'), (MARKUSPLATZ, 'Markusplatz'), (FEKI, 'Feldkirchenstrasse'), (AUSTRASSE, 'Austrasse'))
+
+    # Api location data
+    API_LOCATIONS = [{'id': FEKI, 'name': 'Feldkirchenstrasse', 'short': 'Feki'},
+                     {'id': AUSTRASSE, 'name': 'Austrasse', 'short': 'Austrasse'},
+                     {'id': ERBA, 'name': 'Erba', 'short': 'Erba'},
+                     {'id': MARKUSPLATZ, 'name': 'Markusplatz', 'short': 'Markusplatz'}, ]
+
     id = models.AutoField(primary_key=True)
     date = models.DateField(default=timezone.now)
     location = models.CharField(max_length=MAX_FOOD_LOCATION_LENGTH, choices=LOCATION_CHOICES)
@@ -68,22 +77,32 @@ class HappyHour(models.Model):
     date = models.DateField(default=timezone.now)
     starttime = models.TimeField(default=timezone.now)
     endtime = models.TimeField(default=timezone.now)
-    location = models.CharField(max_length=MAX_HAPPY_HOUR_LOCATION_LENGTH)
+    location = models.ForeignKey('HappyHourLocation', on_delete=models.PROTECT)
     description = models.CharField(max_length=MAX_HAPPY_HOUR_DESCRIPTION_LENGTH)
 
     class Meta:
-        # TODO: unique description instead of date
-        unique_together = ('date', 'location', 'starttime', 'endtime')
+        unique_together = ('location', 'starttime', 'endtime')
 
     def __str__(self):
         return "Date: %s, Location: %s" % (self.date.strftime("%Y.%m.%d"), self.location)
 
 
-class UserRating(models.Model):
+class HappyHourLocation(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=MAX_HAPPY_HOUR_LOCATION_LENGTH)
+
+    def __str__(self):
+        return "%s" % self.name
+
+
+class UserFoodRating(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
     food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
-    rating = models.FloatField(default=0)
+    rating = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
+
+    class Meta:
+        unique_together = ('user', 'food')
 
     def __str__(self):
         return "User: %s - Rating: %s" % (self.user.username, self.rating)
@@ -100,6 +119,19 @@ class UserFoodImage(models.Model):
 
     def __str__(self):
         return "User: %s - Image: %s" % (self.user.username, str(self.image))
+
+
+class UserFoodComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
+    food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
+    comment = models.CharField(max_length=MAX_FOOD_COMMENT_LENGTH)
+
+    class Meta:
+        unique_together = ('user', 'food')
+
+    def __str__(self):
+        return "User: %s - Food: %s" % (self.user.username, self.food.name)
 
 
 class FoodImage(models.Model):
