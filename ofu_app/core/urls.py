@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from core import views
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -59,5 +60,6 @@ urlpatterns = [
 
                   # -- Third Party APIs
                   url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-                  url(r'^api/token-auth/', token_auth_views.obtain_auth_token),
+                  url(r'^api/token-auth/', include('djoser.urls')),
+                  url(r'^api/token-auth/', include('djoser.urls.authtoken')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

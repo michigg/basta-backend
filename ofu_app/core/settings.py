@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.registration',
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser',
     'analytical',
     'corsheaders',
 ]
@@ -50,9 +51,14 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
 MIDDLEWARE = [
@@ -232,3 +238,17 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
 )
+
+DJOSER = {
+    'SEND_ACTIVATION_EMAIL': True,
+    'PASSWORD_RESET_CONFIRM_URL': '/#/password-reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    # re_new_password
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'ACTIVATION_URL': '/#/activation/{uid}/{token}',
+}
+
+# TODO: env vars
+DOMAIN = 'localhost:3000'
+SITE_NAME = 'BaStA'
