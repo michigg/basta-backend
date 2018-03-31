@@ -6,18 +6,19 @@ from django.templatetags.static import static
 from datetime import datetime
 from datetime import timedelta
 
-from apps.food.api.v1_2.serializers import OverviewMenuSerializer, DetailMenuSerializer, MenusLocationsSerializer
-from apps.food.api.v1_2.serializers import OverviewSingleFoodSerializer, DetailedSingleFoosdSerializer, \
-    AllergensSerializer, DetailedFoodImageSerializer, DefaultFoodImageSerializer, MinimalSingleFoodSerializer
-from apps.food.api.v1_2.serializers import HappyHourSerializer, HappyHourLocationSerializer
-from apps.food.api.v1_2.serializers import UserFoodRatingSerializer
-from apps.food.models import Menu, SingleFood, Allergene, HappyHour, HappyHourLocation, FoodImage, UserFoodRating
+from apps.food.api.v1_2.serializers.main_serializers import OverviewMenuSerializer, DetailMenuSerializer, \
+    MenusLocationsSerializer
+from apps.food.api.v1_2.serializers.main_serializers import OverviewSingleFoodSerializer, DetailedSingleFoosdSerializer, \
+    AllergensSerializer, DetailedFoodImageSerializer, DefaultFoodImageSerializer, MinimalSingleFoodSerializer, \
+    UserFoodCommentSerializer
+from apps.food.api.v1_2.serializers.main_serializers import HappyHourSerializer, HappyHourLocationSerializer
+from apps.food.models import Menu, SingleFood, Allergene, HappyHour, HappyHourLocation, FoodImage, UserFoodRating, \
+    UserFoodComment
 from rest_framework import generics
 from rest_framework.decorators import permission_classes, api_view, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import views, status
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import ValidationError
 
 
@@ -129,6 +130,15 @@ class ApiMenusLocations(views.APIView):
 
 
 @permission_classes((AllowAny,))
+class ApiMealComments(generics.ListAPIView):
+    serializer_class = UserFoodCommentSerializer
+
+    def get_queryset(self):
+        food_id = self.kwargs['pk']
+        return UserFoodComment.objects.filter(food_id=food_id)
+
+
+@permission_classes((AllowAny,))
 class ApiHappyHours(generics.ListAPIView):
     serializer_class = HappyHourSerializer
 
@@ -209,18 +219,3 @@ class ApiFoodImagesDefault(views.APIView):
         default_image = {'image': request.build_absolute_uri(static('img/food/default.jpg'))}
         results = DefaultFoodImageSerializer(default_image, many=False).data
         return Response(results, status=status.HTTP_200_OK)
-
-
-@authentication_classes((TokenAuthentication,))
-@permission_classes((IsAuthenticated,))
-class ApiFoodRatingUpload(generics.CreateAPIView):
-    serializer_class = UserFoodRatingSerializer
-    queryset = UserFoodRating.objects.all()
-
-    def get_serializer_context(self):
-        context = super(ApiFoodRatingUpload, self).get_serializer_context()
-        context.update({
-            "food_id": self.kwargs['pk'],
-            # extra data
-        })
-        return context

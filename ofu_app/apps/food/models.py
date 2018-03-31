@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import os
 from io import BytesIO
+import uuid
+from _datetime import datetime
 
 from PIL import Image
 from django.conf import settings
@@ -19,7 +21,20 @@ MAX_FOOD_PRICE_LENGTH = 10
 MAX_FOOD_ALLERGENNAME_LENGTH = 256
 MAX_HAPPY_HOUR_LOCATION_LENGTH = 256
 MAX_HAPPY_HOUR_DESCRIPTION_LENGTH = 1024
+MAX_FOOD_COMMENT_TITLE_LENGTH = 128
 MAX_FOOD_COMMENT_LENGTH = 2048
+
+
+def image_path(instance, filename):
+    extension = filename.split('.')[-1]
+    date = datetime.now().strftime('%Y/%m/%W')
+    return 'food/originals/{}/{}.{}'.format(date, uuid.uuid4(), extension)
+
+
+def thumb_path(instance, filename):
+    extension = filename.split('.')[-1]
+    date = datetime.now().strftime('%Y/%m/%W')
+    return 'food/thumbs/{}/{}.{}'.format(date, uuid.uuid4(), 'jpg')
 
 
 # Create your models here.
@@ -56,9 +71,10 @@ class SingleFood(models.Model):
     price_student = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
     price_employee = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
     price_guest = models.CharField(max_length=MAX_FOOD_PRICE_LENGTH, blank=True, null=True)
-    image = models.ForeignKey('FoodImage', on_delete=models.PROTECT, blank=True, null=True)
+    image = models.ForeignKey('FoodImage', on_delete=models.SET_NULL, blank=True, null=True)
     rating = models.FloatField(default=0)
     allergens = models.ManyToManyField("Allergene", blank=True)
+    comments = models.ManyToManyField('UserFoodComment', blank=True)
 
     def __str__(self):
         return "%s - Rating: %f - Student Price: %s" % (self.name, self.rating, self.price_student)
@@ -125,25 +141,27 @@ class UserFoodComment(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, unique=False)
     food = models.ForeignKey(SingleFood, on_delete=models.PROTECT)
-    comment = models.CharField(max_length=MAX_FOOD_COMMENT_LENGTH)
+    title = models.CharField(max_length=MAX_FOOD_COMMENT_TITLE_LENGTH, null=False, blank=False)
+    description = models.CharField(max_length=MAX_FOOD_COMMENT_LENGTH, null=False, blank=False)
 
     class Meta:
         unique_together = ('user', 'food')
 
     def __str__(self):
-        return "User: %s - Food: %s" % (self.user.username, self.food.name)
+        return "User: %s - Title: %s" % (self.user.username, self.title)
 
 
 class FoodImage(models.Model):
     id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to='food/originals/%Y/%m/%W', blank=True, null=True)
-    thumb = models.ImageField(upload_to='food/thumbs/%Y/%m/%W', blank=True, null=True)
+    image = models.ImageField(upload_to=image_path, blank=False, null=False)
+    thumb = models.ImageField(upload_to=thumb_path, blank=True, null=True)
 
-    def save(self, force_update=False, force_insert=False, thumb_size=(640, 480)):
+    def save(self, *args, **kwargs):
         image = Image.open(self.image)
 
         if image.mode not in ('L', 'RGB'):
             image = image.convert('RGB')
+        thumb_size = (128, 128)
         image.thumbnail(thumb_size, Image.ANTIALIAS)
 
         # save the thumbnail to memory
@@ -156,12 +174,17 @@ class FoodImage(models.Model):
                                  temp_handle.read(),
                                  content_type='image/jpg')
 
-        self.thumb.save('%s_thumbnail.%s' % (self.id, 'jpg'), suf, save=False)
-        # save the image object
-        self.image.name = "%s_original.%s" % (self.id, 'jpg')
-        super(FoodImage, self).save(force_update, force_insert)
+        # self.thumb.save('%s_thumbnail.%s' % (self.id, 'jpg'), suf, save=False)
+        self.thumb.save(name='', content=suf, save=False)
 
-    def delete(self, using=None, keep_parents=False):
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.image.name))
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.thumb.name))
-        super(FoodImage, self).delete()
+        # save the image object
+        super(FoodImage, self).save(*args, **kwargs)
+
+    #
+    # def delete(self, using=None, keep_parents=False):
+    #     os.remove(os.path.join(settings.MEDIA_ROOT, self.image.name))
+    #     os.remove(os.path.join(settings.MEDIA_ROOT, self.thumb.name))
+    #     super(FoodImage, self).delete()
+
+    def __str__(self):
+        return "Image: %s" % (str(self.image))

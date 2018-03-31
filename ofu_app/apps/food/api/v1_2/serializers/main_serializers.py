@@ -1,10 +1,5 @@
+from apps.food.models import Menu, SingleFood, HappyHour, Allergene, FoodImage, HappyHourLocation, UserFoodComment
 from rest_framework import serializers
-
-from apps.food.models import Menu, SingleFood, HappyHour, Allergene, FoodImage, HappyHourLocation
-from apps.food.models import UserFoodRating, UserFoodImage
-from django.contrib.auth.models import User
-from rest_framework import serializers
-from rest_framework import validators
 
 
 class DefaultFoodImageSerializer(serializers.Serializer):
@@ -31,6 +26,12 @@ class MenusLocationsSerializer(serializers.Serializer):
     id = serializers.CharField()
     short = serializers.CharField()
     name = serializers.CharField()
+
+
+class UserFoodCommentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserFoodComment
+        fields = ('id', 'description', 'title')
 
 
 class AllergensSerializer(serializers.HyperlinkedModelSerializer):
@@ -68,10 +69,12 @@ class MinimalSingleFoodSerializer(serializers.HyperlinkedModelSerializer):
 class DetailedSingleFoosdSerializer(serializers.HyperlinkedModelSerializer):
     allergens = AllergensSerializer(many=True, read_only=True)
     image = DetailedFoodImageSerializer(many=False, read_only=True)
+    comments = UserFoodCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = SingleFood
-        fields = ('id', 'name', 'rating', 'price_student', 'price_employee', 'price_guest', 'allergens', 'image')
+        fields = (
+            'id', 'name', 'rating', 'price_student', 'price_employee', 'price_guest', 'allergens', 'image', 'comments')
 
 
 class OverviewMenuSerializer(serializers.HyperlinkedModelSerializer):
@@ -109,47 +112,3 @@ class HappyHourLocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = HappyHourLocation
         fields = ('id', 'name')
-
-
-# --------------------------- User --------------------------------------------
-class UserFoodImageSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = UserFoodImage
-        fields = ('id', 'image_image', 'image_thumb')
-
-
-class UserFoodRatingSerializer(serializers.ModelSerializer):
-    # food = MinimalSingleFoodSerializer(many=False, read_only=False)
-
-    class Meta:
-        model = UserFoodRating
-        fields = ('id', 'rating')
-
-    def run_validators(self, value):
-        for validator in self.validators:
-            if isinstance(validator, validators.UniqueTogetherValidator):
-                self.validators.remove(validator)
-        super(UserFoodRatingSerializer, self).run_validators(value)
-
-    def create(self, validated_data):
-        # TODO: Custom exception handler
-        rating = validated_data.pop('rating')
-        if rating >= 1 or rating <= 5:
-            food_id = self.context.get('food_id')
-            # user = self.context['request'].user
-            user = User.objects.get(id=1)
-            food = SingleFood.objects.get(id=food_id)
-            user_rating, _ = UserFoodRating.objects.get_or_create(food=food, user=user)
-            user_rating.rating = rating
-            user_rating.save()
-
-            food_user_ratings = UserFoodRating.objects.all().filter(food=food)
-            sum = 0
-            for food_user_rating in food_user_ratings:
-                sum += food_user_rating.rating
-
-            food.rating = sum / food_user_ratings.count()
-            food.save()
-            return user_rating
-        else:
-            raise ValueError
