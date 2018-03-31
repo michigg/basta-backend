@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from apps.food.models import UserFoodRating, UserFoodImage, UserFoodComment, SingleFood, FoodImage
+from apps.food.api.v1_2.serializers.main_serializers import MinimalSingleFoodSerializer
 
 
 class FoodImageSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,10 +12,11 @@ class FoodImageSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserFoodImageSerializer(serializers.HyperlinkedModelSerializer):
     image = FoodImageSerializer(many=False, read_only=True)
+    food = MinimalSingleFoodSerializer(many=False, read_only=True)
 
     class Meta:
         model = UserFoodImage
-        fields = ('id', 'image')
+        fields = ('id', 'food', 'image')
 
 
 class SingleFoodSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,7 +46,7 @@ class UserCommentsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = UserFoodComment
-        fields = ('id', 'food', 'comment')
+        fields = ('id', 'food', 'description', 'title')
 
 
 class UserInformationSerializer(serializers.HyperlinkedModelSerializer):

@@ -23,7 +23,16 @@ class UserRatings(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return UserFoodRating.objects.filter(user=user).order_by('food__name')
+        food_id = self.request.query_params.get('food_id')
+        queryset = UserFoodRating.objects.filter(user=user).order_by('food__name')
+        if food_id:
+            try:
+                queryset = queryset.filter(food_id=food_id)
+            except ValueError as e:
+                # TODO: return Exception
+                return []
+
+        return queryset
 
 
 @permission_classes((IsAuthenticated,))
@@ -32,7 +41,16 @@ class UserImages(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return UserFoodImage.objects.filter(user=user).order_by('food__name')
+        food_id = self.request.query_params.get('food_id')
+        queryset = UserFoodImage.objects.filter(user=user).order_by('food__name')
+        if food_id:
+            try:
+                queryset = queryset.filter(food_id=food_id)
+            except ValueError as e:
+                # TODO: return Exception
+                return []
+
+        return queryset
 
 
 @permission_classes((IsAuthenticated,))
@@ -41,4 +59,13 @@ class UserComments(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return UserFoodComment.objects.filter(user=user).order_by('food__name')
+        food_id = self.request.query_params.get('food_id')
+        queryset = UserFoodComment.objects.filter(user=user).order_by('food__name')
+        if food_id:
+            try:
+                queryset = queryset.filter(food_id=food_id)
+            except ValueError as e:
+                # TODO: return Exception
+                return []
+
+        return queryset

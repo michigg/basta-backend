@@ -20,7 +20,7 @@ from apps.food.models import Menu
 urlpatterns = [
     # API Version 1.1
     url(r'^account/$', api_views.UserInformations.as_view(), name='api-v1_1-user-information'),
-    url(r'^account/food/rating/$', api_views.UserRatings.as_view(), name='api-v1_1-user-rating'),
-    url(r'^account/food/pic/$', api_views.UserImages.as_view(), name='api-v1_1-user-image'),
-    url(r'^account/food/comment/$', api_views.UserComments.as_view(), name='api-v1_1-user-comment'),
+    url(r'^account/food/ratings/$', api_views.UserRatings.as_view(), name='api-v1_1-user-rating'),
+    url(r'^account/food/images/$', api_views.UserImages.as_view(), name='api-v1_1-user-image'),
+    url(r'^account/food/comments/$', api_views.UserComments.as_view(), name='api-v1_1-user-comment'),
 ]
