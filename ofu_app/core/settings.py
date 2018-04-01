@@ -13,21 +13,81 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import datetime
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+DOMAIN = os.environ['DOMAIN']
+
+SITE_NAME = os.environ['SITE_NAME']
+SITE_ID = 1
+
+ADMINS = os.environ['ADMINS'].split()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', False))
+
 ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split()
 
-# Application definition
+# Sign Up E-Mail authentication
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = os.environ['EMAIL_PORT']
+EMAIL_USE_TLS = True
 
+# TODO: more account with same email are possible?
+ACCOUNT_EMAIL_UNIQUE = True
+ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
+
+# Setup support for proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Media files should be stored here
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+
+# monitoring
+PIWIK_DOMAIN_PATH = os.environ['PIWIK_DOMAIN_PATH']
+PIWIK_SITE_ID = os.environ['PIWIK_SITE_ID']
+
+LOGIN_REDIRECT_URL = 'home'
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.11/topics/i18n/
+
+LANGUAGE_CODE = 'de'
+
+TIME_ZONE = 'Europe/Berlin'
+
+USE_I18N = True
+
+USE_L10N = False
+
+USE_TZ = True
+
+DATE_FORMAT = "l, d. F Y"
+DATETIME_FORMAT = "l, d. F Y"
+TIME_FORMAT = "H:i"
+
+ROOT_URLCONF = 'core.urls'
+WSGI_APPLICATION = 'core.wsgi.application'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+)
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,8 +108,6 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-SITE_ID = 1
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
@@ -60,6 +118,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'rest_framework.authentication.TokenAuthentication',
     ],
+}
+DJOSER = {
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': os.environ['ACTIVATION_URL'],
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL': os.environ['PASSWORD_RESET_CONFIRM_URL'],
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
 }
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -83,7 +149,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
@@ -110,11 +175,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -132,7 +194,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -148,57 +209,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
-
-LANGUAGE_CODE = 'de'
-
-TIME_ZONE = 'Europe/Berlin'
-
-USE_I18N = True
-
-USE_L10N = False
-
-USE_TZ = True
-
-DATE_FORMAT = "l, d. F Y"
-DATETIME_FORMAT = "l, d. F Y"
-TIME_FORMAT = "H:i"
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-
-# Setup support for proxy headers
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# FORCE_SCRIPT_NAME = "app"
-# Media files should be stored here
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
-
-# monitoring
-PIWIK_DOMAIN_PATH = 'mg-server.ddns.net/piwik'
-PIWIK_SITE_ID = '1'
-
-LOGIN_REDIRECT_URL = 'home'
-
-# Sign Up E-Mail authentication
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'signup.basta@gmail.com'
-EMAIL_HOST_PASSWORD = '1\SL^QzlSuP<`8gkP4Fd'
-EMAIL_PORT = '587'
-EMAIL_USE_TLS = True
-
-ACCOUNT_EMAIL_UNIQUE = True
-ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
 
 LOGGING = {
     'version': 1,
@@ -231,24 +243,3 @@ LOGGING = {
         },
     },
 }
-
-ADMINS = [('Michael Götz', 'mgoetz1995@gmail.com')]
-CORS_ORIGIN_ALLOW_ALL = False
-
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-)
-
-DJOSER = {
-    'SEND_ACTIVATION_EMAIL': True,
-    'PASSWORD_RESET_CONFIRM_URL': '/#/password-reset/confirm/{uid}/{token}',
-    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    # re_new_password
-    'PASSWORD_RESET_CONFIRM_RETYPE': True,
-    'SET_PASSWORD_RETYPE': True,
-    'ACTIVATION_URL': '/#/activation/{uid}/{token}',
-}
-
-# TODO: env vars
-DOMAIN = 'localhost:3000'
-SITE_NAME = 'BaStA'
