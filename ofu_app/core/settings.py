@@ -241,5 +241,9 @@ LOGGING = {
             'handlers': ['console', 'file', 'mail_admins'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
+        'apps.donar.utils': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
     },
 }

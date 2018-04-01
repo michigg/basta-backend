@@ -4,6 +4,9 @@ import json
 from pprint import pprint
 from django.db.utils import IntegrityError
 from apps.donar.utils.parser import univis_lectures_parser
+import logging
+
+logger = logging.getLogger(__name__)
 
 # CONFIG Fakultaet
 FAKULTAET_GuK = "Fakult%E4t%20Geistes-%20und%20Kulturwissenschaften"
@@ -32,38 +35,35 @@ def writeUnivisLectureTermsInDB(lecture, lecture_obj):
         if type(lecture['terms']['term']) == list:
             for term in lecture['terms']['term']:
                 try:
-                    term_obj = Lecture_Terms.objects.create()
                     starttime = "00:00"
+                    term_obj = Lecture_Terms.objects.create(starttime=starttime)
                     if 'starttime' in term:
                         starttime = term['starttime']
                         term_obj.starttime = datetime.strptime(starttime, "%H:%M")
+                    term_obj.save()
                     if 'room' in term:
                         room_id = term['room']['UnivISRef']['@key']
-                        term_obj.room = [Room.objects.get(key=room_id)]
-                    term_obj.save()
+                        term_obj.room.add(Room.objects.get(key=room_id))
                     lecture_obj.term.add(term_obj)
                 except IntegrityError as err:
-                    print("ROOM_ID: " + str(room_id))
-                    print(err.args)
+                    logger.exception(err)
 
         else:
             try:
-                term_obj = Lecture_Terms.objects.create()
                 univis_starttime = "00:00"
+                term_obj = Lecture_Terms.objects.create(starttime=univis_starttime)
                 if 'starttime' in lecture['terms']['term']:
                     univis_starttime = lecture['terms']['term']['starttime']
                     term_obj.starttime = datetime.strptime(univis_starttime, '%H:%M')
+                term_obj.save()
                 if 'room' in lecture['terms']['term']:
                     room_id = lecture['terms']['term']['room']['UnivISRef']['@key']
-                    pprint("Room: " + room_id)
                     Room.objects.get(key=room_id)
-                    term_obj.room = [Room.objects.get(key=room_id)]
-
+                    term_obj.room.add(Room.objects.get(key=room_id))
                 term_obj.save()
                 lecture_obj.term.add(term_obj)
             except IntegrityError as err:
-                print("ROOM_ID: " + str(room_id))
-                print(err.args)
+                logger.exception(err)
 
 
 def writeUnivisLectureDataInDB(data):
@@ -91,43 +91,56 @@ def writeUnivisLectureDataInDB(data):
                 lecture_type = lecture['type']
             if 'dozs' in lecture:
                 lecturer_id = dict(lecture['dozs']['doz']['UnivISRef'])['@key']
-            print("Lecture: " + name)
             lecture_obj = Lecture.objects.create(univis_ref=key, univis_id=univis_id, name=name, short=short,
                                                  type=lecture_type, lecturer_id=lecturer_id)
             writeUnivisLectureTermsInDB(lecture, lecture_obj)
             lecture_obj.save()
+            logger.info("Lecture: {}".format(lecture_obj.short))
         except IntegrityError as err:
-            print(err.args)
+            logger.warning('Lecture already exists')
+            # logger.exception(err)
 
     return
 
 
 def showStatus(status: str):
-    print(status)
-    pprint("Lectures: " + str(Lecture.objects.count()))
-    pprint("Lecture Terms: " + str(Lecture_Terms.objects.count()))
-    pprint("Room: " + str(Room.objects.count()))
+    return "\nStatus: {status}\n\tLectures: {lectures}\n\tLecture Terms: {lecture_terms}\n\tRoom: {room}".format(
+        status=status,
+        lectures=Lecture.objects.count(),
+        lecture_terms=Lecture_Terms.objects.count(),
+        room=Room.objects.count()
+    )
+
+
+def delete():
+    lectures = Lecture.objects.all()
+    logger.info("Deleted following Lectures:")
+    for lecture in lectures:
+        logger.info("Lecture: {name}".format(
+            name=lecture.name)
+        )
+        lecture.delete()
 
 
 def main():
     # get food jsons
-    showStatus("Start with:")
+    logger.info(showStatus("Start SoWi:"))
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_SoWi)))
-    pprint("----------------------------------------------------------------------------------------")
+    # pprint("----------------------------------------------------------------------------------------")
 
-    showStatus("After SoWi:")
+    logger.info(showStatus("Start GuK:"))
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_GuK)))
-    pprint("----------------------------------------------------------------------------------------")
+    # pprint("----------------------------------------------------------------------------------------")
 
-    showStatus("After GuK:")
+    logger.info(showStatus("Start HuWi:"))
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_HuWi)))
-    pprint("----------------------------------------------------------------------------------------")
+    # pprint("----------------------------------------------------------------------------------------")
 
-    showStatus("After HuWi:")
+    logger.info(showStatus("Start WIAI:"))
     writeUnivisLectureDataInDB(univis_lectures_parser.parsePage(univis_lectures(FAKULTAET_WIAI)))
-    pprint("----------------------------------------------------------------------------------------")
-    
-    showStatus("After WIAI:")
+    # pprint("----------------------------------------------------------------------------------------")
+
+    logger.info(showStatus("Finished:"))
 
 
 if __name__ == '__main__':

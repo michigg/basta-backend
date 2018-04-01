@@ -7,6 +7,9 @@ from apps.events.utils.parser import univis_eventpage_parser
 from apps.events.utils.parser import fekide_eventpage_parser
 
 from apps.events.models import Event, Location
+import logging
+
+logger = logging.getLogger(__name__)
 
 UNIVIS_CATEGORY = 'Univis'
 
@@ -20,32 +23,17 @@ UNIVIS_RPG_WIAI = "http://univis.uni-bamberg.de/prg?search=events&department=Fak
 def writeFekideDataInDB(data):
     for date in data['dates']:
         for event in date['events']:
-            try:
-                Location.objects.create(name=event['location'])
-            except IntegrityError:
-                # print("Location %s already exists." % event['location'])
-                pass
+            location, _ = Location.objects.get_or_create(name=event['location'])
+            location.save()
 
-            try:
-                event_obj, new = Event.objects.get_or_create(date=datetime.strptime(date['date'], "%d.%m.%Y"),
-                                                             title=event['title'])
-                if new:
-                    event_obj.category = event['category']
-                    event_obj.link = event['link']
-                    event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
-                    event_obj.locations.add(Location.objects.get(name=event['location']))
-                    event_obj.save()
-                    Event.objects.filter(title="").delete()
-                else:
-                    print("Event %s already exists. Start Update" % str(event_obj.title))
-                    event_obj.category = event['category']
-                    event_obj.link = event['link']
-                    event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
-                    event_obj.locations.add(Location.objects.get(name=event['location']))
-                    event_obj.save()
-            except IntegrityError:
-                # ignored
-                pass
+            event_obj, _ = Event.objects.get_or_create(date=datetime.strptime(date['date'], "%d.%m.%Y"),
+                                                       title=event['title'])
+            event_obj.category = event['category']
+            event_obj.link = event['link']
+            event_obj.time = datetime.strptime(str(event['time']).split()[1], "%H:%M")
+            event_obj.locations.add(Location.objects.get(name=event['location']))
+            event_obj.save()
+            logger.info('CREATED - Event: {}'.format(event_obj.title))
 
 
 def deleteUnivisObjects():
@@ -62,15 +50,13 @@ def writeUnivisLocationsInDB(rooms):
     for room in rooms:
         if '@key' in room and 'short' in room:
             try:
-                Location.objects.create(key=room['@key'], name=room['short'])
-            except IntegrityError:
-                print("Possible Duplicate! Start DB refresh")
-                try:
-                    Location.objects.get(name=room['short']).key = room['@key']
-                except Exception as harderr:
-                    print("Failed to refresh object" + harderr.args)
+                location, _ = Location.objects.get_or_create(key=room['@key'], name=room['short'])
+                location.key = room['@key']
+                location.name = room['short']
+                location.save()
+                logger.info('CREATE - Location: {}'.format(location.name))
             except Exception as err:
-                print(err.args)
+                logger.critical(err.args)
 
 
 def getLocationIDs(event):
@@ -110,21 +96,24 @@ def writeUnivisEventsInDB(events: list):
                         event_obj.orgname = event['orgname']
                     try:
                         event_obj.save()
+                        logger.info(event_obj.title)
                     except IntegrityError:
                         # TODO: Update DB Object if duplicate detected
-                        print("Found Duplicate!")
+                        logger.info("Found Duplicate!")
                     except Exception as err:
-                        print(err.args)
+                        logger.exception(err.args)
                     Event.objects.filter(title="").delete()
 
 
 def write_out_db_objects():
-    pprint("Event: " + str(Event.objects.count()))
-    pprint("Location: " + str(Location.objects.count()))
+    return "\n\tEvent: {event}\n\tLocation: {location}".format(
+        event=Event.objects.count(),
+        location=Location.objects.count(),
+    )
 
 
 def main():
-    print("Aktueller Stand:")
+    logger.info("Aktueller Stand:")
     write_out_db_objects()
 
     # deleteUnivisObjects()
@@ -139,7 +128,7 @@ def main():
 
     writeFekideDataInDB(fekide_eventpage_parser.parsePage())
 
-    print("Neuer Stand:")
+    logger.info("Neuer Stand:")
     write_out_db_objects()
 
 
