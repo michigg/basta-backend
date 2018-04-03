@@ -4,11 +4,11 @@ from __future__ import unicode_literals
 from datetime import datetime
 from datetime import timedelta
 
-from apps.food.api.serializers import MenuSerializer, HappyHourSerializer
+from apps.food.api.v1_1.serializers import MenuSerializer, HappyHourSerializer
 from apps.food.models import Menu, HappyHour
 from rest_framework import viewsets
 
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 
 

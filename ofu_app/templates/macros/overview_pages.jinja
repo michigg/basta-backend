@@ -11,11 +11,11 @@
     </div>
 {% endmacro %}
 
-{% macro home_item_with_icon(icon, icon_size='fa-4x', url_id='', link='', title='') -%}
+{% macro home_item_with_icon(icon, icon_size='fa-4x', url_id='', link='', title='', attr='') -%}
     <div class="col-12 col-sm-6 col-lg-6 col-xl-6 p-3">
         <div class="card">
             {% if url_id %}
-                <a href="{{ url(url_id) }}">
+                <a href="{{ url(url_id) }}" {{ attr }}>
                     <div class="card-body">
                         <h4 class="card-title text-center"><i class="fa {{ icon }} {{ icon_size }}"
                                                               aria-hidden="true"></i></h4>
@@ -25,7 +25,7 @@
                     </div>
                 </a>
             {% else %}
-                <a href="{{ link }}">
+                <a href="{{ link }}" {{ attr }}>
                     <div class="card-body">
                         <h4 class="card-title text-center"><i class="fa {{ icon }} {{ icon_size }}"
                                                               aria-hidden="true"></i></h4>

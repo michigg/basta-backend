@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from core import views
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from rest_framework import routers
+from rest_framework.authtoken import views as token_auth_views
 from apps.food import urls as food_urls
 from django.conf import settings
 from django.conf.urls.static import static
@@ -46,7 +48,18 @@ urlpatterns = [
                   url(r'^impressum/$', views.impressum, name='impressum'),
 
                   # -- API --
+                  # -- Version 1.0
                   url(r'^api/v1/', include(api_router_v1.urls)),
-                  url(r'^api/v1.1/', include('apps.food.api.urls')),
-                  url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework'))
+                  # -- Version 1.1
+                  url(r'^api/v1.1/', include('apps.food.api.v1_1.urls')),
+                  url(r'^api/v1.1/', include('apps.registration.api.urls')),
+
+                  # -- Version 1.2
+                  url(r'^api/v1.2/', include('apps.food.api.v1_2.urls')),
+                  url(r'^api/v1.2/', include('apps.registration.api.urls')),
+
+                  # -- Third Party APIs
+                  url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  url(r'^api/token-auth/', include('djoser.urls')),
+                  url(r'^api/token-auth/', include('djoser.urls.authtoken')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

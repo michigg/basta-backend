@@ -9,10 +9,15 @@
 {% block content %}
     <div class="container">
         <div class="row text-dark">
-            {{ macros.home_item_with_icon(icon='fa-cutlery', url_id='daily-food', title='Food') }}
+            {#    {{ macros.home_item_with_icon(icon='fa-cutlery', url_id='daily-food', title='Food') }}
             {{ macros.home_item_with_icon(icon='fa-calendar-o', url_id='day-events', title='Events') }}
             {{ macros.home_item_with_icon(icon='fa-compass', url_id='donar', title='Nav') }}
-            {{ macros.home_item_with_icon(icon='fa-th-large', url_id='links-home', title='Links') }}
+            {{ macros.home_item_with_icon(icon='fa-th-large', url_id='links-home', title='Links') }}#}
+
+            {{ macros.home_item_with_icon(icon='fa-cutlery', url_id='daily-food', title='Food') }}
+            {{ macros.home_item_with_icon(icon='fa-calendar-o',link='', title='Events', attr='class=disabled') }}
+            {{ macros.home_item_with_icon(icon='fa-compass',link='', title='Nav', attr='class=disabled') }}
+            {{ macros.home_item_with_icon(icon='fa-th-large',link='', title='Links', attr='class=disabled') }}
         </div>
     </div>
 {% endblock %}

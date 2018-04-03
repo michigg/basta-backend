@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from apps.food.models import Menu, HappyHour, SingleFood
+from django.core.management.base import BaseCommand
+
 from apps.food.utils import migrate_data
 
 
