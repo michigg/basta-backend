@@ -6,6 +6,10 @@ from apps.donar.models import Room, Lecture_Terms, Lecture
 from apps.donar.utils.parser import univis_rooms_parser
 from apps.donar.utils.parser import univis_lectures_parser
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # CONFIG Fakultaet
 FAKULTAET_GuK = "Fakult%E4t%20Geistes-%20und%20Kulturwissenschaften"
 FAKULTAET_SoWi = "Fakult%E4t%20Sozial-%20und%20Wirtschaftswissenschaften"
@@ -73,15 +77,28 @@ def writeUnivisRoomDataInDB(data):
             if 'description' in room:
                 description = room['description']
 
-            Room.objects.create(key=key, address=address, building_key=building_key, floor=floor, name=name,
-                                orgname=orgname, short=short, size=size, description=description)
+            room = Room.objects.create(key=key, address=address, building_key=building_key, floor=floor, name=name,
+                                       orgname=orgname, short=short, size=size, description=description)
+            room.save()
+            logger.info('ROOM: {}'.format(room.short))
         except IntegrityError as err:
-            pprint(err.args)
+            logger.warning('Room already exists')
+
+
+def delete():
+    rooms = Room.objects.all()
+    logger.info("Deleted following Rooms:")
+    for room in rooms:
+        logger.info("Room: {name}".format(
+            name=room.short)
+        )
+        room.delete()
 
 
 def main():
     # get food jsons
-    pprint("Begin: Room: " + str(Room.objects.count()))
+    logger.info("Start:\nRoom: {}".format(Room.objects.count()))
+
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms(FAKULTAET_GuK)))
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms(FAKULTAET_SoWi)))
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms(FAKULTAET_HuWi)))
@@ -102,7 +119,7 @@ def main():
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("d")))
     writeUnivisRoomDataInDB(univis_rooms_parser.parsePage(univis_rooms_loc("x")))
 
-    pprint("Now: Room: " + str(Room.objects.count()))
+    logger.info("Finished:\nRoom: {}".format(Room.objects.count()))
 
 
 if __name__ == '__main__':

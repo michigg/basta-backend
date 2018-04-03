@@ -9,6 +9,7 @@ services:
   volumes:
    - ./data/data:/data
    - ./data/media:/media
+   - ./log:/log
    - ./ofu_app/:/app
   env_file:
    - docker.env

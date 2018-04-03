@@ -4,9 +4,8 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.urls import reverse
 from apps.food.models import SingleFood, Menu
-from apps.food.api.serializers import MenuSerializer
+from apps.food.api.v1_1.serializers import MenuSerializer
 from rest_framework import status
-from rest_framework.test import APIRequestFactory
 
 from datetime import datetime
 

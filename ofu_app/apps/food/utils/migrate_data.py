@@ -2,8 +2,11 @@ import json
 from datetime import datetime
 from pprint import pprint
 from django.db.utils import IntegrityError
-from apps.food.models import SingleFood, Menu, HappyHour, Allergene
+from apps.food.models import SingleFood, Menu, HappyHour, Allergene, HappyHourLocation
 from apps.food.utils.parser import mensa_page_parser, fekide_happyhour_page_parser, cafete_page_parser
+import logging
+
+logger = logging.getLogger(__name__)
 
 # CONFIG SERVICE LINKS
 LINK_FEKI_MENSA = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/speiseplaene.html?tx_thmensamenu_pi2%5Bmensen%5D=3&tx_thmensamenu_pi2%5Baction%5D=show&tx_thmensamenu_pi2%5Bcontroller%5D=Speiseplan&cHash=c3fe5ebb35e5fba3794f01878e798b7c"
@@ -15,128 +18,112 @@ LINK_FEKIDE_GUIDE = "https://www.feki.de/happyhour"
 LOCATION_NAMES = ('erba', 'markusplatz', 'feldkirchenstraße', 'austraße')
 
 
-def getJsonFromFile(path):
-    with open(path, "r") as file:
-        return json.load(file)
-
-
 def getLocation(raw_loc):
     for choice, name in zip(Menu.LOCATION_CHOICES, LOCATION_NAMES):
-        print(name.upper() in str(raw_loc).upper())
-        if (name.upper() in str(raw_loc).upper()):
+        if name.upper() in str(raw_loc).upper():
             return choice
-
-    print("LOCATION NOT FOUND")
+    logger.warning("{loc} unknown location".format(loc=raw_loc))
+    return None
 
 
 def writeStudentenwerkDataInDB(data):
-    data = json.loads(data)
-    pprint(data)
+    if not data:
+        logger.warning('no data')
+        return
+    logger.info("{location}".format(location=data['name']))
     for menu in data['weekmenu']:
-        pprint(menu)
+        logger.info("{date}".format(date=menu['date']))
         foodlist = []
         for single_food in menu['menu']:
-            pprint(single_food)
+            logger.info("{}".format(single_food['title']))
+            allergens = []
             if 'allergens' in single_food:
-                allergens = []
                 for allergen in single_food['allergens']:
-                    try:
-                        allergens.append(Allergene.objects.create(name=allergen))
-                    except IntegrityError:
-                        allergens.append(Allergene.objects.get(name=allergen))
+                    allergens.append(Allergene.objects.get_or_create(name=allergen)[0])
+            # TODO: Consider keyword arg for price
             try:
-                if 'prices' in single_food:
-                    if 'price_student' in single_food['prices']:
-                        price_student = single_food['prices']['price_student']
-                    else:
-                        price_student = "None"
-                    if 'price_employee' in single_food['prices']:
-                        price_employee = single_food['prices']['price_employee']
-                    else:
-                        price_employee = "None"
-                    if 'price_guest' in single_food['prices']:
-                        price_guest = single_food['prices']['price_guest']
-                    else:
-                        price_guest = "None"
-                    db_single_food = SingleFood.objects.create(name=single_food['title'],
-                                                               price_student=price_student,
-                                                               price_employee=price_employee,
-                                                               price_guest=price_guest)
-                else:
-                    db_single_food = SingleFood.objects.create(name=single_food['title'])
-                if 'allergens' in locals():
-                    db_single_food.allergens.set(allergens)
-                foodlist.append(db_single_food)
-            except IntegrityError:
-                db_single_food = SingleFood.objects.get(name=single_food['title'])
+                db_single_food, created = SingleFood.objects.get_or_create(name=single_food['title'])
                 if 'prices' in single_food:
                     if 'price_student' in single_food['prices']:
                         db_single_food.price_student = single_food['prices']['price_student']
+                    else:
+                        db_single_food.price_student = "None"
                     if 'price_employee' in single_food['prices']:
                         db_single_food.price_employee = single_food['prices']['price_employee']
+                    else:
+                        db_single_food.price_employee = "None"
                     if 'price_guest' in single_food['prices']:
                         db_single_food.price_guest = single_food['prices']['price_guest']
-                if 'allergens' in locals():
+                    else:
+                        db_single_food.price_guest = "None"
+                if allergens:
                     db_single_food.allergens.set(allergens)
                 foodlist.append(db_single_food)
-        try:
+                db_single_food.save()
+            except IntegrityError as e:
+                logger.exception(e)
 
+        try:
             date = datetime.strptime(str(menu['date']), "%d.%m.").replace(year=datetime.today().year)
-            menu = Menu.objects.create(location=getLocation(data['name']), date=date)
+            menu, _ = Menu.objects.get_or_create(location=getLocation(data['name']), date=date)
             menu.menu.set(foodlist)
             menu.save()
         except IntegrityError as error:
-            # ignored
-            pass
+            logger.exception(error)
 
 
 def writeFekideDataInDB(data):
     for happyhour_data in data['happyhours']:
         time = str(happyhour_data['time']).replace(" ", "").split("-")
-        happyhour, new = HappyHour.objects.get_or_create(date=datetime.strptime(data['day'], "%A, %d.%m.%Y"),
-                                                         location=happyhour_data['location'],
-                                                         description=happyhour_data['description'],
-                                                         starttime=datetime.strptime(time[0], "%H:%M").time(),
-                                                         endtime=datetime.strptime(time[1], "%H:%M").time())
-        if not new:
+        try:
+            location, _ = HappyHourLocation.objects.get_or_create(name=happyhour_data['location'])
+            happyhour, _ = HappyHour.objects.get_or_create(location=location,
+                                                           starttime=datetime.strptime(time[0], "%H:%M").time(),
+                                                           endtime=datetime.strptime(time[1], "%H:%M").time())
             happyhour.date = datetime.strptime(data['day'], "%A, %d.%m.%Y")
-            happyhour.location = happyhour_data['location']
             happyhour.description = happyhour_data['description']
-            happyhour.starttime = datetime.strptime(time[0], "%H:%M").time()
-            happyhour.endtime = datetime.strptime(time[1], "%H:%M").time()
             happyhour.save()
 
-        print("%s: Happy Hour: Location: %s, Description: %s" % (
-            str(happyhour.date.date()), str(happyhour.location), str(happyhour.description)))
+            logger.info("{date}: Happy Hour: Location: {location}, Description: {description}".format(
+                date=happyhour.date,
+                location=happyhour.location,
+                description=happyhour.description)
+            )
+        except Exception as e:
+            logger.exception(e)
 
 
 def writeoutDBObjects():
-    pprint("SingleFood: " + str(SingleFood.objects.count()))
-    pprint("Menu: " + str(Menu.objects.count()))
-    pprint("HappyHour: " + str(HappyHour.objects.count()))
+    return "\n\tSingleFood: {single_food}\n\tMenu: {menu}\n\tHappyHour: {happy_hour}".format(
+        single_food=SingleFood.objects.count(),
+        menu=Menu.objects.count(),
+        happy_hour=HappyHour.objects.count()
+    )
 
 
 def delete():
     happy_hours = HappyHour.objects.all()
-    print("Deleted following Happy Hours:")
+    logger.info("Deleted following Happy Hours:")
     for happy_hour in happy_hours:
-        print("%s: Happy Hour: Location: %s, Description: %s" % (
-            str(happy_hour.date), str(happy_hour.location), str(happy_hour.description)))
+        logger.info("{date}: Happy Hour: Location: {location}, Description: {description}".format(
+            date=happy_hour.date,
+            location=happy_hour.location,
+            description=happy_hour.description)
+        )
         happy_hour.delete()
 
 
 def main():
-    print("Aktueller Stand:")
-    writeoutDBObjects()
+    logger.info("Aktueller Stand:" + writeoutDBObjects())
+
     # get food jsons
     writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_AUSTR_MENSA))
     writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_FEKI_MENSA))
-    writeStudentenwerkDataInDB(cafete_page_parser.parsePage(LINK_ERBA_CAFETE))
-    writeStudentenwerkDataInDB(cafete_page_parser.parsePage(LINK_MARKUS_CAFETE))
-    writeFekideDataInDB(fekide_happyhour_page_parser.parsePage(LINK_FEKIDE_GUIDE))
+    writeStudentenwerkDataInDB(cafete_page_parser.parse_page(LINK_ERBA_CAFETE))
+    writeStudentenwerkDataInDB(cafete_page_parser.parse_page(LINK_MARKUS_CAFETE))
+    writeFekideDataInDB(fekide_happyhour_page_parser.parse_page(LINK_FEKIDE_GUIDE))
 
-    print("Neuer Stand:")
-    writeoutDBObjects()
+    logger.info("Neuer Stand:" + writeoutDBObjects())
 
 
 if __name__ == '__main__':

@@ -8,15 +8,22 @@
             <label for="username" class="label">Username:</label>
             <p>
                 <input id="username" type="text" name="username" required autofocus maxlength="150" id="id_username"/>
-                <small style="color: grey">Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern und
-                    @/./+/-/_.
+                <small style="color: grey">Erforderlich.
+                    <ul>
+                        <li>Nur Buchstaben,</li>
+                        <li>Ziffern und @/./+/-/_.</li>
+                    </ul>
                 </small>
             </p>
 
             <label for="email" class="label">E-Mail:</label>
             <p>
                 <input id="email" type="email" name="email" required maxlength="254" id="id_email"/>
-                <small style="color: grey">Required. Inform a valid email address.</small>
+                <small style="color: grey">Erforderlich.
+                    <ul>
+                        <li>Bitte beachten Sie, dass aktuell keine Stud Mail Accounts unterstützt werden können.</li>
+                    </ul>
+                </small>
             </p>
 
             <label for="password1" class="label">Password:</label>
