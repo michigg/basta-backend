@@ -7,6 +7,7 @@ WORKDIR /app
 EXPOSE 80
 VOLUME ["/app/data"]
 VOLUME ["/app/media"]
+VOLUME ["/app/log"]
 ENTRYPOINT ["python3", "manage.py"]
 ADD ["ofu_app", "/app"]
 CMD ["runserver", "0.0.0.0:80"]
