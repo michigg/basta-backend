@@ -74,7 +74,7 @@ TIME_FORMAT = "H:i"
 ROOT_URLCONF = 'core.urls'
 WSGI_APPLICATION = 'core.wsgi.application'
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static-dev/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
