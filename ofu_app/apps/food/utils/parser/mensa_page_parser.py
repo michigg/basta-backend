@@ -34,9 +34,15 @@ def getFoodPerDay(soup):
                 'allergens': allergens,
                 'prices': prices
             }
+            logger.debug('Title: {}'.format(title))
+            logger.debug('Allergens: {}'.format(allergens))
+            logger.debug('Price: {}'.format(prices))
             day_menu.append(single_food_obj)
+
+        date = str(day).strip('<span>').strip('</span>').split(" ")[1]
+        logger.debug('Date: {}'.format(date))
         menu = {
-            'date': str(day).split(" ")[1],
+            'date': date,
             'menu': day_menu
         }
         week_menus.append(menu)
