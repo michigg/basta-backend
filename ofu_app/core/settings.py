@@ -101,6 +101,7 @@ INSTALLED_APPS = [
     'apps.events',
     'apps.donar',
     'apps.registration',
+    'apps.bug_report',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
@@ -235,6 +236,10 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
         },
+        'mail_admins_image_upload': {
+            'level': 'INFO',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
     },
     'loggers': {
         'apps.food.utils': {
@@ -244,6 +249,10 @@ LOGGING = {
         'apps.donar.utils': {
             'handlers': ['console', 'file', 'mail_admins'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+        'apps.food.api.v1_2.serializers.user_serializers': {
+            'handlers': ['mail_admins_image_upload', 'console'],
+            'level': 'INFO',
         },
     },
 }

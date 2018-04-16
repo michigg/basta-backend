@@ -57,6 +57,7 @@ urlpatterns = [
                   # -- Version 1.2
                   url(r'^api/v1.2/', include('apps.food.api.v1_2.urls')),
                   url(r'^api/v1.2/', include('apps.registration.api.urls')),
+                  url(r'^api/v1.2/', include('apps.bug_report.api.v1_2.urls')),
 
                   # -- Third Party APIs
                   url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
