@@ -56,7 +56,7 @@ class ApiMenus(generics.ListAPIView):
             except ValueError as e:
                 # TODO: return Exception
                 return []
-
+        queryset.order_by('date')
         return queryset
 
 

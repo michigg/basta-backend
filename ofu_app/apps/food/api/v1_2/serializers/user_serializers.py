@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from rest_framework import validators
 from rest_framework import serializers
 from django.db.utils import IntegrityError
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class UserFoodImageSerializer(serializers.HyperlinkedModelSerializer):
@@ -90,6 +93,8 @@ class UserFoodImageSerializer(serializers.ModelSerializer):
         image = validated_data.pop('image')
         food_image = FoodImage.objects.create(image=image)
         food_image.save()
+        logger.info('New Image: {}\nFood: {}'.format(food_image.image.url, food.name))
+        logger.error('New Image: {}\nFood: {}'.format(food_image.image.url, food.name))
         try:
             user_food_image = UserFoodImage.objects.create(user=user, food=food, image=food_image)
             user_food_image.save()
