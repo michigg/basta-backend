@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from apps.food.models import SingleFood, Menu, HappyHour, UserFoodRating, UserFoodImage, FoodImage, UserFoodComment
+from apps.food.models import SingleFood, Menu, HappyHour, UserFoodRating, UserFoodImage, FoodImage, UserFoodComment, \
+    Allergene, HappyHourLocation
 
 
 class SingleFoodInline(admin.TabularInline):
@@ -27,3 +28,5 @@ admin.site.register(UserFoodImage)
 admin.site.register(UserFoodComment)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(FoodImage)
+admin.site.register(Allergene)
+admin.site.register(HappyHourLocation)
