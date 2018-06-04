@@ -8,7 +8,7 @@ from . import load_page
 
 logger = logging.getLogger(__name__)
 
-SPEISEPLAN_NAME_SELECTOR = '.csc-default .csc-header .csc-firstHeader'
+SPEISEPLAN_NAME_SELECTOR = '.csc-frame .csc-header .csc-firstHeader'
 
 
 def get_foodplan_name(soup):
@@ -28,7 +28,7 @@ def get_right_line(lines):
 
 def get_food_per_day(soup):
     days = []
-    lines = soup.select('.csc-default .bodytext')
+    lines = soup.select('.csc-frame .bodytext')
     foodlines = get_right_line(lines)
     for food in foodlines:
         day = str(food).split()[0]
@@ -64,4 +64,7 @@ def parse_page(url: str):
         logger.exception(e)
     return None
 
-# LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
+
+if __name__ == "__main__":
+    LINK_ERBA_CAFETE = "https://www.studentenwerk-wuerzburg.de/bamberg/essen-trinken/sonderspeiseplaene/cafeteria-erba-insel.html"
+    parse_page(LINK_ERBA_CAFETE)
