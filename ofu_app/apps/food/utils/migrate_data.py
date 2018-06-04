@@ -117,9 +117,13 @@ def main():
     logger.info("Aktueller Stand:" + writeoutDBObjects())
 
     # get food jsons
+    logger.info('AUSTRASSE')
     writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_AUSTR_MENSA))
+    logger.info('FEKI')
     writeStudentenwerkDataInDB(mensa_page_parser.parsePage(LINK_FEKI_MENSA))
+    logger.info('ERBA')
     writeStudentenwerkDataInDB(cafete_page_parser.parse_page(LINK_ERBA_CAFETE))
+    logger.info('MARKUSHAUS')
     writeStudentenwerkDataInDB(cafete_page_parser.parse_page(LINK_MARKUS_CAFETE))
     writeFekideDataInDB(fekide_happyhour_page_parser.parse_page(LINK_FEKIDE_GUIDE))
 
